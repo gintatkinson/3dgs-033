@@ -21,10 +21,15 @@ This Epic covers the specification of the `ietf-yang-types` YANG module defined 
 ### Associated Use Cases & User Stories
 
 #### Associated Use Cases
-None (Phase 1: Structural Spec Extraction only)
+- [ ] #21 - [Validate and Retrieve Core YANG Data Type Values](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-01-core-yang-type-system.md) (Use Case for the type-validation lifecycle of all typedefs in the ietf-yang-types module)
 
 #### Associated User Stories
-None (Phase 1: Structural Spec Extraction only)
+- [ ] #13 - [Counter Wrap-Aware Delta Calculation Across Discontinuity Boundaries](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-01-counter-wrap-delta-calculation.md) (validates counter32/counter64 wrap-arithmetic for Feature feat-01)
+- [ ] #14 - [Gauge Value Saturation Monitoring and Recovery from Boundary Clamping](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-02-gauge-saturation-recovery.md) (validates gauge32/gauge64 boundary-clamping behaviour for Feature feat-01)
+- [ ] #15 - [Timeticks Wrap Lifecycle and Timestamp Cascade Reset Expiration](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-03-timeticks-wrap-timestamp-reset.md) (validates timetick wrapping and timestamp-reset lifecycle for Feature feat-05)
+- [ ] #16 - [Canonical Time Zone Offset Derivation and Daylight Saving Time Transition Handling](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-04-timezone-canonicalization-dst-transition.md) (validates timezone-offset derivation and DST handling for Feature feat-03)
+- [ ] #17 - [Duration Unit Conversion Across Time Measurement Scales](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-05-duration-unit-conversion.md) (validates duration-unit conversion arithmetic for Feature feat-04)
+- [ ] #18 - [Counter Discontinuity Detection Using Associated Indicator Schema Nodes](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-06-counter-discontinuity-detection.md) (validates discontinuity-detection behaviour for counter32/counter64 in Feature feat-01)
 
 ## 3. Architecture
 
@@ -131,5 +136,5 @@ stateDiagram-v2
 The `ietf-yang-types` module is defined in Section 3 of RFC 9911, "Core YANG Types". The module contains derived types built on YANG built-in base types (uint32, uint64, int32, int64, string). This version of the YANG module adds several new data types (date, date-no-zone, time, time-no-zone, hours32, minutes32, seconds32, centiseconds32, milliseconds32, microseconds32, microseconds64, nanoseconds32, nanoseconds64, language-tag). The yang-identifier definition has been aligned with YANG 1.1 (RFC 7950). Types representing time support the representation of leap seconds. The representation of time zone offsets has been aligned with RFC 9557.
 
 ## 6. Source References
-Structural Schema: [ietf-yang-types@2025-12-22.yang](https://github.com/YangModels/yang/blob/main/standard/ietf/RFC/ietf-yang-types%402025-12-22.yang) (Clause: entire module)
+Structural Schema: [ietf-yang-types@2025-12-22.yang](https://github.com/gintatkinson/3dgs-033/blob/main/standard/ietf/RFC/ietf-yang-types%402025-12-22.yang) (Clause: entire module)
 Normative Specification: [RFC 9911](https://datatracker.ietf.org/doc/rfc9911/) (Clause: Section 3, Core YANG Types)

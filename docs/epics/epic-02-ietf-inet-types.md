@@ -19,10 +19,11 @@ This Epic covers the specification of the `ietf-inet-types` YANG module defined 
 ### Associated Use Cases & User Stories
 
 #### Associated Use Cases
-None (Phase 1: Structural Spec Extraction only)
+- [ ] #22 - [Validate and Retrieve Internet Protocol Suite Type Values](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-02-internet-type-system.md) (Use Case for the type-validation lifecycle of all typedefs in the ietf-inet-types module)
 
 #### Associated User Stories
-None (Phase 1: Structural Spec Extraction only)
+- [ ] #19 - [IP Prefix Host-Bit Zeroing and Canonical Normalization on Output](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-07-ip-prefix-canonical-normalization.md) (validates IPv4/IPv6 prefix canonicalization for Feature feat-09)
+- [ ] #20 - [URI Normalization to RFC 3986 Canonical Representation](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-08-uri-canonical-normalization.md) (validates URI normalization per RFC 3986 for Feature feat-10)
 
 ## 3. Architecture
 
@@ -118,5 +119,5 @@ stateDiagram-v2
 The `ietf-inet-types` module is defined in Section 4 of RFC 9911. The module references several RFCs including RFC 791 (IPv4), RFC 8200 (IPv6), RFC 3986 (URI), RFC 4291 (IPv6 Addressing), RFC 5952 (IPv6 Text Representation), RFC 4007 (IPv6 Scoped Address), RFC 3927 (IPv4 Link-Local), RFC 5890 (IDNA), RFC 5646 (BCP 47), RFC 952/1123 (Host Names), and RFC 5322/6532 (Email). This version of the module adds new types for ip-address-and-prefix, ipv4-address-and-prefix, ipv6-address-and-prefix, protocol-number, upper-layer-protocol-number, host-name, email-address, and link-local address types. The inet:host union was changed to use inet:host-name instead of inet:domain-name. Several pattern statements have been improved.
 
 ## 6. Source References
-Structural Schema: [ietf-inet-types@2025-12-22.yang](https://github.com/YangModels/yang/blob/main/standard/ietf/RFC/ietf-inet-types%402025-12-22.yang) (Clause: entire module)
+Structural Schema: [ietf-inet-types@2025-12-22.yang](https://github.com/gintatkinson/3dgs-033/blob/main/standard/ietf/RFC/ietf-inet-types%402025-12-22.yang) (Clause: entire module)
 Normative Specification: [RFC 9911](https://datatracker.ietf.org/doc/rfc9911/) (Clause: Section 4, Internet Protocol Suite Types)

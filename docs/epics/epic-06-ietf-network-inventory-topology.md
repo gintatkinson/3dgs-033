@@ -30,8 +30,21 @@ Epic scale: 5 Features, total leaf count across all augmented containers is appr
 ### Associated Use Cases & User Stories
 
 #### Associated Use Cases
+- [ ] #95 - [Define Inventory Topology Network Type](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-17-define-inventory-topology-network-type.md) (Use Case for inventory-topology network type identity, Feature feat-25)
+- [ ] #96 - [Map Topology Node to Network Element Inventory](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-18-map-node-to-network-element.md) (Use Case for node-to-NE inventory mapping, Feature feat-26)
+- [ ] #97 - [Classify Link Media Type in Inventory Topology](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-19-classify-link-media-type.md) (Use Case for link media type classification, Feature feat-27)
+- [ ] #98 - [Map Termination Point to Physical Port Component](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-20-map-termination-point-to-physical-port.md) (Use Case for TP-to-port mapping, Feature feat-28)
+- [ ] #99 - [Expose Port Breakout Capability on Termination Point](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-21-expose-port-breakout-capability.md) (Use Case for port breakout capability, Feature feat-29)
 
 #### Associated User Stories
+- [ ] #87 - [Resolve Service Attachment Point to Physical Port via Inventory Topology](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-36-resolve-sap-to-physical-port.md) (validates SAP-to-port resolution through topology-to-inventory chain, Features feat-26 and feat-28)
+- [ ] #88 - [Navigate Multi-Layer Network Topology to Underlying Physical Inventory](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-37-multilayer-topology-to-inventory-navigation.md) (validates multi-layer topology-inventory navigation, Features feat-25 and feat-26)
+- [ ] #89 - [Execute What-If Scenario Analysis Using Topology-to-Inventory Mapping](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-38-whatif-scenario-analysis.md) (validates what-if scenario analysis, Features feat-26 and feat-28)
+- [ ] #90 - [Configure Manual Inventory-Topology Mapping for Undiscovered Resources](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-39-manual-inventory-topology-mapping.md) (validates manual mapping for undiscovered resources, Feature feat-26)
+- [ ] #91 - [Classify Link Media Type with Distinct Unknown-Versus-Unassessed Semantics](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-40-link-type-unknown-vs-unassessed.md) (validates unknown vs unassessed link media semantics, Feature feat-27)
+- [ ] #92 - [Configure Port as Trunk or Breakout from Breakout-Capable Hardware](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-41-trunk-breakout-port-reconfiguration.md) (validates trunk/breakout configuration, Feature feat-29)
+- [ ] #93 - [Enforce Breakout-Channel Exclusive Assignment Constraint](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-42-breakout-channel-exclusive-assignment.md) (validates breakout-channel exclusivity constraint, Feature feat-29)
+- [ ] #94 - [Validate Chained Leafref Referential Integrity from TP to Port Component](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-43-chained-leafref-referential-integrity.md) (validates chained leafref integrity TP-to-port, Features feat-28 and feat-26)
 
 ## 3. Architecture
 
@@ -198,5 +211,5 @@ From the YANG module description statement:
 > "This YANG module defines a YANG module for network topology and inventory mapping."
 
 ## 6. Source References
-Structural Schema: [ietf-network-inventory-topology.yang](https://github.com/ietf-ivy-wg/network-inventory-topology/blob/main/yang/ietf-network-inventory-topology.yang) (entire module, 269 lines)
+Structural Schema: [ietf-network-inventory-topology.yang](https://github.com/gintatkinson/3dgs-033/blob/main/yang/ietf-network-inventory-topology.yang) (entire module, 269 lines)
 Normative Specification: [draft-ietf-ivy-network-inventory-topology-08](https://datatracker.ietf.org/doc/html/draft-ietf-ivy-network-inventory-topology) (Sections 1-8, Appendices A-B)

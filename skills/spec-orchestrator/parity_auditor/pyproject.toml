@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "parity_auditor"
+version = "0.1.0"
+description = "A modular package to verify model coverage and UML compliance"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "pytest>=8.3.5",
+    "pyyaml>=6.0.3",
+]
+
+[project.scripts]
+parity-auditor = "parity_auditor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
+# Real-bug rules only. F is pyflakes (undefined names, redefinitions, unused imports),
+# E9 is syntax and IO errors.
+#
+# Style families (E1-E7, W, I, N) are DELIBERATELY excluded. Enabling them across ~70
+# previously unlinted files would generate a large cosmetic backlog that is a project in
+# its own right and would stall defect work. See issue #293.
+select = ["F", "E9"]
+
+[tool.ruff.lint.per-file-ignores]
+# Imports in a package __init__ are the module's public API, not dead code. Ruff would
+# otherwise offer to delete the re-exports that define the package surface.
+"__init__.py" = ["F401"]
+# The three F841 findings baselined here for cli.py and sync_validator.py were resolved
+# in issue #303 - the cli.py probe loop was vestigial and was deleted, and
+# sync_validator.py's spec_type was a lost consumer and is now stored in the
+# tracker_specs / local_specs keys. F841 is enforced on both files again.

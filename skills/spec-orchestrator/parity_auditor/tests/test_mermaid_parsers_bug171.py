@@ -141,24 +141,33 @@ def test_class_diagram_invalid_relationship_labels_and_notes():
     repo = MockWorkspaceRepository()
     parser = MermaidClassDiagramParser(repo)
     
-    # 1. Invalid relationship label with spaces (unquoted)
+    # 1. Invalid relationship label with colon (colon always prohibited)
     diagram1 = """
     classDiagram
         Locations *-- Racks : YANG path: locations slash racks
     """
     res1 = parser.parse(diagram1)
     assert len(res1.parse_errors) == 1
-    assert "Syntax error: relationship label containing spaces or colons must be double-quoted" in res1.parse_errors[0]
+    assert "colons are prohibited in relationship labels" in res1.parse_errors[0]
 
-    # 2. Valid relationship label with spaces (double-quoted)
+    # 2. Invalid relationship label with colon in quoted label (colon always prohibited)
     diagram2 = """
     classDiagram
         Locations *-- Racks : "YANG path: locations slash racks"
     """
     res2 = parser.parse(diagram2)
-    assert len(res2.parse_errors) == 0
-    assert len(res2.relationships) == 1
-    assert res2.relationships[0].label == "YANG path: locations slash racks"
+    assert len(res2.parse_errors) == 1
+    assert "colons are prohibited in relationship labels" in res2.parse_errors[0]
+
+    # 3. Valid relationship label with spaces (double-quoted, no colon)
+    diagram3 = """
+    classDiagram
+        Locations *-- Racks : "YANG path locations slash racks"
+    """
+    res3 = parser.parse(diagram3)
+    assert len(res3.parse_errors) == 0
+    assert len(res3.relationships) == 1
+    assert res3.relationships[0].label == "YANG path locations slash racks"
 
     # 3. Invalid note directive with unbalanced quote
     diagram3 = """

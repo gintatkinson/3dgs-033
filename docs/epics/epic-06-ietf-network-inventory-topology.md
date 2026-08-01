@@ -101,10 +101,10 @@ classDiagram
     Network *-- Link
     Node *-- TerminationPoint
     NetworkInventoryTopologySubsystem *-- InventoryTopology : "augments network-types"
-    NetworkInventoryTopologySubsystem *-- NodeInventoryMappingAttributes : "augments nw:node"
-    NetworkInventoryTopologySubsystem *-- LinkInventoryMappingAttributes : "augments nt:link"
-    NetworkInventoryTopologySubsystem *-- TPInventoryMappingAttributes : "augments nt:termination-point"
-    NetworkInventoryTopologySubsystem *-- PortBreakout : "augments nt:termination-point"
+    NetworkInventoryTopologySubsystem *-- NodeInventoryMappingAttributes : "augments network node"
+    NetworkInventoryTopologySubsystem *-- LinkInventoryMappingAttributes : "augments network link"
+    NetworkInventoryTopologySubsystem *-- TPInventoryMappingAttributes : "augments termination-point"
+    NetworkInventoryTopologySubsystem *-- PortBreakout : "augments termination-point breakout"
     NetworkInventoryTopologySubsystem *-- LinkTypeBase : "defines identity hierarchy"
     Node *-- NodeInventoryMappingAttributes : "extended with"
     Link *-- LinkInventoryMappingAttributes : "extended with"

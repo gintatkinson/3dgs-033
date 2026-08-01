@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-08-01T09:08:21.176487Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "ce6b7818844a695b55c228629c6f55b9359bcd6b"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "Use Case uc-02-internet-type-system.md alternate flow 13 is too thin (must contain at least 2 numbered steps)."
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}

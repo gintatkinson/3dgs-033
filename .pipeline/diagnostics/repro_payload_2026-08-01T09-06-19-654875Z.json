@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-08-01T09:06:19.654875Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "ce6b7818844a695b55c228629c6f55b9359bcd6b"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "Use Case uc-02-internet-type-system.md must contain at least 62 detailed Alternate/Exception flows. Found only 53 flows. (Referenced features define 62 schema validation constraints, requiring at least that many alternate flows, with a minimum floor of 2.)"
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}

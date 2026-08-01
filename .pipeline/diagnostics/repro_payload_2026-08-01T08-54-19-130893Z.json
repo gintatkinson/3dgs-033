@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-08-01T08:54:19.130893Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "ce6b7818844a695b55c228629c6f55b9359bcd6b"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "User Story us-06-counter-discontinuity-detection.md sequence diagram lifeline 'monitorEngine' specifies classifier 'DiscontinuityMonitor' which is not defined in any feature class diagram.",
+      "User Story us-06-counter-discontinuity-detection.md sequence diagram lifeline 'indicatorNode' specifies classifier 'DiscontinuityIndicator' which is not defined in any feature class diagram.",
+      "User Story us-06-counter-discontinuity-detection.md sequence diagram lifeline 'eventBus' specifies classifier 'NotificationBus' which is not defined in any feature class diagram.",
+      "User Story us-06-counter-discontinuity-detection.md sequence diagram message 'monitorEngine->>counterNode: readCurrentValue()' calls operation 'readCurrentValue' which is not defined on class 'Counter32' in any class diagram.",
+      "User Story us-01-counter-wrap-delta-calculation.md sequence diagram lifeline 'pollingEngine' specifies classifier 'PollingEngine' which is not defined in any feature class diagram.",
+      "User Story us-01-counter-wrap-delta-calculation.md sequence diagram lifeline 'deltaCalculator' specifies classifier 'DeltaCalculator' which is not defined in any feature class diagram.",
+      "User Story us-01-counter-wrap-delta-calculation.md sequence diagram message 'pollingEngine->>counterNode: readCurrentValue()' calls operation 'readCurrentValue' which is not defined on class 'Counter32' in any class diagram.",
+      "User Story us-02-gauge-saturation-recovery.md sequence diagram lifeline 'gaugeMonitor' specifies classifier 'GaugeMonitor' which is not defined in any feature class diagram.",
+      "User Story us-02-gauge-saturation-recovery.md sequence diagram lifeline 'informationSource' specifies classifier 'ModeledInformationSource' which is not defined in any feature class diagram.",
+      "User Story us-02-gauge-saturation-recovery.md sequence diagram message 'gaugeMonitor->>gaugeNode: updateValue(rawValue: Integer)' calls operation 'updateValue' which is not defined on class 'Gauge32' in any class diagram.",
+      "User Story us-03-timeticks-wrap-timestamp-reset.md sequence diagram lifeline 'tickEngine' specifies classifier 'TimeTickEngine' which is not defined in any feature class diagram.",
+      "User Story us-03-timeticks-wrap-timestamp-reset.md sequence diagram lifeline 'eventBus' specifies classifier 'NotificationBus' which is not defined in any feature class diagram.",
+      "User Story us-03-timeticks-wrap-timestamp-reset.md sequence diagram message 'tickEngine->>ttskNode: advanceTick()' calls operation 'advanceTick' which is not defined on class 'TimeTicks' in any class diagram.",
+      "User Story us-03-timeticks-wrap-timestamp-reset.md sequence diagram message 'tickEngine->>tsNode1: resetToZero()' calls operation 'resetToZero' which is not defined on class 'TimeStamp' in any class diagram.",
+      "User Story us-03-timeticks-wrap-timestamp-reset.md sequence diagram message 'tickEngine->>tsNode2: resetToZero()' calls operation 'resetToZero' which is not defined on class 'TimeStamp' in any class diagram.",
+      "User Story us-08-uri-canonical-normalization.md sequence diagram lifeline 'uriRegistry' specifies classifier 'UriRegistry' which is not defined in any feature class diagram.",
+      "User Story us-08-uri-canonical-normalization.md sequence diagram lifeline 'schemeNormalizer' specifies classifier 'SchemeNormalizer' which is not defined in any feature class diagram.",
+      "User Story us-08-uri-canonical-normalization.md sequence diagram lifeline 'hostNormalizer' specifies classifier 'HostNormalizer' which is not defined in any feature class diagram.",
+      "User Story us-08-uri-canonical-normalization.md sequence diagram lifeline 'pathNormalizer' specifies classifier 'PathNormalizer' which is not defined in any feature class diagram.",
+      "User Story us-08-uri-canonical-normalization.md sequence diagram lifeline 'percentNormalizer' specifies classifier 'PercentEncodingNormalizer' which is not defined in any feature class diagram.",
+      "User Story us-07-ip-prefix-canonical-normalization.md sequence diagram lifeline 'prefixRegistry' specifies classifier 'PrefixRegistry' which is not defined in any feature class diagram.",
+      "User Story us-07-ip-prefix-canonical-normalization.md sequence diagram lifeline 'maskCalculator' specifies classifier 'NetworkMaskCalculator' which is not defined in any feature class diagram.",
+      "User Story us-07-ip-prefix-canonical-normalization.md sequence diagram lifeline 'addressCanonicalizer' specifies classifier 'AddressCanonicalizer' which is not defined in any feature class diagram.",
+      "User Story us-04-timezone-canonicalization-dst-transition.md sequence diagram lifeline 'dateTimeRegistry' specifies classifier 'DateTimeRegistry' which is not defined in any feature class diagram.",
+      "User Story us-04-timezone-canonicalization-dst-transition.md sequence diagram lifeline 'timeZoneResolver' specifies classifier 'TimeZoneOffsetCalculator' which is not defined in any feature class diagram.",
+      "User Story us-04-timezone-canonicalization-dst-transition.md sequence diagram lifeline 'deviceConfig' specifies classifier 'DeviceConfiguration' which is not defined in any feature class diagram.",
+      "User Story us-05-duration-unit-conversion.md sequence diagram lifeline 'conversionEngine' specifies classifier 'DurationConversionEngine' which is not defined in any feature class diagram.",
+      "User Story us-05-duration-unit-conversion.md sequence diagram lifeline 'unitConverter' specifies classifier 'UnitScaleConverter' which is not defined in any feature class diagram.",
+      "User Story us-05-duration-unit-conversion.md sequence diagram lifeline 'overflowGuard' specifies classifier 'OverflowGuard' which is not defined in any feature class diagram."
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}

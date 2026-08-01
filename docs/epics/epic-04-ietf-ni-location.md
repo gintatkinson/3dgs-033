@@ -27,8 +27,22 @@ This Epic covers the specification of the `ietf-ni-location` YANG module defined
 ### Associated Use Cases & User Stories
 
 #### Associated Use Cases
+- [ ] #60 - [Manage Hierarchical Network Inventory Locations](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-10-manage-hierarchical-locations.md) (Use Case for hierarchical location CRUD, Feature feat-18)
+- [ ] #61 - [Manage Physical Address for Network Inventory Locations](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-11-manage-physical-address.md) (Use Case for physical address annotation, Feature feat-19)
+- [ ] #63 - [Manage Physical Equipment Racks in Network Inventory](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-12-manage-equipment-racks.md) (Use Case for rack management, Feature feat-20)
+- [ ] #62 - [Position Equipment Rack Within a Network Inventory Location](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-13-position-rack-within-location.md) (Use Case for rack-to-location positioning, Feature feat-21)
 
 #### Associated User Stories
+- [ ] #58 - [Validate Location Dispatch Readiness from Address, Geo-Location, and Validity Data](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-16-validate-location-dispatch-readiness.md) (validates composite readiness from address/geo/validity, Features feat-18 and feat-19)
+- [ ] #50 - [Expire Location Record at valid-until Temporal Boundary](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-17-expire-location-valid-until.md) (validates temporal expiry lifecycle for locations, Feature feat-18)
+- [ ] #51 - [Expire Rack Record at valid-until Temporal Boundary](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-18-expire-rack-valid-until.md) (validates temporal expiry lifecycle for racks, Feature feat-20)
+- [ ] #52 - [Validate Geographic Coordinate Ranges Against Bounded Constraints](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-19-validate-geo-coordinate-ranges.md) (validates geodetic coordinate range constraints, Features feat-13 and feat-15)
+- [ ] #53 - [Resolve Hierarchical Location Parent-Child Chain to Root](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-20-traverse-hierarchical-location-tree.md) (validates parent-child hierarchy traversal, Feature feat-18)
+- [ ] #59 - [Validate Rack-to-Location Referential Integrity](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-21-validate-rack-location-referential-integrity.md) (validates rack location leafref integrity constraint, Features feat-20 and feat-21)
+- [ ] #54 - [Deploy Distributed Network Element Across Multiple Physical Locations](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-22-deploy-distributed-multi-chassis-ne.md) (validates multi-chassis NE location deployment, Feature feat-18)
+- [ ] #55 - [Paginate Large Inventory Location Query Results](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-23-paginate-large-inventory-queries.md) (validates pagination for large location datasets, Feature feat-18)
+- [ ] #56 - [Deploy Non-Rack Equipment Directly at a Location](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-24-deploy-non-rack-equipment-at-location.md) (validates non-rack equipment at location, Feature feat-18)
+- [ ] #57 - [Resolve Rack Security Classification from Extensible Identity Hierarchy](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-25-resolve-rack-security-classification.md) (validates rack security classification resolution, Feature feat-20)
 
 ## 3. Architecture
 
@@ -113,5 +127,5 @@ Read access to these data nodes (e.g., via get, get-config, or notification) mus
 > The Network Inventory location model is classified as a network model (Section 3.5.1 of [I-D.ietf-netmod-rfc8407bis]).
 
 ## 6. Source References
-Structural Schema: [ietf-ni-location@2026-07-06.yang](https://github.com/ietf-ivy-wg/network-inventory-location/blob/main/ietf-ni-location.yang) (Clause: module ietf-ni-location)
+Structural Schema: [ietf-ni-location@2026-07-06.yang](https://github.com/gintatkinson/3dgs-033/blob/main/ietf-ni-location.yang) (Clause: module ietf-ni-location)
 Normative Specification: [draft-ietf-ivy-network-inventory-location-06](https://datatracker.ietf.org/doc/html/draft-ietf-ivy-network-inventory-location) (Clause: Sections 2-5)

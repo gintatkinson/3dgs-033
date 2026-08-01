@@ -32,6 +32,8 @@ This Epic covers the specification of the `ietf-geo-location` YANG module define
 - [ ] #42 - [Configure Ellipsoidal Latitude-Longitude-Height Coordinates](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-07-configure-ellipsoid-coordinates.md) (Use Case for ellipsoidal coordinate configuration, Feature feat-15)
 - [ ] #43 - [Configure Cartesian X-Y-Z Coordinates](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-08-configure-cartesian-coordinates.md) (Use Case for Cartesian coordinate configuration, Feature feat-16)
 - [ ] #44 - [Configure and Derive Velocity Vector for Motion Tracking](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-09-configure-velocity-vector.md) (Use Case for velocity vector configuration, Feature feat-17)
+- [ ] #60 - [Manage Hierarchical Network Inventory Locations](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-10-manage-hierarchical-locations.md) (Use Case consuming geo:geo-location grouping for NI location hierarchy, Feature feat-18)
+- [ ] #61 - [Manage Physical Address for Network Inventory Locations](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-11-manage-physical-address.md) (Use Case consuming geo:geo-location grouping for NI location address, Feature feat-19)
 
 #### Associated User Stories
 - [ ] #31 - [Derive Speed and Heading from Velocity Vector Components](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-09-derive-speed-heading-velocity.md) (validates 2D speed/heading derivation from velocity v-north/v-east, Feature feat-17)
@@ -41,6 +43,8 @@ This Epic covers the specification of the `ietf-geo-location` YANG module define
 - [ ] #35 - [Configure Geo-Location on a Non-Earth Astronomical Body](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-13-configure-non-earth-astronomical-body.md) (validates alternate-systems feature guard for non-earth bodies, Feature feat-12)
 - [ ] #36 - [Resolve Effective Coordinate Accuracy from Datum Defaults and Explicit Overrides](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-14-resolve-coordinate-accuracy-override.md) (validates accuracy resolution from datum defaults and explicit accuracy leaf, Feature feat-13)
 - [ ] #37 - [Compute Geo-Location Validity Window from Timestamp and valid-until](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-15-compute-location-validity-window.md) (validates validity-window computation from timestamp and valid-until, Feature feat-11)
+- [ ] #58 - [Validate Location Dispatch Readiness from Address, Geo-Location, and Validity Data](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-16-validate-location-dispatch-readiness.md) (validates geodetic coordinate readiness for NI location dispatch, Features feat-13 and feat-25)
+- [ ] #52 - [Validate Geographic Coordinate Ranges Against Bounded Constraints](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-19-validate-geo-coordinate-ranges.md) (validates coordinate range constraints for NI location geo data, Features feat-13 and feat-27)
 
 ## 3. Architecture
 

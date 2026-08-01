@@ -28,10 +28,21 @@ This is a **foundational module** — the parent prerequisite for Epic #49 (`iet
 ### Associated Use Cases & User Stories
 
 #### Associated Use Cases
-*(Use Cases to be generated in Phase 2 — use case engineering)*
+- [ ] #78 - [Retrieve Network Inventory Root Structure](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-14-retrieve-network-inventory-root.md) (Use Case for the network-inventory root container retrieval, Feature feat-22)
+- [ ] #79 - [Manage Network Elements Inventory](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-15-manage-network-elements-inventory.md) (Use Case for network element lifecycle management, Feature feat-23)
+- [ ] #80 - [Manage Component Inventory Within Network Elements](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-16-manage-component-inventory.md) (Use Case for component lifecycle within a network element, Feature feat-24)
 
 #### Associated User Stories
-*(User Stories to be generated in Phase 3 — user story engineering)*
+- [ ] #68 - [Identify Main Chassis in Multi-Chassis Network Element](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-26-multi-chassis-ne-main-identification.md) (validates is-main chassis flag computation, Features feat-23 and feat-24)
+- [ ] #69 - [Traverse Component Parent Containment Hierarchy Within a Network Element](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-27-component-parent-containment-traversal.md) (validates parent reference containment traversal, Feature feat-24)
+- [ ] #70 - [Compute Conditional Applicability of Parent Relative Position](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-28-conditional-parent-rel-pos-computation.md) (validates parent-rel-pos conditional logic, Feature feat-24)
+- [ ] #71 - [Compute Conditional Applicability of is-main Flag for Chassis Components](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-29-conditional-is-main-chassis-computation.md) (validates is-main conditional logic for chassis, Features feat-23 and feat-24)
+- [ ] #72 - [Report Non-Modular Pizza Box Network Element Inventory](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-30-non-modular-pizza-box-ne-inventory.md) (validates non-modular NE inventory reporting, Feature feat-23)
+- [ ] #73 - [Aggregate Network Inventory Across Hierarchical Controllers](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-31-hierarchical-controller-inventory-aggregation.md) (validates multi-controller inventory aggregation, Feature feat-22)
+- [ ] #74 - [Model Pluggable Transceiver Module Component Nesting](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-32-pluggable-transceiver-component-nesting.md) (validates pluggable transceiver nesting in components, Feature feat-24)
+- [ ] #75 - [Preserve Network Element Identity Across Disconnection Events](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-33-ne-identity-persistence-disconnection.md) (validates NE identity persistence across disconnection, Feature feat-23)
+- [ ] #76 - [Assemble Component Containment Tree from Parent References](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-34-component-containment-tree-assembly.md) (validates containment tree assembly from parent references, Feature feat-24)
+- [ ] #77 - [Validate Component Comparison Scope Within Manufacturer Boundaries](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-35-mfg-scoped-part-serial-comparison.md) (validates mfg-scoped part/serial comparison, Feature feat-24)
 
 ## 3. Architecture
 
@@ -141,5 +152,5 @@ From Section 6 (Operational Considerations):
 > The YANG data model defined in this document provides a view of the actual network inventory organized by network element and their component as provided by the discovery data that a network controller maintains for all network elements in its domain.
 
 ## 6. Source References
-Structural Schema: [ietf-network-inventory.yang](https://github.com/ietf-ivy-wg/network-inventory-yang/blob/main/yang/ietf-network-inventory.yang) (Full module, 489 lines)
+Structural Schema: [ietf-network-inventory.yang](https://github.com/gintatkinson/3dgs-033/blob/main/yang/ietf-network-inventory.yang) (Full module, 489 lines)
 Normative Specification: [draft-ietf-ivy-network-inventory-yang-18](https://datatracker.ietf.org/doc/html/draft-ietf-ivy-network-inventory-yang) (Sections 1, 3, 4, 5, 6, 7, Appendix D, Appendix E, Appendix F)

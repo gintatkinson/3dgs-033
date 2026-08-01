@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-08-01T11:34:05.470005Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "57e7e5f115f376d46aa289dcb762b529b3fd8b16"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "Epic 'epic-04-ietf-ni-location.md' references imported schema 'ietf-network-inventory' without linking to prerequisite parent Epic.",
+      "Epic 'epic-05-ietf-network-inventory.md' references imported schema 'ietf-network-inventory' without linking to prerequisite parent Epic."
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}

@@ -11,12 +11,10 @@ spec_source: "Project Constitution"
 ## 1. Context
 This Epic covers the specification of the `ietf-ni-location` YANG module defined in draft-ietf-ivy-network-inventory-location-06. This module augments the base `ietf-network-inventory` model (RFC AAAA) to enrich network elements with comprehensive location information. The module provides a read-only (`config false`) hierarchical location model supporting geographical locations (sites, buildings, equipment rooms), physical addresses with postal data, geodetic coordinates via RFC 9179's `ietf-geo-location` grouping, physical equipment racks with dimensional and electrical specifications, and rack positioning with grid coordinates. It also defines an extensible rack security classification identity hierarchy (`rack-class-type`) and a location reference typedef (`ni-location-ref`) for referential integrity between racks and locations. This is a functional module with four concrete containers: `locations`, `physical-address`, `racks`, and `rack-location`.
 
-**Parent Epics:**
+**Parent Epics:** [Parent Epic: ietf-network-inventory](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-05-ietf-network-inventory.md)
+- [ ] #67 - [ietf-network-inventory: Base Network Inventory Data Model](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-05-ietf-network-inventory.md) (imported base module augmented via `/nwi:network-inventory`, draft-ietf-ivy-network-inventory-yang)
 - [ ] #30 - [ietf-geo-location: Geographic Location Data Model](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-03-ietf-geo-location.md) (imported module providing `geo:geo-location` grouping, RFC 9179)
 - [ ] #11 - [ietf-yang-types: Core YANG Data Types](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-01-ietf-yang-types.md) (imported module providing `yang:date-and-time` and `yang:uuid` types, RFC 9911)
-
-**Import Dependency (No Epic in workspace):**
-- `ietf-network-inventory` (RFC AAAA: A YANG Data Model for Network Inventory) — the base module that this module augments via `/nwi:network-inventory`. An Epic for this module must be specified before downstream implementation can proceed.
 
 ## 2. Requirements & Checklist
 - [ ] #45 - [Define Locations Container](https://github.com/gintatkinson/3dgs-033/blob/main/docs/features/feat-18-locations-container.md) (top-level augment container anchoring all location data, draft-ietf-ivy-network-inventory-location Section 2)

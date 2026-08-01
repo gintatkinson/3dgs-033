@@ -25,10 +25,22 @@ This Epic covers the specification of the `ietf-geo-location` YANG module define
 ### Associated Use Cases & User Stories
 
 #### Associated Use Cases
-- None (Phase 1 — specification engineering only; Use Cases generated in Phase 3)
+- [ ] #38 - [Configure and Manage Geo-Location Container](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-03-configure-geo-location.md) (Use Case for the configuration lifecycle of the geo-location container, Feature feat-11)
+- [ ] #39 - [Define and Validate Reference Frame for Geo-Location](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-04-define-reference-frame.md) (Use Case for defining the reference frame, Feature feat-12)
+- [ ] #40 - [Configure Geodetic System with Datum and Accuracy Parameters](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-05-configure-geodetic-system.md) (Use Case for geodetic system configuration, Feature feat-13)
+- [ ] #41 - [Select and Switch Between Location Coordinate Systems](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-06-select-coordinate-choice.md) (Use Case for coordinate system selection, Feature feat-14)
+- [ ] #42 - [Configure Ellipsoidal Latitude-Longitude-Height Coordinates](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-07-configure-ellipsoid-coordinates.md) (Use Case for ellipsoidal coordinate configuration, Feature feat-15)
+- [ ] #43 - [Configure Cartesian X-Y-Z Coordinates](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-08-configure-cartesian-coordinates.md) (Use Case for Cartesian coordinate configuration, Feature feat-16)
+- [ ] #44 - [Configure and Derive Velocity Vector for Motion Tracking](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-09-configure-velocity-vector.md) (Use Case for velocity vector configuration, Feature feat-17)
 
 #### Associated User Stories
-- None (Phase 1 — specification engineering only; User Stories generated in Phase 3)
+- [ ] #31 - [Derive Speed and Heading from Velocity Vector Components](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-09-derive-speed-heading-velocity.md) (validates 2D speed/heading derivation from velocity v-north/v-east, Feature feat-17)
+- [ ] #32 - [Expire Geo-Location Data at valid-until Temporal Boundary](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-10-expire-geo-location-valid-until.md) (validates temporal expiry lifecycle at valid-until, Feature feat-11)
+- [ ] #33 - [Inherit Reference Frame from Parent Container in Nested Location Hierarchies](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-11-inherit-reference-frame-nested-locations.md) (validates reference-frame inheritance in nested geo-location, Feature feat-12)
+- [ ] #34 - [Transform Between Ellipsoidal and Cartesian Coordinate Representations](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-12-transform-ellipsoidal-cartesian-coordinates.md) (validates coordinate transformation between ellipsoidal and Cartesian, Features feat-15 and feat-16)
+- [ ] #35 - [Configure Geo-Location on a Non-Earth Astronomical Body](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-13-configure-non-earth-astronomical-body.md) (validates alternate-systems feature guard for non-earth bodies, Feature feat-12)
+- [ ] #36 - [Resolve Effective Coordinate Accuracy from Datum Defaults and Explicit Overrides](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-14-resolve-coordinate-accuracy-override.md) (validates accuracy resolution from datum defaults and explicit accuracy leaf, Feature feat-13)
+- [ ] #37 - [Compute Geo-Location Validity Window from Timestamp and valid-until](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-15-compute-location-validity-window.md) (validates validity-window computation from timestamp and valid-until, Feature feat-11)
 
 ## 3. Architecture
 
@@ -137,5 +149,5 @@ stateDiagram-v2
 The `ietf-geo-location` YANG module is defined in RFC 9179 "A YANG Grouping for Geographic Locations". It defines a single grouping (`geo-location`) containing a structured container hierarchy for specifying geographic locations. The module conforms to ISO 6709:2008 for standard representation of geographic point location by coordinates. The grouping is designed to be reusable across many YANG data models by using the `uses` statement. It supports locations on any astronomical body (default Earth), multiple coordinate systems (ellipsoidal and Cartesian), motion tracking (velocity vectors), and optional alternate coordinate systems (via feature flag). The module imports the `ietf-yang-types` module (RFC 6991) for the `date-and-time` type.
 
 ## 6. Source References
-Structural Schema: [ietf-geo-location@2022-02-11.yang](https://github.com/YangModels/yang/blob/main/standard/ietf/RFC/ietf-geo-location%402022-02-11.yang) (Clause: entire module)
+Structural Schema: [ietf-geo-location@2022-02-11.yang](https://github.com/gintatkinson/3dgs-033/blob/main/standard/ietf/RFC/ietf-geo-location%402022-02-11.yang) (Clause: entire module)
 Normative Specification: [RFC 9179](https://datatracker.ietf.org/doc/rfc9179/) (Clause: entire RFC)

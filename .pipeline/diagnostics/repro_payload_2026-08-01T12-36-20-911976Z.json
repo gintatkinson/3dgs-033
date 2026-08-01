@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-08-01T12:36:20.911976Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "accbb0e59eb3a10610eae00a53d6dd41e57ba34d"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "[FEATURE] [feat-29-port-breakout-capability.md] UML Class Diagram is missing relationship between class 'Nwit_' and class 'Networks' representing adjacent schema container path segments 'nwit:' and 'nw:networks' in path 'nwit:/nw:networks/nw:network/nw:node/nt:termination-point/port-breakout'.",
+      "[FEATURE] [feat-26-node-inventory-mapping.md] UML Class Diagram is missing relationship between class 'Nwit_' and class 'Networks' representing adjacent schema container path segments 'nwit:' and 'nw:networks' in path 'nwit:/nw:networks/nw:network/nw:node/inventory-mapping-attributes'.",
+      "[FEATURE] [feat-27-link-inventory-media-classification.md] UML Class Diagram is missing relationship between class 'Nwit_' and class 'Networks' representing adjacent schema container path segments 'nwit:' and 'nw:networks' in path 'nwit:/nw:networks/nw:network/nt:link/inventory-mapping-attributes'.",
+      "[FEATURE] [feat-25-inventory-topology-network-type.md] UML Class Diagram is missing relationship between class 'Nwit_' and class 'Networks' representing adjacent schema container path segments 'nwit:' and 'nw:networks' in path 'nwit:/nw:networks/nw:network/nw:network-types/inventory-topology'.",
+      "[FEATURE] [feat-28-tp-inventory-mapping.md] UML Class Diagram is missing relationship between class 'Nwit_' and class 'Networks' representing adjacent schema container path segments 'nwit:' and 'nw:networks' in path 'nwit:/nw:networks/nw:network/nw:node/nt:termination-point/inventory-mapping-attributes'."
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}

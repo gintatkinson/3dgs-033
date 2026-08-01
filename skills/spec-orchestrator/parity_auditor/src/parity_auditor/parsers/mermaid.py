@@ -441,9 +441,11 @@ class MermaidClassDiagramParser(IParser):
                 label = rel_match.group(6)
                 if label:
                     label_str = label.strip()
-                    if ' ' in label_str or ':' in label_str:
+                    if ':' in label_str:
+                        parse_errors.append(f"Syntax error: colons are prohibited in relationship labels — '{line.strip()}'")
+                    elif ' ' in label_str:
                         if not (label_str.startswith('"') and label_str.endswith('"') and len(label_str) >= 2):
-                            parse_errors.append(f"Syntax error: relationship label containing spaces or colons must be double-quoted — '{line.strip()}'")
+                            parse_errors.append(f"Syntax error: relationship label containing spaces must be double-quoted — '{line.strip()}'")
                     if label_str.startswith('"') and label_str.endswith('"') and len(label_str) >= 2:
                         label = label_str[1:-1].strip()
                     else:

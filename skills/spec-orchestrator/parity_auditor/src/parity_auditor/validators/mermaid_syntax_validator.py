@@ -221,11 +221,18 @@ def check_mermaid_text(text: str, source: str = "<input>") -> List[str]:
             rel_label = _RELATIONSHIP_LABEL.match(line)
             if rel_label:
                 label = rel_label.group("label").strip()
-                if label and not label.startswith('"') and re.search(r"[\s:]", label):
+                if label and re.search(r":", label):
+                    errors.append(Finding(
+                    "mermaid-no-colon-in-relationship-label",
+                        f"{source}:{lineno}: colon in Mermaid relationship label "
+                        f"({line.strip()!r}). Colons are prohibited in relationship "
+                        f"labels — the GitHub renderer rejects them even when quoted."
+                    , location=f"{source}"))
+                elif label and not label.startswith('"') and re.search(r"\s", label):
                     errors.append(Finding(
                     "mermaid-relationship-label-must-be-quoted",
                         f"{source}:{lineno}: unquoted Mermaid relationship label "
-                        f"containing spaces or colons ({line.strip()!r}). Enclose it in "
+                        f"containing spaces ({line.strip()!r}). Enclose it in "
                         f'double quotes, e.g. : "renders one instance".'
                     , location=f"{source}"))
 

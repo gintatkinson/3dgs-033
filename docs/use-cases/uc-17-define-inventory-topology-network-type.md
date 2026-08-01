@@ -1,5 +1,6 @@
 ---
 title: "Define Inventory Topology Network Type"
+issue_id: 95
 type: "use-case"
 generation_mode: "subagent"
 spec_source: "draft-ietf-ivy-network-inventory-topology-08"

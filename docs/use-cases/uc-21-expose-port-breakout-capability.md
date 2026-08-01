@@ -1,5 +1,6 @@
 ---
 title: "Expose Port Breakout Capability on Termination Point"
+issue_id: 99
 type: "use-case"
 generation_mode: "subagent"
 spec_source: "draft-ietf-ivy-network-inventory-topology-08"

@@ -1,5 +1,6 @@
 ---
 title: "Map Topology Node to Network Element Inventory"
+issue_id: 96
 type: "use-case"
 generation_mode: "subagent"
 spec_source: "draft-ietf-ivy-network-inventory-topology-08"

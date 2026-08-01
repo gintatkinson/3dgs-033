@@ -1,5 +1,6 @@
 ---
 title: "Classify Link Media Type in Inventory Topology"
+issue_id: 97
 type: "use-case"
 generation_mode: "subagent"
 spec_source: "draft-ietf-ivy-network-inventory-topology-08"

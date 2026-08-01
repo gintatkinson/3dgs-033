@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-08-01T09:28:45.692599Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "7bb71d00991f072809bec9b1cb525daed22b766d"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "Feature feat-11-geo-location-container.md:16 contains unresolved issue reference token: '- [ ] #[EpicIssueID] - [ietf-geo-location: Geographic Location Data Model](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-03-ietf-geo-location.md) (root container of the geo-location grouping, anchors all sub-containers)'. Specification templates must be populated before registration.",
+      "Feature feat-12-reference-frame.md:16 contains unresolved issue reference token: '- [ ] #[EpicIssueID] - [ietf-geo-location: Geographic Location Data Model](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-03-ietf-geo-location.md) (defines the frame of reference for location coordinate interpretation)'. Specification templates must be populated before registration.",
+      "Feature feat-15-ellipsoid-coordinates.md:16 contains unresolved issue reference token: '- [ ] #[EpicIssueID] - [ietf-geo-location: Geographic Location Data Model](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-03-ietf-geo-location.md) (ellipsoidal coordinate alternative within the location choice, providing latitude-longitude-height representation)'. Specification templates must be populated before registration.",
+      "Feature feat-17-velocity.md:16 contains unresolved issue reference token: '- [ ] #[EpicIssueID] - [ietf-geo-location: Geographic Location Data Model](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-03-ietf-geo-location.md) (motion vector container providing speed components for objects in relatively stable motion)'. Specification templates must be populated before registration.",
+      "Feature feat-13-geodetic-system.md:16 contains unresolved issue reference token: '- [ ] #[EpicIssueID] - [ietf-geo-location: Geographic Location Data Model](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-03-ietf-geo-location.md) (nested container within reference-frame defining coordinate system accuracy parameters)'. Specification templates must be populated before registration.",
+      "Feature feat-16-cartesian-coordinates.md:16 contains unresolved issue reference token: '- [ ] #[EpicIssueID] - [ietf-geo-location: Geographic Location Data Model](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-03-ietf-geo-location.md) (Cartesian coordinate alternative within the location choice, providing X-Y-Z representation)'. Specification templates must be populated before registration.",
+      "Feature feat-14-location-choice.md:16 contains unresolved issue reference token: '- [ ] #[EpicIssueID] - [ietf-geo-location: Geographic Location Data Model](https://github.com/gintatkinson/3dgs-033/blob/main/docs/epics/epic-03-ietf-geo-location.md) (YANG choice node selecting between ellipsoidal and Cartesian coordinate representations)'. Specification templates must be populated before registration."
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-08-01T10:32:51.816152Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "5d73ba9e010e6261ea60acd2a5a05f348b20792d"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "User Story us-22-deploy-distributed-multi-chassis-ne.md sequence diagram message 'deploymentRecorder->>racks: addContainedChassis(rackId: Identifier, relativePosition: Integer, neRef: Identifier, componentRef: Identifier)' calls operation 'addContainedChassis' which is not defined on class 'Racks' in any class diagram.",
+      "User Story us-22-deploy-distributed-multi-chassis-ne.md sequence diagram message 'racks->>rackChassis: createEntry(relativePosition: Integer, neRef: Identifier, componentRef: Identifier)' calls operation 'createEntry' which is not defined on class 'RackChassis' in any class diagram.",
+      "User Story us-22-deploy-distributed-multi-chassis-ne.md sequence diagram message 'deploymentRecorder->>locations: addContainedChassis(locationId: Identifier, chassisId: Integer, neRef: Identifier, componentRef: Identifier)' calls operation 'addContainedChassis' which is not defined on class 'Locations' in any class diagram.",
+      "User Story us-22-deploy-distributed-multi-chassis-ne.md sequence diagram message 'locations->>locationChassis: createEntry(chassisId: Integer, neRef: Identifier, componentRef: Identifier)' calls operation 'createEntry' which is not defined on class 'LocationChassis' in any class diagram.",
+      "User Story us-23-paginate-large-inventory-queries.md sequence diagram message 'queryController->>locations: queryLocations(filter: FilterCriteria, offset: Integer, limit: Integer)' calls operation 'queryLocations' which is not defined on class 'Locations' in any class diagram.",
+      "User Story us-23-paginate-large-inventory-queries.md sequence diagram message 'queryController->>racks: queryRacks(filter: FilterCriteria, offset: Integer, limit: Integer)' calls operation 'queryRacks' which is not defined on class 'Racks' in any class diagram.",
+      "User Story us-21-validate-rack-location-referential-integrity.md sequence diagram message 'refChecker->>racks: readRackLocation(rackId: Identifier)' calls operation 'readRackLocation' which is not defined on class 'Racks' in any class diagram.",
+      "User Story us-21-validate-rack-location-referential-integrity.md sequence diagram message 'refChecker->>locations: resolveLeafref(locationId: Identifier)' calls operation 'resolveLeafref' which is not defined on class 'Locations' in any class diagram.",
+      "User Story us-20-traverse-hierarchical-location-tree.md sequence diagram message 'treeTraverser->>locations: readParent(currentId: Identifier)' calls operation 'readParent' which is not defined on class 'Locations' in any class diagram.",
+      "User Story us-25-resolve-rack-security-classification.md sequence diagram message 'classifier->>racks: readRackClass(rackId: Identifier)' calls operation 'readRackClass' which is not defined on class 'Racks' in any class diagram.",
+      "User Story us-24-deploy-non-rack-equipment-at-location.md sequence diagram message 'deployHelper->>locations: resolveLocation(locationId: Identifier)' calls operation 'resolveLocation' which is not defined on class 'Locations' in any class diagram.",
+      "User Story us-24-deploy-non-rack-equipment-at-location.md sequence diagram message 'deployHelper->>locations: addContainedChassis(locationId: Identifier, chassisId: Integer, neRef: Identifier, componentRef: Identifier)' calls operation 'addContainedChassis' which is not defined on class 'Locations' in any class diagram.",
+      "User Story us-24-deploy-non-rack-equipment-at-location.md sequence diagram message 'locations->>locationChassis: createEntry(chassisId: Integer, neRef: Identifier, componentRef: Identifier)' calls operation 'createEntry' which is not defined on class 'LocationChassis' in any class diagram."
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}

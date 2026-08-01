@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-08-01T09:36:02.962611Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "de67d96b36417b716e210adc1b4300db5b5e98d2"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "User Story us-11-inherit-reference-frame-nested-locations.md sequence diagram message 'refFrameResolver->>childRefFrame: hasExplicitFrame()' calls operation 'hasExplicitFrame' which is not defined on class 'ReferenceFrame' in any class diagram.",
+      "User Story us-11-inherit-reference-frame-nested-locations.md sequence diagram message 'refFrameResolver->>parentRefFrame: walkAncestorHierarchy(currentNode: GeoLocation)' calls operation 'walkAncestorHierarchy' which is not defined on class 'ReferenceFrame' in any class diagram.",
+      "User Story us-13-configure-non-earth-astronomical-body.md sequence diagram message 'referenceFrameValidator->>refFrame: validatePattern(bodyName: String)' calls operation 'validatePattern' which is not defined on class 'ReferenceFrame' in any class diagram.",
+      "User Story us-13-configure-non-earth-astronomical-body.md sequence diagram message 'referenceFrameValidator->>geodeticSystem: validateDefaultDatum(bodyName: String, datumName: String)' calls operation 'validateDefaultDatum' which is not defined on class 'GeodeticSystem' in any class diagram.",
+      "User Story us-15-compute-location-validity-window.md sequence diagram message 'windowCalculator->>geoLocation: readTimestamp()' calls operation 'readTimestamp' which is not defined on class 'GeoLocation' in any class diagram.",
+      "User Story us-15-compute-location-validity-window.md sequence diagram message 'windowCalculator->>geoLocation: readValidUntil()' calls operation 'readValidUntil' which is not defined on class 'GeoLocation' in any class diagram.",
+      "User Story us-14-resolve-coordinate-accuracy-override.md sequence diagram message 'accuracyResolver->>geodeticSystem: getCoordAccuracyExplicit()' calls operation 'getCoordAccuracyExplicit' which is not defined on class 'GeodeticSystem' in any class diagram.",
+      "User Story us-14-resolve-coordinate-accuracy-override.md sequence diagram message 'accuracyResolver->>geodeticSystem: getHeightAccuracyExplicit()' calls operation 'getHeightAccuracyExplicit' which is not defined on class 'GeodeticSystem' in any class diagram.",
+      "User Story us-10-expire-geo-location-valid-until.md sequence diagram message 'expiryChecker->>geoLocation: readValidUntil()' calls operation 'readValidUntil' which is not defined on class 'GeoLocation' in any class diagram.",
+      "User Story us-10-expire-geo-location-valid-until.md sequence diagram message 'expiryChecker->>geoLocation: transitionToExpired()' calls operation 'transitionToExpired' which is not defined on class 'GeoLocation' in any class diagram."
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}

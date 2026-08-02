@@ -2,6 +2,7 @@ import 'package:app_flutter/domain/address_string.dart';
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/ip_address.dart';
+import 'package:app_flutter/domain/ip_prefix.dart';
 import 'package:app_flutter/domain/protocol_fields.dart';
 import 'package:app_flutter/domain/time_duration.dart';
 import 'package:app_flutter/domain/time_tracking.dart';
@@ -343,6 +344,33 @@ void main() {
       ];
       expect(validateFields({'addr': 'fe80::1'}, desc), isTrue);
       expect(validateFields({'addr': 'not-v6'}, desc), isFalse);
+    });
+  });
+
+  group('ip prefix validation', () {
+    test('validateFields accepts valid ipPrefix and rejects invalid', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'pfx', label: 'Prefix', type: 'ipPrefix', required: true),
+      ];
+      expect(validateFields({'pfx': '192.0.2.0/24'}, desc), isTrue);
+      expect(validateFields({'pfx': '2001:db8::/32'}, desc), isTrue);
+      expect(validateFields({'pfx': 'invalid/33'}, desc), isFalse);
+    });
+
+    test('validateFields accepts valid ipv4Prefix and rejects bounds', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'pfx', label: 'Prefix', type: 'ipv4Prefix', required: true),
+      ];
+      expect(validateFields({'pfx': '10.0.0.0/8'}, desc), isTrue);
+      expect(validateFields({'pfx': '10.0.0.0/33'}, desc), isFalse);
+    });
+
+    test('validateFields accepts valid ipv6Prefix and rejects bounds', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'pfx', label: 'Prefix', type: 'ipv6Prefix', required: true),
+      ];
+      expect(validateFields({'pfx': '2001:db8::/32'}, desc), isTrue);
+      expect(validateFields({'pfx': '2001:db8::/129'}, desc), isFalse);
     });
   });
 }

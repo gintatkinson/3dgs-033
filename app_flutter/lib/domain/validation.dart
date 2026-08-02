@@ -2,6 +2,7 @@ import 'package:app_flutter/domain/address_string.dart';
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/ip_address.dart';
+import 'package:app_flutter/domain/ip_prefix.dart';
 import 'package:app_flutter/domain/oid.dart';
 import 'package:app_flutter/domain/protocol_fields.dart';
 import 'package:app_flutter/domain/time_duration.dart';
@@ -225,6 +226,24 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       try {
         Ipv6Address(strVal);
       } on IpAddressValidationException {
+        return false;
+      }
+    } else if (fd.type == 'ipPrefix') {
+      try {
+        IpPrefix.parse(strVal);
+      } on IpPrefixValidationException {
+        return false;
+      }
+    } else if (fd.type == 'ipv4Prefix') {
+      try {
+        Ipv4Prefix(strVal);
+      } on IpPrefixValidationException {
+        return false;
+      }
+    } else if (fd.type == 'ipv6Prefix') {
+      try {
+        Ipv6Prefix(strVal);
+      } on IpPrefixValidationException {
         return false;
       }
     }

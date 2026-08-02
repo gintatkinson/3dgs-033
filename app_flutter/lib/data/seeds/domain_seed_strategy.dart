@@ -477,11 +477,21 @@ class DomainSeedStrategy implements SeedStrategy {
 
     batch.insert('type_attributes', {
       'type_name': 'Ipv4Address',
-      'attr_key': 'isPrivate',
-      'label': 'Is Private',
-      'attr_type': 'enum',
+      'attr_key': 'zoneIndex',
+      'label': 'Zone Index',
+      'attr_type': 'string',
       'section_label': 'IPv4',
       'section_order': 1,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Ipv4Address',
+      'attr_key': 'isLinkLocal',
+      'label': 'Is Link Local',
+      'attr_type': 'enum',
+      'section_label': 'IPv4',
+      'section_order': 2,
       'is_required': 0,
       'enum_options': jsonEncode(['true', 'false']),
       'enum_display_names': jsonEncode(['Yes', 'No']),
@@ -497,7 +507,7 @@ class DomainSeedStrategy implements SeedStrategy {
     batch.insert('properties', {
       'node_id': 'Ipv4Address',
       'parent_node_id': null,
-      'data_json': jsonEncode({'value': '192.168.1.1', 'isPrivate': 'true'}),
+      'data_json': jsonEncode({'value': '192.168.1.1', 'isLinkLocal': 'false'}),
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     // Ipv6Address
@@ -519,11 +529,21 @@ class DomainSeedStrategy implements SeedStrategy {
 
     batch.insert('type_attributes', {
       'type_name': 'Ipv6Address',
+      'attr_key': 'zoneIndex',
+      'label': 'Zone Index',
+      'attr_type': 'string',
+      'section_label': 'IPv6',
+      'section_order': 1,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Ipv6Address',
       'attr_key': 'isLinkLocal',
       'label': 'Is Link Local',
       'attr_type': 'enum',
       'section_label': 'IPv6',
-      'section_order': 1,
+      'section_order': 2,
       'is_required': 0,
       'enum_options': jsonEncode(['true', 'false']),
       'enum_display_names': jsonEncode(['Yes', 'No']),
@@ -653,6 +673,18 @@ class DomainSeedStrategy implements SeedStrategy {
       'is_required': 0,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
+    batch.insert('type_attributes', {
+      'type_name': 'Uri',
+      'attr_key': 'isNormalized',
+      'label': 'Is Normalized',
+      'attr_type': 'enum',
+      'section_label': 'URI',
+      'section_order': 2,
+      'is_required': 0,
+      'enum_options': jsonEncode(['true', 'false']),
+      'enum_display_names': jsonEncode(['Yes', 'No']),
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
     batch.insert('type_relations', {
       'parent_type_name': 'Uri',
       'relation_name': 'has_component',
@@ -663,7 +695,7 @@ class DomainSeedStrategy implements SeedStrategy {
     batch.insert('properties', {
       'node_id': 'Uri',
       'parent_node_id': null,
-      'data_json': jsonEncode({'value': 'https://example.com/api', 'scheme': 'https'}),
+      'data_json': jsonEncode({'value': 'https://example.com/api', 'scheme': 'https', 'isNormalized': 'true'}),
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     // EmailAddress
@@ -717,20 +749,42 @@ class DomainSeedStrategy implements SeedStrategy {
       'type_name': 'GeoLocation',
       'attr_key': 'timestamp',
       'label': 'Timestamp',
-      'attr_type': 'string',
+      'attr_type': 'dateTime',
       'section_label': 'Geo',
       'section_order': 0,
-      'is_required': 1,
+      'is_required': 0,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     batch.insert('type_attributes', {
       'type_name': 'GeoLocation',
       'attr_key': 'validUntil',
       'label': 'Valid Until',
-      'attr_type': 'string',
+      'attr_type': 'dateTime',
       'section_label': 'Geo',
       'section_order': 1,
       'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'GeoLocation',
+      'attr_key': 'astronomicalBody',
+      'label': 'Astronomical Body',
+      'attr_type': 'string',
+      'section_label': 'Geo',
+      'section_order': 2,
+      'is_required': 0,
+      'default_value': 'earth',
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'GeoLocation',
+      'attr_key': 'geodeticDatum',
+      'label': 'Geodetic Datum',
+      'attr_type': 'string',
+      'section_label': 'Geo',
+      'section_order': 3,
+      'is_required': 0,
+      'default_value': 'wgs-84',
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     batch.insert('type_relations', {
@@ -743,7 +797,7 @@ class DomainSeedStrategy implements SeedStrategy {
     batch.insert('properties', {
       'node_id': 'GeoLocation',
       'parent_node_id': null,
-      'data_json': jsonEncode({'timestamp': '2025-01-15T10:30:00Z', 'validUntil': '2025-12-31T23:59:59Z'}),
+      'data_json': jsonEncode({'timestamp': '2025-01-15T10:30:00Z', 'validUntil': '2025-12-31T23:59:59Z', 'astronomicalBody': 'earth', 'geodeticDatum': 'wgs-84'}),
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     // ReferenceFrame
@@ -760,7 +814,18 @@ class DomainSeedStrategy implements SeedStrategy {
       'attr_type': 'string',
       'section_label': 'Reference',
       'section_order': 0,
-      'is_required': 1,
+      'is_required': 0,
+      'default_value': 'earth',
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'ReferenceFrame',
+      'attr_key': 'alternateSystem',
+      'label': 'Alternate System',
+      'attr_type': 'string',
+      'section_label': 'Reference',
+      'section_order': 1,
+      'is_required': 0,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     batch.insert('type_relations', {
@@ -790,7 +855,28 @@ class DomainSeedStrategy implements SeedStrategy {
       'attr_type': 'string',
       'section_label': 'Geodetic',
       'section_order': 0,
-      'is_required': 1,
+      'is_required': 0,
+      'default_value': 'wgs-84',
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'GeodeticSystem',
+      'attr_key': 'coordAccuracy',
+      'label': 'Coord Accuracy',
+      'attr_type': 'real',
+      'section_label': 'Geodetic',
+      'section_order': 1,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'GeodeticSystem',
+      'attr_key': 'heightAccuracy',
+      'label': 'Height Accuracy',
+      'attr_type': 'real',
+      'section_label': 'Geodetic',
+      'section_order': 2,
+      'is_required': 0,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     batch.insert('type_relations', {
@@ -820,7 +906,7 @@ class DomainSeedStrategy implements SeedStrategy {
       'attr_type': 'real',
       'section_label': 'Velocity',
       'section_order': 0,
-      'is_required': 1,
+      'is_required': 0,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     batch.insert('type_attributes', {
@@ -830,7 +916,17 @@ class DomainSeedStrategy implements SeedStrategy {
       'attr_type': 'real',
       'section_label': 'Velocity',
       'section_order': 1,
-      'is_required': 1,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Velocity',
+      'attr_key': 'vUp',
+      'label': 'V Up',
+      'attr_type': 'real',
+      'section_label': 'Velocity',
+      'section_order': 2,
+      'is_required': 0,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     batch.insert('type_attributes', {
@@ -839,7 +935,17 @@ class DomainSeedStrategy implements SeedStrategy {
       'label': 'Speed',
       'attr_type': 'real',
       'section_label': 'Velocity',
-      'section_order': 2,
+      'section_order': 3,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Velocity',
+      'attr_key': 'heading',
+      'label': 'Heading',
+      'attr_type': 'real',
+      'section_label': 'Velocity',
+      'section_order': 4,
       'is_required': 0,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
@@ -853,7 +959,7 @@ class DomainSeedStrategy implements SeedStrategy {
     batch.insert('properties', {
       'node_id': 'Velocity',
       'parent_node_id': null,
-      'data_json': jsonEncode({'vNorth': 10.5, 'vEast': 20.3, 'speed': 22.84}),
+      'data_json': jsonEncode({'vNorth': 10.5, 'vEast': 20.3, 'vUp': 0.0, 'speed': 22.84, 'heading': 62.6}),
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     // EllipsoidCoordinate
@@ -887,6 +993,16 @@ class DomainSeedStrategy implements SeedStrategy {
       'max_value': 180,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
+    batch.insert('type_attributes', {
+      'type_name': 'EllipsoidCoordinate',
+      'attr_key': 'height',
+      'label': 'Height',
+      'attr_type': 'real',
+      'section_label': 'Coordinate',
+      'section_order': 2,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
     batch.insert('type_relations', {
       'parent_type_name': 'EllipsoidCoordinate',
       'relation_name': 'has_component',
@@ -897,7 +1013,7 @@ class DomainSeedStrategy implements SeedStrategy {
     batch.insert('properties', {
       'node_id': 'EllipsoidCoordinate',
       'parent_node_id': null,
-      'data_json': jsonEncode({'latitude': 35.6762, 'longitude': 139.6503}),
+      'data_json': jsonEncode({'latitude': 35.6762, 'longitude': 139.6503, 'height': 35.0}),
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     // NetworkElement
@@ -927,6 +1043,26 @@ class DomainSeedStrategy implements SeedStrategy {
       'is_required': 0,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
+    batch.insert('type_attributes', {
+      'type_name': 'NetworkElement',
+      'attr_key': 'mfgName',
+      'label': 'Manufacturer',
+      'attr_type': 'string',
+      'section_label': 'Network',
+      'section_order': 2,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'NetworkElement',
+      'attr_key': 'productName',
+      'label': 'Product Name',
+      'attr_type': 'string',
+      'section_label': 'Network',
+      'section_order': 3,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
     batch.insert('type_relations', {
       'parent_type_name': 'NetworkElement',
       'relation_name': 'has_component',
@@ -937,7 +1073,7 @@ class DomainSeedStrategy implements SeedStrategy {
     batch.insert('properties', {
       'node_id': 'NetworkElement',
       'parent_node_id': null,
-      'data_json': jsonEncode({'neId': 'NE-001', 'neType': 'Router'}),
+      'data_json': jsonEncode({'neId': 'NE-001', 'neType': 'Router', 'mfgName': 'Cisco Systems', 'productName': 'ASR 9000 Series'}),
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     // Component
@@ -959,11 +1095,41 @@ class DomainSeedStrategy implements SeedStrategy {
 
     batch.insert('type_attributes', {
       'type_name': 'Component',
+      'attr_key': 'class',
+      'label': 'Class',
+      'attr_type': 'string',
+      'section_label': 'Component',
+      'section_order': 1,
+      'is_required': 1,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Component',
+      'attr_key': 'partNumber',
+      'label': 'Part Number',
+      'attr_type': 'string',
+      'section_label': 'Component',
+      'section_order': 2,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Component',
+      'attr_key': 'serialNumber',
+      'label': 'Serial Number',
+      'attr_type': 'string',
+      'section_label': 'Component',
+      'section_order': 3,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Component',
       'attr_key': 'isFru',
       'label': 'Is FRU',
       'attr_type': 'enum',
       'section_label': 'Component',
-      'section_order': 1,
+      'section_order': 4,
       'is_required': 0,
       'enum_options': jsonEncode(['true', 'false']),
       'enum_display_names': jsonEncode(['Yes', 'No']),
@@ -979,7 +1145,7 @@ class DomainSeedStrategy implements SeedStrategy {
     batch.insert('properties', {
       'node_id': 'Component',
       'parent_node_id': null,
-      'data_json': jsonEncode({'componentId': 'COMP-001', 'isFru': 'true'}),
+      'data_json': jsonEncode({'componentId': 'COMP-001', 'class': 'ianahw:chassis', 'partNumber': 'ASR-9006-AC', 'serialNumber': 'FTX12345678', 'isFru': 'true'}),
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     // Rack
@@ -1007,8 +1173,38 @@ class DomainSeedStrategy implements SeedStrategy {
       'section_label': 'Rack',
       'section_order': 1,
       'is_required': 0,
-      'enum_options': jsonEncode(['standard', 'secure-baseline', 'secure-medium', 'secure-high']),
+      'enum_options': jsonEncode(['rack-standard', 'rack-secure-baseline', 'rack-secure-medium', 'rack-secure-high']),
       'enum_display_names': jsonEncode(['Standard', 'Secure Baseline', 'Secure Medium', 'Secure High']),
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Rack',
+      'attr_key': 'height',
+      'label': 'Height (mm)',
+      'attr_type': 'int',
+      'section_label': 'Rack',
+      'section_order': 2,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Rack',
+      'attr_key': 'width',
+      'label': 'Width (mm)',
+      'attr_type': 'int',
+      'section_label': 'Rack',
+      'section_order': 3,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Rack',
+      'attr_key': 'depth',
+      'label': 'Depth (mm)',
+      'attr_type': 'int',
+      'section_label': 'Rack',
+      'section_order': 4,
+      'is_required': 0,
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     batch.insert('type_relations', {
@@ -1021,7 +1217,128 @@ class DomainSeedStrategy implements SeedStrategy {
     batch.insert('properties', {
       'node_id': 'Rack',
       'parent_node_id': null,
-      'data_json': jsonEncode({'id': 'RACK-001', 'rackClass': 'standard'}),
+      'data_json': jsonEncode({'id': 'RACK-001', 'rackClass': 'rack-standard', 'height': 2200, 'width': 600, 'depth': 1200}),
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    // PhysicalAddress
+    batch.insert('type_definitions', {
+      'type_name': 'PhysicalAddress',
+      'display_name': 'Physical Address',
+      'icon_name': 'home',
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'PhysicalAddress',
+      'attr_key': 'address',
+      'label': 'Address',
+      'attr_type': 'string',
+      'section_label': 'Address',
+      'section_order': 0,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'PhysicalAddress',
+      'attr_key': 'city',
+      'label': 'City',
+      'attr_type': 'string',
+      'section_label': 'Address',
+      'section_order': 1,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'PhysicalAddress',
+      'attr_key': 'state',
+      'label': 'State',
+      'attr_type': 'string',
+      'section_label': 'Address',
+      'section_order': 2,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'PhysicalAddress',
+      'attr_key': 'postalCode',
+      'label': 'Postal Code',
+      'attr_type': 'string',
+      'section_label': 'Address',
+      'section_order': 3,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'PhysicalAddress',
+      'attr_key': 'countryCode',
+      'label': 'Country Code',
+      'attr_type': 'string',
+      'section_label': 'Address',
+      'section_order': 4,
+      'is_required': 0,
+      'pattern': r'[A-Z]{2}',
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_relations', {
+      'parent_type_name': 'PhysicalAddress',
+      'relation_name': 'has_component',
+      'child_type_name': 'Components',
+      'child_label': 'Components',
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('properties', {
+      'node_id': 'PhysicalAddress',
+      'parent_node_id': null,
+      'data_json': jsonEncode({'address': '123 Foo Street', 'city': 'Foo-City', 'state': 'Foo-State', 'postalCode': '12345', 'countryCode': 'ZZ'}),
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    // CartesianCoordinate
+    batch.insert('type_definitions', {
+      'type_name': 'CartesianCoordinate',
+      'display_name': 'Cartesian Coordinate',
+      'icon_name': 'transform',
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'CartesianCoordinate',
+      'attr_key': 'x',
+      'label': 'X',
+      'attr_type': 'real',
+      'section_label': 'Coordinate',
+      'section_order': 0,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'CartesianCoordinate',
+      'attr_key': 'y',
+      'label': 'Y',
+      'attr_type': 'real',
+      'section_label': 'Coordinate',
+      'section_order': 1,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'CartesianCoordinate',
+      'attr_key': 'z',
+      'label': 'Z',
+      'attr_type': 'real',
+      'section_label': 'Coordinate',
+      'section_order': 2,
+      'is_required': 0,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_relations', {
+      'parent_type_name': 'CartesianCoordinate',
+      'relation_name': 'has_component',
+      'child_type_name': 'Components',
+      'child_label': 'Components',
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('properties', {
+      'node_id': 'CartesianCoordinate',
+      'parent_node_id': null,
+      'data_json': jsonEncode({'x': 1335832.5, 'y': -4652426.0, 'z': 4138321.5}),
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     // 2. Generate 100 space orbit telemetry nodes

@@ -373,4 +373,39 @@ void main() {
       expect(validateFields({'pfx': '2001:db8::/129'}, desc), isFalse);
     });
   });
+
+  group('domain host validation', () {
+    test('validateFields accepts valid domainName and rejects invalid', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'domain', label: 'Domain', type: 'domainName', required: true),
+      ];
+      expect(validateFields({'domain': 'example.com'}, desc), isTrue);
+      expect(validateFields({'domain': 'invalid..domain'}, desc), isFalse);
+    });
+
+    test('validateFields accepts valid host union (IP or hostname) and rejects invalid', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'host', label: 'Host', type: 'host', required: true),
+      ];
+      expect(validateFields({'host': '192.0.2.1'}, desc), isTrue);
+      expect(validateFields({'host': 'example.com'}, desc), isTrue);
+      expect(validateFields({'host': 'invalid host!'}, desc), isFalse);
+    });
+
+    test('validateFields accepts valid uri and rejects invalid', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'uri', label: 'URI', type: 'uri', required: true),
+      ];
+      expect(validateFields({'uri': 'https://example.com'}, desc), isTrue);
+      expect(validateFields({'uri': 'not-a-uri'}, desc), isFalse);
+    });
+
+    test('validateFields accepts valid email and rejects invalid', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'email', label: 'Email', type: 'email', required: true),
+      ];
+      expect(validateFields({'email': 'user@example.com'}, desc), isTrue);
+      expect(validateFields({'email': 'not-an-email'}, desc), isFalse);
+    });
+  });
 }

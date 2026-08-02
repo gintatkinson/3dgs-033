@@ -1,6 +1,7 @@
 import 'package:app_flutter/domain/address_string.dart';
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
+import 'package:app_flutter/domain/ip_address.dart';
 import 'package:app_flutter/domain/oid.dart';
 import 'package:app_flutter/domain/protocol_fields.dart';
 import 'package:app_flutter/domain/time_duration.dart';
@@ -206,6 +207,24 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       try {
         AsNumber(parsed);
       } on ProtocolFieldValidationException {
+        return false;
+      }
+    } else if (fd.type == 'ipAddress') {
+      try {
+        IpAddress.parse(strVal);
+      } on IpAddressValidationException {
+        return false;
+      }
+    } else if (fd.type == 'ipv4Address') {
+      try {
+        Ipv4Address(strVal);
+      } on IpAddressValidationException {
+        return false;
+      }
+    } else if (fd.type == 'ipv6Address') {
+      try {
+        Ipv6Address(strVal);
+      } on IpAddressValidationException {
         return false;
       }
     }

@@ -2,6 +2,7 @@ import 'package:app_flutter/domain/address_string.dart';
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/oid.dart';
+import 'package:app_flutter/domain/protocol_fields.dart';
 import 'package:app_flutter/domain/time_duration.dart';
 import 'package:app_flutter/domain/time_tracking.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
@@ -173,6 +174,38 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       try {
         DottedQuad(strVal);
       } on AddressStringValidationException {
+        return false;
+      }
+    } else if (fd.type == 'ipVersion') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        IpVersion(parsed);
+      } on ProtocolFieldValidationException {
+        return false;
+      }
+    } else if (fd.type == 'dscp') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        Dscp(parsed);
+      } on ProtocolFieldValidationException {
+        return false;
+      }
+    } else if (fd.type == 'portNumber') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        PortNumber(parsed);
+      } on ProtocolFieldValidationException {
+        return false;
+      }
+    } else if (fd.type == 'asNumber') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        AsNumber(parsed);
+      } on ProtocolFieldValidationException {
         return false;
       }
     }

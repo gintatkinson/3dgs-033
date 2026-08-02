@@ -1,6 +1,7 @@
 import 'package:app_flutter/domain/address_string.dart';
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
+import 'package:app_flutter/domain/protocol_fields.dart';
 import 'package:app_flutter/domain/time_duration.dart';
 import 'package:app_flutter/domain/time_tracking.dart';
 import 'package:app_flutter/domain/validation.dart';
@@ -272,6 +273,48 @@ void main() {
         const FieldDescriptor(key: 'ip', label: 'IP', type: 'dottedQuad', required: true),
       ];
       expect(validateFields({'ip': '10.0.0.1'}, desc), isTrue);
+    });
+  });
+
+  group('protocol field validation', () {
+    test('validateFields accepts valid ipVersion', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'ipv', label: 'IP Version', type: 'ipVersion', required: true),
+      ];
+      expect(validateFields({'ipv': 1}, desc), isTrue);
+      expect(validateFields({'ipv': 0}, desc), isTrue);
+      expect(validateFields({'ipv': 2}, desc), isTrue);
+      expect(validateFields({'ipv': 3}, desc), isFalse);
+      expect(validateFields({'ipv': 'invalid'}, desc), isFalse);
+    });
+
+    test('validateFields accepts valid dscp', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'dscp', label: 'DSCP', type: 'dscp', required: true),
+      ];
+      expect(validateFields({'dscp': 46}, desc), isTrue);
+      expect(validateFields({'dscp': 0}, desc), isTrue);
+      expect(validateFields({'dscp': 63}, desc), isTrue);
+      expect(validateFields({'dscp': 64}, desc), isFalse);
+    });
+
+    test('validateFields accepts valid portNumber', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'port', label: 'Port', type: 'portNumber', required: true),
+      ];
+      expect(validateFields({'port': 443}, desc), isTrue);
+      expect(validateFields({'port': 65535}, desc), isTrue);
+      expect(validateFields({'port': 65536}, desc), isFalse);
+    });
+
+    test('validateFields accepts valid asNumber', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'asn', label: 'AS Number', type: 'asNumber', required: true),
+      ];
+      expect(validateFields({'asn': 64496}, desc), isTrue);
+      expect(validateFields({'asn': 0}, desc), isTrue);
+      expect(validateFields({'asn': 4294967295}, desc), isTrue);
+      expect(validateFields({'asn': 4294967296}, desc), isFalse);
     });
   });
 }

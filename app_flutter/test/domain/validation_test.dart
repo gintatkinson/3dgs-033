@@ -1,5 +1,6 @@
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
+import 'package:app_flutter/domain/time_duration.dart';
 import 'package:app_flutter/domain/validation.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -147,6 +148,38 @@ void main() {
         const FieldDescriptor(key: 'hcInOctets', label: 'HCInOctets', type: 'counter64', required: true),
       ];
       expect(validateFields({'hcInOctets': '18446744073709551615'}, desc), isTrue);
+    });
+  });
+
+  group('time duration validation', () {
+    test('hours32 accepts valid positive integer', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'uptime', label: 'Uptime', type: 'hours32', required: true),
+      ];
+      expect(validateFields({'uptime': 24}, desc), isTrue);
+    });
+
+    test('hours32 rejects negative value', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'uptime', label: 'Uptime', type: 'hours32', required: true),
+      ];
+      expect(validateFields({'uptime': -1}, desc), isFalse);
+    });
+
+    test('seconds32 accepts valid value', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'timeout', label: 'Timeout', type: 'seconds32', required: true),
+      ];
+      expect(validateFields({'timeout': 45}, desc), isTrue);
+      expect(validateFields({'timeout': -1}, desc), isFalse);
+    });
+
+    test('milliseconds32 accepts valid value and rejects out of bounds', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'latency', label: 'Latency', type: 'milliseconds32', required: true),
+      ];
+      expect(validateFields({'latency': 500}, desc), isTrue);
+      expect(validateFields({'latency': 2147483648}, desc), isFalse);
     });
   });
 

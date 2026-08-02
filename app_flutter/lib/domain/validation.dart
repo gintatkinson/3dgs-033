@@ -1,6 +1,7 @@
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/oid.dart';
+import 'package:app_flutter/domain/time_duration.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 
 /// Generic validation function that evaluates constraints on a map of input values.
@@ -70,6 +71,38 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
     } else if (fd.type == 'gauge64') {
       final parsed = BigInt.tryParse(strVal);
       if (parsed == null || parsed.isNegative || parsed > Gauge64.maxValue) return false;
+    } else if (fd.type == 'hours32') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        Hours32(parsed);
+      } on DurationValidationException {
+        return false;
+      }
+    } else if (fd.type == 'minutes32') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        Minutes32(parsed);
+      } on DurationValidationException {
+        return false;
+      }
+    } else if (fd.type == 'seconds32') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        Seconds32(parsed);
+      } on DurationValidationException {
+        return false;
+      }
+    } else if (fd.type == 'milliseconds32') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        Milliseconds32(parsed);
+      } on DurationValidationException {
+        return false;
+      }
     } else if (fd.type == 'dateAndTime') {
       try {
         YangDateTime.parse(strVal);

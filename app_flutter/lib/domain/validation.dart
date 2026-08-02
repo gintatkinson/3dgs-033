@@ -1,3 +1,4 @@
+import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/oid.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 
@@ -46,6 +47,28 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       } on OidValidationException {
         return false;
       }
+    } else if (fd.type == 'counter32') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        Counter32(parsed);
+      } on CounterGaugeValidationException {
+        return false;
+      }
+    } else if (fd.type == 'counter64') {
+      final parsed = BigInt.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        Counter64(parsed);
+      } on CounterGaugeValidationException {
+        return false;
+      }
+    } else if (fd.type == 'gauge32') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null || parsed < 0 || parsed > Gauge32.maxValue) return false;
+    } else if (fd.type == 'gauge64') {
+      final parsed = BigInt.tryParse(strVal);
+      if (parsed == null || parsed.isNegative || parsed > Gauge64.maxValue) return false;
     }
   }
   return true;

@@ -1,3 +1,4 @@
+import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/validation.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -115,6 +116,36 @@ void main() {
         const FieldDescriptor(key: 'oid128', label: 'OID128', type: 'oid128', required: true),
       ];
       expect(validateFields({'oid128': oidStr}, desc), isFalse);
+    });
+  });
+
+  group('counter and gauge validation', () {
+    test('counter32 accepts valid positive integer', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'ifInOctets', label: 'IfInOctets', type: 'counter32', required: true),
+      ];
+      expect(validateFields({'ifInOctets': 4294967295}, desc), isTrue);
+    });
+
+    test('counter32 rejects negative value', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'ifInOctets', label: 'IfInOctets', type: 'counter32', required: true),
+      ];
+      expect(validateFields({'ifInOctets': -1}, desc), isFalse);
+    });
+
+    test('gauge32 accepts valid value within bounds', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'ifSpeed', label: 'IfSpeed', type: 'gauge32', required: true),
+      ];
+      expect(validateFields({'ifSpeed': 1000000000}, desc), isTrue);
+    });
+
+    test('gauge64 accepts valid BigInt value', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'hcInOctets', label: 'HCInOctets', type: 'counter64', required: true),
+      ];
+      expect(validateFields({'hcInOctets': '18446744073709551615'}, desc), isTrue);
     });
   });
 }

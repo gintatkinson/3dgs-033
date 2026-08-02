@@ -198,7 +198,7 @@ class DomainSeedStrategy implements SeedStrategy {
         'relation_name': 'contains',
         'child_type_name': d,
         'child_label': d == 'Components' ? 'Components' : d.replaceAll('_', ' ').split(' ').map((s) => s.isEmpty ? '' : s[0].toUpperCase() + s.substring(1)).join(' '),
-      });
+      }, conflictAlgorithm: ConflictAlgorithm.ignore);
     }
 
     for (int i = 1; i <= 50; i++) {
@@ -210,7 +210,7 @@ class DomainSeedStrategy implements SeedStrategy {
         'section_label': 'General',
         'section_order': 0,
         'is_required': 0,
-      });
+      }, conflictAlgorithm: ConflictAlgorithm.ignore);
     }
 
     final propertiesMap = {
@@ -227,7 +227,7 @@ class DomainSeedStrategy implements SeedStrategy {
       'node_id': node,
       'parent_node_id': parent,
       'data_json': jsonEncode(propertiesMap),
-    });
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     for (final d in details) {
       for (int k = 1; k <= 5; k++) {
@@ -240,7 +240,7 @@ class DomainSeedStrategy implements SeedStrategy {
           'parent_node_id': node,
           'type_name': d,
           'data_json': jsonEncode(instanceMap),
-        });
+        }, conflictAlgorithm: ConflictAlgorithm.ignore);
       }
     }
   }

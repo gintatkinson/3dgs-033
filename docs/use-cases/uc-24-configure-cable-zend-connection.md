@@ -1,5 +1,6 @@
 ---
 title: "Configure Cable Z-End Connection"
+issue_id: 122
 type: "use-case"
 generation_mode: "subagent"
 spec_source: "draft-ygb-ivy-passive-network-inventory-05"

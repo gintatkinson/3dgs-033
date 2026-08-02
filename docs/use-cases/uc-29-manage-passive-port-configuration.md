@@ -1,5 +1,6 @@
 ---
 title: "Manage Passive Port Configuration"
+issue_id: 120
 type: "use-case"
 generation_mode: "subagent"
 spec_source: "draft-ygb-ivy-passive-network-inventory-05"

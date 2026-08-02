@@ -1,5 +1,6 @@
 ---
 title: "Manage Cable Inventory"
+issue_id: 117
 type: "use-case"
 generation_mode: "subagent"
 spec_source: "draft-ygb-ivy-passive-network-inventory-05"

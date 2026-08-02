@@ -1,5 +1,6 @@
 ---
 title: "Select Connected Device Type"
+issue_id: 118
 type: "use-case"
 generation_mode: "subagent"
 spec_source: "draft-ygb-ivy-passive-network-inventory-05"

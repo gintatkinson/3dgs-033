@@ -1,5 +1,6 @@
 ---
 title: "Manage Child Cable Concatenation"
+issue_id: 119
 type: "use-case"
 generation_mode: "subagent"
 spec_source: "draft-ygb-ivy-passive-network-inventory-05"

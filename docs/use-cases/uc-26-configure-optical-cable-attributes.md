@@ -1,5 +1,6 @@
 ---
 title: "Configure Optical Cable Attributes"
+issue_id: 123
 type: "use-case"
 generation_mode: "subagent"
 spec_source: "draft-ygb-ivy-passive-network-inventory-05"

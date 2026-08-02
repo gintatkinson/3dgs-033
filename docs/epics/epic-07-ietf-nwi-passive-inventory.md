@@ -32,8 +32,23 @@ This is a **foundational passive infrastructure module** augmenting the base net
 ### Associated Use Cases & User Stories
 
 #### Associated Use Cases
+- [ ] #117 - [Manage Cable Inventory](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-22-manage-cable-inventory.md) (Use Case for cable entity lifecycle management, Feature feat-30)
+- [ ] #121 - [Configure Cable A-End Connection](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-23-configure-cable-aend-connection.md) (Use Case for A-end connection configuration, Feature feat-31)
+- [ ] #122 - [Configure Cable Z-End Connection](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-24-configure-cable-zend-connection.md) (Use Case for Z-end connection configuration, Feature feat-32)
+- [ ] #118 - [Select Connected Device Type](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-25-select-connected-device-type.md) (Use Case for device type choice selection, Feature feat-33)
+- [ ] #123 - [Configure Optical Cable Attributes](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-26-configure-optical-cable-attributes.md) (Use Case for optical cable attribute configuration, Feature feat-34)
+- [ ] #119 - [Manage Child Cable Concatenation](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-27-manage-child-cable-concatenation.md) (Use Case for child cable concatenation management, Feature feat-35)
+- [ ] #116 - [Manage Passive Device Inventory](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-28-manage-passive-device-inventory.md) (Use Case for passive device inventory management, Feature feat-36)
+- [ ] #120 - [Manage Passive Port Configuration](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-29-manage-passive-port-configuration.md) (Use Case for passive port configuration, Feature feat-37)
 
 #### Associated User Stories
+- [ ] #109 - [Concatenate Child Cable Segments into Ordered Composite Cable](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-44-concatenate-child-cables.md) (validates child cable concatenation ordering, Feature feat-35)
+- [ ] #110 - [Resolve Cascading Leafref Path for Active Device Component Reference](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-45-resolve-active-device-component-leafref.md) (validates cascading leafref resolution, Features feat-31 and feat-32)
+- [ ] #111 - [Connect Cable End to Passive Device by Device Identifier](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-46-connect-cable-end-to-passive-device.md) (validates cable-to-passive-device connection, Features feat-31 and feat-36)
+- [ ] #112 - [Conditionally Activate Optical Cable Attributes Based on Cable Type](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-47-conditionally-activate-optical-cable-attributes.md) (validates when-expression for optical attributes, Feature feat-34)
+- [ ] #113 - [Cross-Validate Connected Device Type with Choice Case Selection](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-48-cross-validate-device-type-choice-consistency.md) (validates must-expression cross-validation, Feature feat-33)
+- [ ] #114 - [Model PON ODN Feeder-Distribution-Drop Cable Topology](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-49-model-pon-odn-feeder-distribution-drop-topology.md) (validates PON ODN topology modeling, Feature feat-30)
+- [ ] #115 - [Inventory Passive Device with Identification Tags and Location Reference](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-50-inventory-passive-device-location-tags.md) (validates passive device location and tag inventory, Feature feat-36)
 
 ## 3. Architecture
 
@@ -146,5 +161,5 @@ From Section 1 (Introduction):
 > "Passive infrastructure refers to the underlying infrastructure of a telecommunication network that is not actively detectable or manageable. It typically includes non-powered, non-communicating devices and components, such as cabinets, cables, connectors, splitters, antennas, distribution frames, etc., that are either hosted within an actively managed device or deployed along the physical pathway between active devices."
 
 ## 6. Source References
-Structural Schema: [ietf-nwi-passive-inventory.yang](https://github.com/aguoietf/draft-ygb-ivy-passive-network-inventory/blob/main/yang/ietf-nwi-passive-inventory.yang) (Full module, 522 lines)
+Structural Schema: [ietf-nwi-passive-inventory.yang](https://github.com/gintatkinson/3dgs-033/blob/main/yang/ietf-nwi-passive-inventory.yang) (Full module, 522 lines)
 Normative Specification: [draft-ygb-ivy-passive-network-inventory-05](https://datatracker.ietf.org/doc/draft-ygb-ivy-passive-network-inventory/) (Clause: Sections 1-6)

@@ -1,10 +1,29 @@
-class IpPrefixValidationException implements Exception {
-  final String message;
+import 'package:app_flutter/domain/annotations.dart';
+import 'package:meta/meta.dart';
 
-  const IpPrefixValidationException(this.message);
+/// Thrown when a prefix length is outside the allowed range for the address family.
+///
+/// [max] is the maximum allowed prefix length (32 for IPv4, 128 for IPv6).
+/// [actual] is the provided value that was out of range.
+@immutable
+class PrefixLengthError implements Exception {
+  final int max;
+  final int actual;
+
+  const PrefixLengthError({required this.max, required this.actual});
 
   @override
-  String toString() => 'IpPrefixValidationException: $message';
+  String toString() => 'PrefixLengthError: must be 0-$max, got $actual';
+}
+
+/// Thrown when the address portion of a prefix fails format validation.
+@immutable
+class PrefixFormatError implements Exception {
+  final String value;
+  const PrefixFormatError(this.value);
+
+  @override
+  String toString() => 'PrefixFormatError: invalid prefix: "$value"';
 }
 
 class _PrefixBase {
@@ -174,15 +193,13 @@ class _PrefixBase {
   static (String, int) _splitPrefix(String value) {
     final slashIdx = value.lastIndexOf('/');
     if (slashIdx == -1) {
-      throw IpPrefixValidationException(
-          'Missing prefix length in: "$value"');
+      throw PrefixFormatError(value);
     }
     final address = value.substring(0, slashIdx);
     final lenStr = value.substring(slashIdx + 1);
     final len = int.tryParse(lenStr);
     if (len == null) {
-      throw IpPrefixValidationException(
-          'Invalid prefix length: "$lenStr"');
+      throw PrefixFormatError(value);
     }
     return (address, len);
   }
@@ -192,6 +209,9 @@ class _PrefixBase {
   }
 }
 
+/// Represents an IPv4 prefix as defined in UML::Ipv4Prefix.value.
+@immutable
+@realizes(r'UML::Ipv4Prefix.value')
 class Ipv4Prefix {
   final String value;
   final int prefixLength;
@@ -202,12 +222,10 @@ class Ipv4Prefix {
   static int _parseAndValidate(String value) {
     final (address, len) = _PrefixBase._splitPrefix(value);
     if (len < 0 || len > 32) {
-      throw IpPrefixValidationException(
-          'Prefix length must be 0-32, got $len in: "$value"');
+      throw PrefixLengthError(max: 32, actual: len);
     }
     if (!_PrefixBase._ipv4Pattern.hasMatch(address)) {
-      throw IpPrefixValidationException(
-          'Invalid ipv4-prefix: "$value"');
+      throw PrefixFormatError(value);
     }
     return len;
   }
@@ -229,6 +247,9 @@ class Ipv4Prefix {
   int get hashCode => Object.hash(value, prefixLength);
 }
 
+/// Represents an IPv6 prefix as defined in UML::Ipv6Prefix.value.
+@immutable
+@realizes(r'UML::Ipv6Prefix.value')
 class Ipv6Prefix {
   final String value;
   final int prefixLength;
@@ -239,12 +260,10 @@ class Ipv6Prefix {
   static int _parseAndValidate(String value) {
     final (address, len) = _PrefixBase._splitPrefix(value);
     if (len < 0 || len > 128) {
-      throw IpPrefixValidationException(
-          'Prefix length must be 0-128, got $len in: "$value"');
+      throw PrefixLengthError(max: 128, actual: len);
     }
     if (!_PrefixBase._ipv6Pattern.hasMatch(address)) {
-      throw IpPrefixValidationException(
-          'Invalid ipv6-prefix: "$value"');
+      throw PrefixFormatError(value);
     }
     return len;
   }
@@ -267,6 +286,9 @@ class Ipv6Prefix {
   int get hashCode => Object.hash(value, prefixLength);
 }
 
+/// Represents the union of IPv4 or IPv6 prefix as defined in UML::IpPrefix.value.
+@immutable
+@realizes(r'UML::IpPrefix.value')
 class IpPrefix {
   final String value;
   final int prefixLength;
@@ -274,6 +296,10 @@ class IpPrefix {
 
   IpPrefix._(this.value, this.prefixLength, this._isV6);
 
+  /// Parses an IP prefix string, auto-detecting IPv4 or IPv6.
+  ///
+  /// Throws [PrefixFormatError] if the input has no slash-separated length.
+  /// Throws [PrefixLengthError] if the length is out of bounds.
   factory IpPrefix.parse(String value) {
     final (address, _) = _PrefixBase._splitPrefix(value);
     if (_PrefixBase._isIpv6Address(address)) {
@@ -310,6 +336,9 @@ class IpPrefix {
   int get hashCode => Object.hash(value, prefixLength);
 }
 
+/// Represents an IPv4 address-and-prefix as defined in UML::Ipv4AddressAndPrefix.value.
+@immutable
+@realizes(r'UML::Ipv4AddressAndPrefix.value')
 class Ipv4AddressAndPrefix {
   final String value;
   final int prefixLength;
@@ -320,12 +349,10 @@ class Ipv4AddressAndPrefix {
   static int _parseAndValidate(String value) {
     final (address, len) = _PrefixBase._splitPrefix(value);
     if (len < 0 || len > 32) {
-      throw IpPrefixValidationException(
-          'Prefix length must be 0-32, got $len in: "$value"');
+      throw PrefixLengthError(max: 32, actual: len);
     }
     if (!_PrefixBase._ipv4Pattern.hasMatch(address)) {
-      throw IpPrefixValidationException(
-          'Invalid ipv4-address-and-prefix: "$value"');
+      throw PrefixFormatError(value);
     }
     return len;
   }
@@ -343,6 +370,9 @@ class Ipv4AddressAndPrefix {
   int get hashCode => Object.hash(value, prefixLength);
 }
 
+/// Represents an IPv6 address-and-prefix as defined in UML::Ipv6AddressAndPrefix.value.
+@immutable
+@realizes(r'UML::Ipv6AddressAndPrefix.value')
 class Ipv6AddressAndPrefix {
   final String value;
   final int prefixLength;
@@ -353,12 +383,10 @@ class Ipv6AddressAndPrefix {
   static int _parseAndValidate(String value) {
     final (address, len) = _PrefixBase._splitPrefix(value);
     if (len < 0 || len > 128) {
-      throw IpPrefixValidationException(
-          'Prefix length must be 0-128, got $len in: "$value"');
+      throw PrefixLengthError(max: 128, actual: len);
     }
     if (!_PrefixBase._ipv6Pattern.hasMatch(address)) {
-      throw IpPrefixValidationException(
-          'Invalid ipv6-address-and-prefix: "$value"');
+      throw PrefixFormatError(value);
     }
     return len;
   }
@@ -380,6 +408,9 @@ class Ipv6AddressAndPrefix {
   int get hashCode => Object.hash(value, prefixLength);
 }
 
+/// Represents the union of IPv4 or IPv6 address-and-prefix as defined in UML::IpAddressAndPrefix.value.
+@immutable
+@realizes(r'UML::IpAddressAndPrefix.value')
 class IpAddressAndPrefix {
   final String value;
   final int prefixLength;
@@ -387,6 +418,7 @@ class IpAddressAndPrefix {
 
   IpAddressAndPrefix._(this.value, this.prefixLength, this._isV6);
 
+  /// Parses an IP address-and-prefix string, auto-detecting IPv4 or IPv6.
   factory IpAddressAndPrefix.parse(String value) {
     final (address, _) = _PrefixBase._splitPrefix(value);
     if (_PrefixBase._isIpv6Address(address)) {

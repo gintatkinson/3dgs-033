@@ -117,7 +117,7 @@ class DomainSeedStrategy implements SeedStrategy {
           'parent_node_id': from,
           'type_name': 'interface',
           'data_json': jsonEncode({'description': 'link to node $to'}),
-        });
+        }, conflictAlgorithm: ConflictAlgorithm.ignore);
       }
     }
 

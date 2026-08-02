@@ -16,7 +16,6 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
   for (final fd in descriptors) {
     final value = input[fd.key];
 
-    // If missing/empty, check required constraint. Otherwise skip validation if not required.
     if (value == null || (value is String && value.isEmpty)) {
       if (fd.required) {
         return false;
@@ -47,13 +46,13 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
     } else if (fd.type == 'oid') {
       try {
         OidValue.parse(strVal);
-      } on OidValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'oid128') {
       try {
         Oid128.parse(strVal);
-      } on OidValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'counter32') {
@@ -61,7 +60,7 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         Counter32(parsed);
-      } on CounterGaugeValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'counter64') {
@@ -69,7 +68,7 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         Counter64(parsed);
-      } on CounterGaugeValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'gauge32') {
@@ -83,7 +82,7 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         TimeTicks(parsed);
-      } on TimeTrackingValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'timeStamp') {
@@ -91,7 +90,7 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         TimeStamp(parsed);
-      } on TimeTrackingValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'hours32') {
@@ -99,7 +98,7 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         Hours32(parsed);
-      } on DurationValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'minutes32') {
@@ -107,7 +106,7 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         Minutes32(parsed);
-      } on DurationValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'seconds32') {
@@ -115,7 +114,7 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         Seconds32(parsed);
-      } on DurationValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'milliseconds32') {
@@ -123,61 +122,61 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         Milliseconds32(parsed);
-      } on DurationValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'dateAndTime') {
       try {
         YangDateTime.parse(strVal);
-      } on DateTimeValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'date') {
       try {
         YangDate.parse(strVal);
-      } on DateTimeValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'dateNoZone') {
       try {
         YangDateNoZone.parse(strVal);
-      } on DateTimeValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'time') {
       try {
         YangTime.parse(strVal);
-      } on DateTimeValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'timeNoZone') {
       try {
         YangTimeNoZone.parse(strVal);
-      } on DateTimeValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'physAddress') {
       try {
         PhysAddress(strVal);
-      } on AddressStringValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'macAddress') {
       try {
         MacAddress(strVal);
-      } on AddressStringValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'uuid') {
       try {
         Uuid(strVal);
-      } on AddressStringValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'dottedQuad') {
       try {
         DottedQuad(strVal);
-      } on AddressStringValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'ipVersion') {
@@ -185,7 +184,7 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         IpVersion(parsed);
-      } on ProtocolFieldValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'dscp') {
@@ -193,7 +192,7 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         Dscp(parsed);
-      } on ProtocolFieldValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'portNumber') {
@@ -201,7 +200,7 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         PortNumber(parsed);
-      } on ProtocolFieldValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'asNumber') {
@@ -209,73 +208,73 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       if (parsed == null) return false;
       try {
         AsNumber(parsed);
-      } on ProtocolFieldValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'ipAddress') {
       try {
         IpAddress.parse(strVal);
-      } on IpAddressValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'ipv4Address') {
       try {
         Ipv4Address(strVal);
-      } on IpAddressValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'ipv6Address') {
       try {
         Ipv6Address(strVal);
-      } on IpAddressValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'ipPrefix') {
       try {
         IpPrefix.parse(strVal);
-      } on IpPrefixValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'ipv4Prefix') {
       try {
         Ipv4Prefix(strVal);
-      } on IpPrefixValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'ipv6Prefix') {
       try {
         Ipv6Prefix(strVal);
-      } on IpPrefixValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'domainName') {
       try {
         DomainName(strVal);
-      } on DomainHostValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'host') {
       try {
         Host.parse(strVal);
-      } on DomainHostValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'uri') {
       try {
         Uri(strVal);
-      } on DomainHostValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'email') {
       try {
         EmailAddress(strVal);
-      } on DomainHostValidationException {
+      } on Exception {
         return false;
       }
     } else if (fd.type == 'geoLocation') {
       try {
         GeoLocation.parse(strVal);
-      } on GeoLocationValidationException {
+      } on Exception {
         return false;
       }
     }

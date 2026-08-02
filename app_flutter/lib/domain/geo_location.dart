@@ -28,14 +28,14 @@ class GeoLocation {
     if (ts != null) {
       try {
         YangDateTime.parse(ts);
-      } on DateTimeValidationException {
+      } on Exception {
         return false;
       }
     }
     if (vu != null) {
       try {
         YangDateTime.parse(vu);
-      } on DateTimeValidationException {
+      } on Exception {
         return false;
       }
     }
@@ -51,7 +51,7 @@ class GeoLocation {
       final end = YangDateTime.parse(vu);
       if (start.parsed == null || end.parsed == null) return null;
       return end.parsed!.difference(start.parsed!);
-    } on DateTimeValidationException {
+    } on Exception {
       return null;
     }
   }
@@ -63,7 +63,7 @@ class GeoLocation {
       final end = YangDateTime.parse(vu);
       if (end.parsed == null) return false;
       return end.parsed!.isBefore(now);
-    } on DateTimeValidationException {
+    } on Exception {
       return false;
     }
   }

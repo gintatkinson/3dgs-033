@@ -76,7 +76,7 @@ class DomainSeedStrategy implements SeedStrategy {
       final lat = (item['latitude'] as num?)?.toDouble();
       final lon = (item['longitude'] as num?)?.toDouble();
       if (lat == null || lon == null) continue;
-      final id = item['name']?.toString() ?? 'ntt_exchange_$i';
+      final id = 'ntt_exchange_$i';
       nttNodes.add({'id': id, 'lat': lat, 'lon': lon});
       _addNodeToBatch(batch, id, null, nttDetails, lat: lat, lon: lon, height: 0.0);
     }
@@ -97,7 +97,7 @@ class DomainSeedStrategy implements SeedStrategy {
       final lat = (item['latitude'] as num?)?.toDouble();
       final lon = (item['longitude'] as num?)?.toDouble();
       if (lat == null || lon == null) continue;
-      final id = item['name']?.toString() ?? 'cable_landing_$i';
+      final id = 'cable_landing_$i';
       landingNodes.add({'id': id, 'lat': lat, 'lon': lon});
       _addNodeToBatch(batch, id, null, landingDetails, lat: lat, lon: lon, height: 0.0);
     }

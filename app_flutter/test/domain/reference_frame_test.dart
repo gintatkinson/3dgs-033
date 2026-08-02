@@ -62,5 +62,32 @@ void main() {
       expect(frame.alternateSystem, isNull);
       expect(frame.hasAlternateSystem, isFalse);
     });
+
+    /// @traces US-13
+    test('should normalize uppercase "Earth" to lowercase', () {
+      final frame = ReferenceFrame(astronomicalBody: 'Earth');
+      expect(frame.astronomicalBody, equals('earth'));
+    });
+
+    /// @traces US-13
+    test('should accept comet designation with forward slash', () {
+      final frame = ReferenceFrame(astronomicalBody: '67p/churyumov-gerasimenko');
+      expect(frame.astronomicalBody, equals('67p/churyumov-gerasimenko'));
+    });
+
+    /// @traces US-13
+    test('should accept moon body when lunar deployment is configured', () {
+      final frame = ReferenceFrame(astronomicalBody: 'moon');
+      expect(frame.astronomicalBody, equals('moon'));
+    });
+
+    /// @traces US-13
+    test('should report non-earth body when astronomical body is not earth', () {
+      final mars = ReferenceFrame(astronomicalBody: 'mars');
+      expect(mars.astronomicalBody, isNot(equals('earth')));
+
+      final earth = ReferenceFrame();
+      expect(earth.astronomicalBody, equals('earth'));
+    });
   });
 }

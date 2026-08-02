@@ -17,6 +17,11 @@ class RackLocation {
 
   bool isValid() => locationRef != null || rowNumber != null || columnNumber != null;
 
+  bool validateRef(Set<String> existingLocationIds) {
+    if (locationRef == null) return true;
+    return existingLocationIds.contains(locationRef);
+  }
+
   Map<String, dynamic> toJson() => {
         if (locationRef != null) 'location_ref': locationRef,
         if (rowNumber != null) 'row_number': rowNumber,

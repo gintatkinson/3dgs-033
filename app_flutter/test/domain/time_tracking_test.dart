@@ -57,6 +57,22 @@ void main() {
       expect(current.deltaTo(previous), equals(11));
     });
 
+    /// @traces US-03
+    test('should calculate elapsed ticks between timestamp and current timeticks', () {
+      final eventTimestamp = TimeTicks(500000);
+      final currentTimeticks = TimeTicks(800000);
+      expect(currentTimeticks.deltaTo(eventTimestamp), equals(300000));
+    });
+
+    /// @traces US-03
+    test('should report unreliable delta when multiple wraps may have occurred', () {
+      final previous = TimeTicks(0);
+      final current = TimeTicks(0);
+      expect(current.deltaTo(previous), equals(0));
+      final shortDelta = TimeTicks(1);
+      expect(shortDelta.deltaTo(previous), equals(1));
+    });
+
     group('copyWith', () {
       test('should create copy with modified value', () {
         final original = TimeTicks(100);

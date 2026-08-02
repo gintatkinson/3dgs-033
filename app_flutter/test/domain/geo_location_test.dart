@@ -96,6 +96,80 @@ void main() {
     });
   });
 
+    /// @traces US-10
+    /// @traces US-10
+    test('should be expired at boundary instant when valid-until equals current time',
+        () {
+      final gl = GeoLocation(validUntil: '2025-06-01T12:00:00Z');
+      expect(gl.isExpired(DateTime.utc(2025, 6, 1, 12, 0, 0)), isTrue);
+    });
+
+    /// @traces US-10
+    test('should not be expired at boundary minus one second', () {
+      final gl = GeoLocation(validUntil: '2025-06-01T12:00:00Z');
+      expect(
+        gl.isExpired(DateTime.utc(2025, 6, 1, 11, 59, 59)),
+        isFalse,
+      );
+    });
+
+    /// @traces US-10
+    test('should allow revalidation when valid-until is extended to future', () {
+      final gl = GeoLocation(validUntil: '2020-01-01T00:00:00Z');
+      expect(gl.isExpired(DateTime(2025, 6, 1)), isTrue);
+      final revalidated = GeoLocation(
+        validUntil: '2030-01-01T00:00:00Z',
+      );
+      expect(revalidated.isExpired(DateTime(2025, 6, 1)), isFalse);
+    });
+
+    /// @traces US-10
+    test('should have readable data when expired for forensic access', () {
+      final gl = GeoLocation(
+        timestamp: '2012-03-31T16:00:00Z',
+        validUntil: '2020-01-01T00:00:00Z',
+        astronomicalBody: 'earth',
+        geodeticDatum: 'wgs-84',
+      );
+      expect(gl.isExpired(DateTime(2025, 6, 1)), isTrue);
+      expect(gl.timestamp, equals('2012-03-31T16:00:00Z'));
+      expect(gl.astronomicalBody, equals('earth'));
+      expect(gl.geodeticDatum, equals('wgs-84'));
+    });
+
+    /// @traces US-15
+    test(
+        'should compute negative-duration window when valid-until is before timestamp',
+        () {
+      final gl = GeoLocation(
+        timestamp: '2026-06-01T12:00:00Z',
+        validUntil: '2026-01-01T00:00:00Z',
+      );
+      final window = gl.validityWindow();
+      expect(window, isNotNull);
+      expect(window!.inHours, lessThan(0));
+    });
+
+    /// @traces US-15
+    test('should compute zero-duration window when timestamp equals valid-until', () {
+      final gl = GeoLocation(
+        timestamp: '2026-06-01T12:00:00Z',
+        validUntil: '2026-06-01T12:00:00Z',
+      );
+      final window = gl.validityWindow();
+      expect(window, isNotNull);
+      expect(window!.inSeconds, equals(0));
+    });
+
+    /// @traces US-15
+    test('should handle timezone-aware date-comparison for expiry', () {
+      final gl = GeoLocation(validUntil: '2026-06-01T07:00:00+05:00');
+      final utcEq = DateTime.utc(2026, 6, 1, 2, 0, 0);
+      expect(gl.isExpired(utcEq), isTrue);
+      final utcBefore = DateTime.utc(2026, 6, 1, 1, 59, 59);
+      expect(gl.isExpired(utcBefore), isFalse);
+    });
+
   group('GeoLocationExpiryError', () {
     test('should store descriptive message', () {
       const ex = GeoLocationExpiryError('test error');

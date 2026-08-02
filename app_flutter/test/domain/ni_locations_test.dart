@@ -112,5 +112,111 @@ void main() {
       expect(a.hashCode, equals(b.hashCode));
       expect(a, isNot(equals(c)));
     });
+
+    /// @traces US-16
+    group('isDispatchReady', () {
+      test('should be dispatch-ready when address is set and not expired', () {
+        final loc = NiLocation(
+          id: 'Site-Ready',
+          validUntil: '2030-12-31T23:59:59Z',
+          address: '123 Main St',
+        );
+        expect(loc.isDispatchReady(DateTime(2026, 1, 1)), isTrue);
+      });
+
+      test('should be dispatch-ready when address is set and validUntil is null', () {
+        final loc = NiLocation(
+          id: 'Site-Ready',
+          address: '123 Main St',
+        );
+        expect(loc.isDispatchReady(DateTime(2026, 1, 1)), isTrue);
+      });
+
+      test('should not be dispatch-ready when validUntil is in the past', () {
+        final loc = NiLocation(
+          id: 'Site-Stale',
+          validUntil: '2020-01-01T00:00:00Z',
+          address: '123 Main St',
+        );
+        expect(loc.isDispatchReady(DateTime(2026, 1, 1)), isFalse);
+      });
+
+      test('should not be dispatch-ready when address is null', () {
+        final loc = NiLocation(
+          id: 'Site-NoAddr',
+          validUntil: '2030-12-31T23:59:59Z',
+        );
+        expect(loc.isDispatchReady(DateTime(2026, 1, 1)), isFalse);
+      });
+
+      test('should not be dispatch-ready when both address is null and expired', () {
+        final loc = NiLocation(
+          id: 'Site-Nothing',
+          validUntil: '2020-01-01T00:00:00Z',
+        );
+        expect(loc.isDispatchReady(DateTime(2026, 1, 1)), isFalse);
+      });
+
+      test('should be dispatch-ready when validUntil is at boundary min-plus-one', () {
+        final loc = NiLocation(
+          id: 'Site-BoundaryOk',
+          validUntil: '2025-06-01T12:00:00Z',
+          address: '1 Main St',
+        );
+        final beforeBoundary = DateTime.utc(2025, 6, 1, 11, 59, 59);
+        expect(loc.isDispatchReady(beforeBoundary), isTrue);
+      });
+    });
+
+    /// @traces US-20
+    group('resolvePath', () {
+      test('should resolve single-level path when node has no parent', () {
+        final map = <String, String>{};
+        final path = NiLocation.resolvePath('Root-Site', map);
+        expect(path, equals(['Root-Site']));
+      });
+
+      test('should resolve three-level hierarchy path', () {
+        final map = <String, String>{
+          'Room-101': 'Building-A',
+          'Building-A': 'Foo-DC',
+        };
+        final path = NiLocation.resolvePath('Room-101', map);
+        expect(path, equals(['Room-101', 'Building-A', 'Foo-DC']));
+      });
+
+      test('should treat missing parent in map as root', () {
+        final map = <String, String>{
+          'Room-101': 'Building-A',
+        };
+        final path = NiLocation.resolvePath('Room-101', map);
+        expect(path, equals(['Room-101', 'Building-A']));
+      });
+
+      test('should detect cycle and throw StateError', () {
+        final map = <String, String>{
+          'A': 'B',
+          'B': 'A',
+        };
+        expect(
+          () => NiLocation.resolvePath('A', map),
+          throwsA(isA<StateError>()),
+        );
+      });
+
+      test('should enforce configurable max-depth limit', () {
+        final map = <String, String>{
+          'L1': 'L2',
+          'L2': 'L3',
+          'L3': 'L4',
+          'L4': 'L5',
+          'L5': 'L6',
+        };
+        expect(
+          () => NiLocation.resolvePath('L1', map, maxDepth: 3),
+          throwsA(isA<StateError>()),
+        );
+      });
+    });
   });
 }

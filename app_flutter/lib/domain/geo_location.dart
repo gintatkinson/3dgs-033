@@ -83,7 +83,19 @@ class GeoLocation {
     try {
       final end = YangDateTime.parse(vu);
       if (end.parsed == null) return false;
-      return end.parsed!.isBefore(now);
+      return !end.parsed!.isAfter(now);
+    } on Exception {
+      return false;
+    }
+  }
+
+  bool canRevalidate(DateTime now) {
+    final vu = validUntil;
+    if (vu == null) return false;
+    try {
+      final end = YangDateTime.parse(vu);
+      if (end.parsed == null) return false;
+      return end.parsed!.isAfter(now);
     } on Exception {
       return false;
     }

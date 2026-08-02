@@ -85,5 +85,55 @@ void main() {
       expect(restored.height, equals(coord.height));
       expect(restored.type, equals(coord.type));
     });
+
+    /// @traces US-19
+    test('should accept valid height within configured altitude ceiling', () {
+      final coord = EllipsoidCoordinate(
+        latitude: 27.9881,
+        longitude: 86.9250,
+        height: 8848.0,
+      );
+      expect(coord.height, equals(8848.0));
+      expect(coord.isValid(), isTrue);
+    });
+
+    /// @traces US-19
+    test('should accept negative height for coordinates below ellipsoid surface', () {
+      final coord = EllipsoidCoordinate(
+        latitude: 31.5,
+        longitude: 35.5,
+        height: -423.0,
+      );
+      expect(coord.height, equals(-423.0));
+      expect(coord.isValid(), isTrue);
+    });
+
+    /// @traces US-19
+    test('should accept lat exactly at 90 degrees (North Pole)', () {
+      final coord = EllipsoidCoordinate(latitude: 90.0, longitude: 0.0);
+      expect(coord.latitude, equals(90.0));
+      expect(coord.isValid(), isTrue);
+    });
+
+    /// @traces US-19
+    test('should accept lat exactly at -90 degrees (South Pole)', () {
+      final coord = EllipsoidCoordinate(latitude: -90.0, longitude: 0.0);
+      expect(coord.latitude, equals(-90.0));
+      expect(coord.isValid(), isTrue);
+    });
+
+    /// @traces US-19
+    test('should accept long exactly at 180 degrees', () {
+      final coord = EllipsoidCoordinate(latitude: 0.0, longitude: 180.0);
+      expect(coord.longitude, equals(180.0));
+      expect(coord.isValid(), isTrue);
+    });
+
+    /// @traces US-19
+    test('should accept long exactly at -180 degrees (antimeridian)', () {
+      final coord = EllipsoidCoordinate(latitude: 0.0, longitude: -180.0);
+      expect(coord.longitude, equals(-180.0));
+      expect(coord.isValid(), isTrue);
+    });
   });
 }

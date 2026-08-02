@@ -83,6 +83,54 @@ void main() {
       expect(rack.isExpired(DateTime(2026, 8, 2)), isFalse);
     });
 
+    /// @traces US-18
+    test('should be expired at exact boundary instant', () {
+      final rack = Rack(
+        id: 'Rack-Boundary',
+        validUntil: '2025-06-01T12:00:00Z',
+      );
+
+      expect(
+        rack.isExpired(DateTime.utc(2025, 6, 1, 12, 0, 0)),
+        isTrue,
+      );
+    });
+
+    /// @traces US-18
+    test('should not be expired one second before boundary', () {
+      final rack = Rack(
+        id: 'Rack-PreBoundary',
+        validUntil: '2025-06-01T12:00:00Z',
+      );
+
+      expect(
+        rack.isExpired(DateTime.utc(2025, 6, 1, 11, 59, 59)),
+        isFalse,
+      );
+    });
+
+    /// @traces US-18
+    test('should allow revalidation by extending validUntil', () {
+      final expiredRack = Rack(
+        id: 'Rack-Revalidate',
+        validUntil: '2020-01-01T00:00:00Z',
+      );
+      expect(expiredRack.isExpired(DateTime(2025, 6, 1)), isTrue);
+
+      final revalidated = expiredRack.copyWith(
+        validUntil: '2030-01-01T00:00:00Z',
+      );
+      expect(revalidated.isExpired(DateTime(2025, 6, 1)), isFalse);
+      expect(revalidated.id, equals('Rack-Revalidate'));
+    });
+
+    /// @traces US-25
+    test('should be unclassified when rackClass is null', () {
+      final rack = Rack(id: 'Rack-Unclassified');
+      expect(rack.rackClass, isNull);
+      expect(rack.isValid(), isTrue);
+    });
+
     test('should preserve all fields when roundtripping to JSON', () {
       final rack = Rack(
         id: 'Rack-101-A',

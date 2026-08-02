@@ -93,5 +93,67 @@ void main() {
       expect(notCapable.isBreakoutCapable, isFalse);
       expect(notCapable.isChannelized(), isFalse);
     });
+
+    /// @traces US-41
+    test('should expose channel count as read-only hardware capability', () {
+      const dr4 = PortBreakout(isBreakoutCapable: true, channelCount: 4);
+      expect(dr4.isBreakoutCapable, isTrue);
+      expect(dr4.channelCount, equals(4));
+
+      const sfp = PortBreakout();
+      expect(sfp.isBreakoutCapable, isFalse);
+      expect(sfp.channelCount, isNull);
+    });
+
+    /// @traces US-41
+    test('should retain breakout hardware capability regardless of configuration', () {
+      const trunkMode = PortBreakout(isBreakoutCapable: true, channelCount: 4);
+      expect(trunkMode.isBreakoutCapable, isTrue);
+      expect(trunkMode.channelCount, equals(4));
+
+      const breakoutMode = PortBreakout(isBreakoutCapable: true, channelCount: 4);
+      expect(breakoutMode.isBreakoutCapable, isTrue);
+      expect(breakoutMode.channelCount, equals(4));
+    });
+
+    /// @traces US-42
+    group('canAssignChannel', () {
+      test('should allow assignment when channel is free', () {
+        const breakout = PortBreakout(isBreakoutCapable: true, channelCount: 4);
+        expect(breakout.canAssignChannel(1, const {}), isTrue);
+      });
+
+      test('should reject assignment when channel is already allocated', () {
+        const breakout = PortBreakout(isBreakoutCapable: true, channelCount: 4);
+        expect(breakout.canAssignChannel(1, const {1, 2}), isFalse);
+      });
+
+      test('should reject assignment when channelId is out of bounds', () {
+        const breakout = PortBreakout(isBreakoutCapable: true, channelCount: 4);
+        expect(breakout.canAssignChannel(5, const {}), isFalse);
+        expect(breakout.canAssignChannel(0, const {}), isFalse);
+      });
+
+      test('should reject assignment when port is not breakout capable', () {
+        const breakout = PortBreakout();
+        expect(breakout.canAssignChannel(1, const {}), isFalse);
+      });
+
+      test('should allow reassignment after channel is released', () {
+        const breakout = PortBreakout(isBreakoutCapable: true, channelCount: 4);
+        const initiallyAllocated = {1};
+        expect(breakout.canAssignChannel(1, initiallyAllocated), isFalse);
+        const released = <int>{};
+        expect(breakout.canAssignChannel(1, released), isTrue);
+      });
+
+      test('should enforce all channels exclusive when fully allocated', () {
+        const breakout = PortBreakout(isBreakoutCapable: true, channelCount: 4);
+        const allAllocated = {1, 2, 3, 4};
+        for (var i = 1; i <= 4; i++) {
+          expect(breakout.canAssignChannel(i, allAllocated), isFalse);
+        }
+      });
+    });
   });
 }

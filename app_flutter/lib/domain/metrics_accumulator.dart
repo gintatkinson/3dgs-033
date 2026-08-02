@@ -257,19 +257,28 @@ class FrameDropAccumulator {
     return drops / span;
   }
 
+  /// Returns the percentage of dropped frames within the sliding
+  /// [defaultWindow] of the most recent frame.
+  ///
+  /// Returns `0.0` when the accumulator is empty or the window
+  /// contains no frames.
+  double dropPercentage() {
+    if (_records.isEmpty) return 0.0;
+    final latest = _records.last.timestamp;
+    final cutoff = latest.subtract(defaultWindow);
+    final recent = _records.where((r) => !r.timestamp.isBefore(cutoff)).toList();
+    if (recent.isEmpty) return 0.0;
+    final drops = recent.where((r) => r.frameTime > dropThreshold).length;
+    return 100.0 * drops / recent.length;
+  }
+
   /// Returns `true` when fewer than 1% of recent frames are dropped.
   ///
   /// Frames are considered "recent" when they fall within
   /// [defaultWindow] of the most recent frame. Returns `true` for
   /// an empty accumulator.
   bool isHealthy() {
-    if (_records.isEmpty) return true;
-    final latest = _records.last.timestamp;
-    final cutoff = latest.subtract(defaultWindow);
-    final recent = _records.where((r) => !r.timestamp.isBefore(cutoff)).toList();
-    if (recent.isEmpty) return true;
-    final drops = recent.where((r) => r.frameTime > dropThreshold).length;
-    return (drops / recent.length) < 0.01;
+    return dropPercentage() < 1.0;
   }
 
   @override

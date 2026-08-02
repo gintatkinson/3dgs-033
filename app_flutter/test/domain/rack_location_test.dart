@@ -44,5 +44,30 @@ void main() {
       expect(restored.rowNumber, equals(location.rowNumber));
       expect(restored.columnNumber, equals(location.columnNumber));
     });
+
+    /// @traces US-21
+    group('validateRef', () {
+      test('should validate when locationRef exists in the location set', () {
+        final location = RackLocation(locationRef: 'Room-101');
+        final ids = {'Room-101', 'Room-201', 'Building-A'};
+        expect(location.validateRef(ids), isTrue);
+      });
+
+      test('should flag dangling ref when locationRef is not in set', () {
+        final location = RackLocation(locationRef: 'Removed-Room');
+        final ids = {'Room-101', 'Room-201'};
+        expect(location.validateRef(ids), isFalse);
+      });
+
+      test('should pass validation when locationRef is null', () {
+        final location = RackLocation(rowNumber: 5, columnNumber: 3);
+        expect(location.validateRef({}), isTrue);
+      });
+
+      test('should return false when locationRef is set and set is empty', () {
+        final location = RackLocation(locationRef: 'Room-101');
+        expect(location.validateRef(const {}), isFalse);
+      });
+    });
   });
 }

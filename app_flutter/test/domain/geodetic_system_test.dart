@@ -72,5 +72,43 @@ void main() {
       expect(restored.coordAccuracy, equals(0.000001));
       expect(restored.heightAccuracy, equals(0.01));
     });
+
+    /// @traces US-14
+    test('should use explicit coord-accuracy override over datum default', () {
+      final gs = GeodeticSystem(
+        geodeticDatum: 'wgs-84',
+        coordAccuracy: 0.000001,
+      );
+      expect(gs.coordAccuracy, equals(0.000001));
+      expect(gs.heightAccuracy, isNull);
+    });
+
+    /// @traces US-14
+    test('should fall back to null accuracy when no override configured', () {
+      final gs = GeodeticSystem(geodeticDatum: 'wgs-84');
+      expect(gs.coordAccuracy, isNull);
+      expect(gs.heightAccuracy, isNull);
+    });
+
+    /// @traces US-14
+    test('should accept height-accuracy override without coord-accuracy', () {
+      final gs = GeodeticSystem(heightAccuracy: 0.01);
+      expect(gs.coordAccuracy, isNull);
+      expect(gs.heightAccuracy, equals(0.01));
+    });
+
+    test('should throw AccuracyRangeError when accuracy is NaN', () {
+      expect(
+        () => GeodeticSystem(coordAccuracy: double.nan),
+        throwsA(isA<AccuracyRangeError>()),
+      );
+    });
+
+    test('should throw AccuracyRangeError when accuracy is infinite', () {
+      expect(
+        () => GeodeticSystem(coordAccuracy: double.infinity),
+        throwsA(isA<AccuracyRangeError>()),
+      );
+    });
   });
 }

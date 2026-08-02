@@ -64,10 +64,34 @@ class Rack {
     if (validUntil == null) return false;
     try {
       final expiry = DateTime.parse(validUntil!);
-      return expiry.isBefore(now);
+      return !expiry.isAfter(now);
     } on FormatException {
       return false;
     }
+  }
+
+  Rack copyWith({
+    String? id,
+    String? rackClass,
+    int? height,
+    int? width,
+    int? depth,
+    int? maxVoltage,
+    int? maxAllocatedPower,
+    String? timestamp,
+    String? validUntil,
+  }) {
+    return Rack(
+      id: id ?? this.id,
+      rackClass: rackClass ?? this.rackClass,
+      height: height ?? this.height,
+      width: width ?? this.width,
+      depth: depth ?? this.depth,
+      maxVoltage: maxVoltage ?? this.maxVoltage,
+      maxAllocatedPower: maxAllocatedPower ?? this.maxAllocatedPower,
+      timestamp: timestamp ?? this.timestamp,
+      validUntil: validUntil ?? this.validUntil,
+    );
   }
 
   Map<String, dynamic> toJson() => {

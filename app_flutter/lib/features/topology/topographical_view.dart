@@ -8,6 +8,7 @@ import 'package:app_flutter/features/tree/tree_node.dart';
 import 'package:app_flutter/features/topology/scene_3d_viewport.dart';
 import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart';
 import 'package:app_flutter/features/topology/velocity_hud_card.dart';
+import 'package:app_flutter/features/topology/frame_health_indicator.dart';
 
 /// The top-level topology view: breadcrumb header + split workspace
 /// (topology map + detail child) or standalone topology map.
@@ -237,6 +238,11 @@ class _TopographicalViewState extends State<TopographicalView> {
                 validUntil: validUntil,
               ),
             ),
+          const Positioned(
+            bottom: 16,
+            right: 16,
+            child: FrameHealthIndicator(),
+          ),
           Positioned(
             top: 0,
             left: 0,

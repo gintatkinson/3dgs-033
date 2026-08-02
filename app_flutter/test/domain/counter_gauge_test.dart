@@ -177,6 +177,35 @@ void main() {
       expect(gauge.value, 0);
     });
 
+    /// @traces US-02
+    test('should recover from max saturation when reading decreases', () {
+      final saturated = Gauge32(4294967294).set(4294967296);
+      expect(saturated.value, equals(4294967295));
+      expect(saturated.isSaturated, isTrue);
+
+      final recovered = saturated.set(4294967290);
+      expect(recovered.value, equals(4294967290));
+      expect(recovered.isSaturated, isFalse);
+    });
+
+    /// @traces US-02
+    test('should recover from min saturation when reading increases', () {
+      final saturated = Gauge32(1).set(-1);
+      expect(saturated.value, equals(0));
+      expect(saturated.isSaturated, isTrue);
+
+      final recovered = saturated.set(10);
+      expect(recovered.value, equals(10));
+      expect(recovered.isSaturated, isFalse);
+    });
+
+    /// @traces US-02
+    test('should not signal saturation when value is within normal range', () {
+      final gauge = Gauge32(100).set(200);
+      expect(gauge.value, equals(200));
+      expect(gauge.isSaturated, isFalse);
+    });
+
     group('copyWith', () {
       test('should create copy with modified value', () {
         final original = Gauge32(50);

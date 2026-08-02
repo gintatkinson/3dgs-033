@@ -45,10 +45,35 @@ class NiLocation {
     if (validUntil == null) return false;
     try {
       final expiry = DateTime.parse(validUntil!);
-      return expiry.isBefore(now);
+      return !expiry.isAfter(now);
     } on FormatException {
       return false;
     }
+  }
+
+  bool isDispatchReady(DateTime now) {
+    if (isExpired(now)) return false;
+    return address != null;
+  }
+
+  static List<String> resolvePath(String startId, Map<String, String> parentMap, {int maxDepth = 100}) {
+    final path = <String>[startId];
+    String? cursor = parentMap[startId];
+    var depth = 0;
+    final visited = <String>{startId};
+    while (cursor != null && depth < maxDepth) {
+      if (visited.contains(cursor)) {
+        throw StateError('Cycle detected in location hierarchy at $cursor');
+      }
+      path.add(cursor);
+      visited.add(cursor);
+      cursor = parentMap[cursor];
+      depth++;
+    }
+    if (depth >= maxDepth && cursor != null) {
+      throw StateError('Max depth ($maxDepth) exceeded in location hierarchy');
+    }
+    return path;
   }
 
   Map<String, dynamic> toJson() => {

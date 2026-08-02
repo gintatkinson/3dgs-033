@@ -8,6 +8,7 @@ import 'package:app_flutter/core/theme/theme_service.dart';
 import 'package:app_flutter/domain/data_source.dart';
 import 'package:app_flutter/core/di/repository_resolver.dart';
 import 'package:app_flutter/core/string_resources.dart';
+import 'package:app_flutter/features/topology/frame_health_notifier.dart';
 import 'package:app_flutter/app/app.dart';
 
 // Benchmark access hooks — set after initialization
@@ -35,10 +36,14 @@ Future<void> main() async {
     final textScalerController = TextScalerController(themeService);
     await textScalerController.load();
 
+    final frameHealthNotifier = FrameHealthNotifier();
+
     globalThemeController = themeController;
     globalTextScalerController = textScalerController;
 
     await StringResources.load();
+
+    frameHealthNotifier.start();
 
     runApp(
       MultiProvider(
@@ -46,6 +51,7 @@ Future<void> main() async {
           Provider<DataSource>.value(value: dataSource),
           ChangeNotifierProvider<ThemeController>.value(value: themeController),
           ChangeNotifierProvider<TextScalerController>.value(value: textScalerController),
+          ChangeNotifierProvider<FrameHealthNotifier>.value(value: frameHealthNotifier),
         ],
         child: const MyApp(),
       ),

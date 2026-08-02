@@ -138,6 +138,13 @@ class PortBreakout {
   bool isChannelized() =>
       isBreakoutCapable && channelCount != null && channelCount! > 0;
 
+  bool canAssignChannel(int channelId, Set<int> allocatedChannels) {
+    if (!isChannelized()) return false;
+    if (channelCount == null) return false;
+    if (channelId < 1 || channelId > channelCount!) return false;
+    return !allocatedChannels.contains(channelId);
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

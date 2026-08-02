@@ -3,192 +3,192 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('IpVersion', () {
-    test('IpVersion 0 valid (unknown)', () {
+    test('should accept 0 when version is unknown', () {
       final ipv = IpVersion(0);
       expect(ipv.value, 0);
     });
 
-    test('IpVersion 1 valid (ipv4)', () {
+    test('should accept 1 when version is ipv4', () {
       final ipv = IpVersion(1);
       expect(ipv.value, 1);
     });
 
-    test('IpVersion 2 valid (ipv6)', () {
+    test('should accept 2 when version is ipv6', () {
       final ipv = IpVersion(2);
       expect(ipv.value, 2);
     });
 
-    test('IpVersion 3 rejects (out of range)', () {
+    test('should throw IpVersionError when value exceeds maxValue', () {
       expect(
         () => IpVersion(3),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<IpVersionError>()),
       );
     });
 
-    test('IpVersion rejects negative value', () {
+    test('should throw IpVersionError when value is negative', () {
       expect(
         () => IpVersion(-1),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<IpVersionError>()),
       );
     });
   });
 
   group('Dscp', () {
-    test('Dscp 0 valid', () {
+    test('should accept 0 when value is at minimum', () {
       final dscp = Dscp(0);
       expect(dscp.value, 0);
     });
 
-    test('Dscp 63 valid', () {
+    test('should accept 63 when value is at maximum', () {
       final dscp = Dscp(63);
       expect(dscp.value, 63);
     });
 
-    test('Dscp 64 rejects (out of range)', () {
+    test('should throw DscpRangeError when value exceeds maxValue', () {
       expect(
         () => Dscp(64),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<DscpRangeError>()),
       );
     });
 
-    test('Dscp rejects negative value', () {
+    test('should throw DscpRangeError when value is negative', () {
       expect(
         () => Dscp(-1),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<DscpRangeError>()),
       );
     });
   });
 
   group('Ipv6FlowLabel', () {
-    test('Ipv6FlowLabel 0 valid', () {
+    test('should accept 0 when value is at minimum', () {
       final label = Ipv6FlowLabel(0);
       expect(label.value, 0);
     });
 
-    test('Ipv6FlowLabel 1048575 valid', () {
+    test('should accept 1048575 when value is at maximum', () {
       final label = Ipv6FlowLabel(1048575);
       expect(label.value, 1048575);
     });
 
-    test('Ipv6FlowLabel 1048576 rejects (out of range)', () {
+    test('should throw FlowLabelError when value exceeds maxValue', () {
       expect(
         () => Ipv6FlowLabel(1048576),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<FlowLabelError>()),
       );
     });
 
-    test('Ipv6FlowLabel rejects negative value', () {
+    test('should throw FlowLabelError when value is negative', () {
       expect(
         () => Ipv6FlowLabel(-1),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<FlowLabelError>()),
       );
     });
   });
 
   group('PortNumber', () {
-    test('PortNumber 80 valid', () {
+    test('should accept 80 when port is HTTP', () {
       final port = PortNumber(80);
       expect(port.value, 80);
     });
 
-    test('PortNumber 0 valid', () {
+    test('should accept 0 when value is at minimum', () {
       final port = PortNumber(0);
       expect(port.value, 0);
     });
 
-    test('PortNumber 65535 valid (max)', () {
+    test('should accept 65535 when value is at maximum', () {
       final port = PortNumber(65535);
       expect(port.value, 65535);
     });
 
-    test('PortNumber 65536 rejects (out of range)', () {
+    test('should throw PortNumberError when value exceeds maxValue', () {
       expect(
         () => PortNumber(65536),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<PortNumberError>()),
       );
     });
 
-    test('PortNumber rejects negative value', () {
+    test('should throw PortNumberError when value is negative', () {
       expect(
         () => PortNumber(-1),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<PortNumberError>()),
       );
     });
   });
 
   group('ProtocolNumber', () {
-    test('ProtocolNumber 6 valid (TCP)', () {
+    test('should accept 6 when protocol is TCP', () {
       final proto = ProtocolNumber(6);
       expect(proto.value, 6);
     });
 
-    test('ProtocolNumber 0 valid', () {
+    test('should accept 0 when value is at minimum', () {
       final proto = ProtocolNumber(0);
       expect(proto.value, 0);
     });
 
-    test('ProtocolNumber 255 valid (max)', () {
+    test('should accept 255 when value is at maximum', () {
       final proto = ProtocolNumber(255);
       expect(proto.value, 255);
     });
 
-    test('ProtocolNumber 256 rejects (out of range)', () {
+    test('should throw ProtocolNumberError when value exceeds maxValue', () {
       expect(
         () => ProtocolNumber(256),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<ProtocolNumberError>()),
       );
     });
 
-    test('ProtocolNumber rejects negative value', () {
+    test('should throw ProtocolNumberError when value is negative', () {
       expect(
         () => ProtocolNumber(-1),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<ProtocolNumberError>()),
       );
     });
   });
 
   group('UpperLayerProtocolNumber', () {
-    test('UpperLayerProtocolNumber extends ProtocolNumber', () {
+    test('should extend ProtocolNumber when constructed with valid value', () {
       final ulpn = UpperLayerProtocolNumber(17);
       expect(ulpn, isA<ProtocolNumber>());
       expect(ulpn.value, 17);
     });
 
-    test('UpperLayerProtocolNumber rejects value above 255', () {
+    test('should throw ProtocolNumberError when value exceeds 255', () {
       expect(
         () => UpperLayerProtocolNumber(256),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<ProtocolNumberError>()),
       );
     });
   });
 
   group('AsNumber', () {
-    test('AsNumber 64512 valid', () {
+    test('should accept 64512 when value is within range', () {
       final asn = AsNumber(64512);
       expect(asn.value, 64512);
     });
 
-    test('AsNumber 0 valid', () {
+    test('should accept 0 when value is at minimum', () {
       final asn = AsNumber(0);
       expect(asn.value, 0);
     });
 
-    test('AsNumber 4294967295 valid (max 32-bit)', () {
+    test('should accept 4294967295 when value is at maximum 32-bit', () {
       final asn = AsNumber(4294967295);
       expect(asn.value, 4294967295);
     });
 
-    test('AsNumber 4294967296 rejects (exceeds 32-bit)', () {
+    test('should throw AsNumberError when value exceeds 32-bit range', () {
       expect(
         () => AsNumber(4294967296),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<AsNumberError>()),
       );
     });
 
-    test('AsNumber rejects negative value', () {
+    test('should throw AsNumberError when value is negative', () {
       expect(
         () => AsNumber(-1),
-        throwsA(isA<ProtocolFieldValidationException>()),
+        throwsA(isA<AsNumberError>()),
       );
     });
   });

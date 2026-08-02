@@ -1,12 +1,23 @@
-class NiLocationValidationException implements Exception {
-  final String message;
+import 'package:app_flutter/domain/annotations.dart';
+import 'package:meta/meta.dart';
 
-  const NiLocationValidationException(this.message);
+/// Thrown when a location id is empty or whitespace-only.
+@immutable
+class LocationIdError implements Exception {
+  final String message;
+  const LocationIdError(this.message);
 
   @override
-  String toString() => 'NiLocationValidationException: $message';
+  String toString() => 'LocationIdError: $message';
 }
 
+/// Represents a network inventory location as defined in UML::NiLocation.
+///
+/// [id] is a required unique identifier.
+/// [type] is the location type (e.g. "site", "building", "equipment room").
+/// [parent] references the parent location for hierarchical structures.
+@immutable
+@realizes(r'UML::NiLocation')
 class NiLocation {
   final String id;
   final String? type;
@@ -24,7 +35,7 @@ class NiLocation {
     this.address,
   }) {
     if (id.trim().isEmpty) {
-      throw const NiLocationValidationException('id must not be empty');
+      throw const LocationIdError('id must not be empty');
     }
   }
 

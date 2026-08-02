@@ -1,10 +1,14 @@
-class RackValidationException implements Exception {
-  final String message;
+import 'package:app_flutter/domain/annotations.dart';
+import 'package:meta/meta.dart';
 
-  const RackValidationException(this.message);
+/// Thrown when a rack id is empty or a rack class value is invalid.
+@immutable
+class RackClassError implements Exception {
+  final String message;
+  const RackClassError(this.message);
 
   @override
-  String toString() => 'RackValidationException: $message';
+  String toString() => 'RackClassError: $message';
 }
 
 const _validRackClasses = {
@@ -14,6 +18,14 @@ const _validRackClasses = {
   'rack-secure-high',
 };
 
+/// Represents a physical rack as defined in UML::Rack.
+///
+/// [id] is a required identifier.
+/// [rackClass] must be one of the predefined rack classes.
+/// [height], [width], [depth] are physical dimensions in mm.
+/// [maxVoltage] and [maxAllocatedPower] are electrical limits.
+@immutable
+@realizes(r'UML::Rack')
 class Rack {
   final String id;
   final String? rackClass;
@@ -37,10 +49,10 @@ class Rack {
     this.validUntil,
   }) {
     if (id.trim().isEmpty) {
-      throw const RackValidationException('id must not be empty');
+      throw const RackClassError('id must not be empty');
     }
     if (rackClass != null && !_validRackClasses.contains(rackClass)) {
-      throw RackValidationException(
+      throw RackClassError(
         'invalid rack-class: "$rackClass", must be one of: ${_validRackClasses.join(", ")}',
       );
     }

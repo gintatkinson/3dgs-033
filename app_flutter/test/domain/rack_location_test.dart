@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('RackLocation', () {
-    test('valid reference with only locationRef set', () {
+    test('should be valid when only locationRef is set', () {
       final location = RackLocation(locationRef: 'Room-101');
 
       expect(location.locationRef, equals('Room-101'));
@@ -12,7 +12,7 @@ void main() {
       expect(location.isValid(), isTrue);
     });
 
-    test('valid grid position with rowNumber and columnNumber only', () {
+    test('should be valid when only rowNumber and columnNumber are set', () {
       final location = RackLocation(rowNumber: 5, columnNumber: 3);
 
       expect(location.locationRef, isNull);
@@ -21,7 +21,7 @@ void main() {
       expect(location.isValid(), isTrue);
     });
 
-    test('null all fields is invalid', () {
+    test('should be invalid when all fields are null', () {
       final location = RackLocation();
 
       expect(location.locationRef, isNull);
@@ -30,7 +30,7 @@ void main() {
       expect(location.isValid(), isFalse);
     });
 
-    test('JSON roundtrip preserves all fields', () {
+    test('should preserve all fields when roundtripping to JSON', () {
       final location = RackLocation(
         locationRef: 'Room-101',
         rowNumber: 1,

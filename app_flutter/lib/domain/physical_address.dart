@@ -1,12 +1,21 @@
-class PhysicalAddressValidationException implements Exception {
-  final String message;
+import 'package:app_flutter/domain/annotations.dart';
+import 'package:meta/meta.dart';
 
-  const PhysicalAddressValidationException(this.message);
+/// Thrown when a country code fails ISO 3166-1 alpha-2 format validation.
+@immutable
+class CountryCodeFormatError implements Exception {
+  final String message;
+  const CountryCodeFormatError(this.message);
 
   @override
-  String toString() => 'PhysicalAddressValidationException: $message';
+  String toString() => 'CountryCodeFormatError: $message';
 }
 
+/// Represents a physical address as defined in UML::PhysicalAddress.
+///
+/// Fields correspond to address components; all are optional but at least one must be set for validity.
+@immutable
+@realizes(r'UML::PhysicalAddress')
 class PhysicalAddress {
   static final _countryCodePattern = RegExp(r'^[A-Z]{2}$');
 

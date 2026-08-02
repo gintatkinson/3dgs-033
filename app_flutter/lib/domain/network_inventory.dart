@@ -1,12 +1,29 @@
-class NetworkInventoryValidationException implements Exception {
-  final String message;
+import 'package:app_flutter/domain/annotations.dart';
+import 'package:meta/meta.dart';
 
-  const NetworkInventoryValidationException(this.message);
+/// Thrown when a network element id is empty.
+@immutable
+class NeIdError implements Exception {
+  final String message;
+  const NeIdError(this.message);
 
   @override
-  String toString() => 'NetworkInventoryValidationException: $message';
+  String toString() => 'NeIdError: $message';
 }
 
+/// Thrown when a component id is empty.
+@immutable
+class ComponentIdError implements Exception {
+  final String message;
+  const ComponentIdError(this.message);
+
+  @override
+  String toString() => 'ComponentIdError: $message';
+}
+
+/// Represents the root network inventory container as defined in UML::NetworkInventory.
+@immutable
+@realizes(r'UML::NetworkInventory')
 class NetworkInventory {
   NetworkInventory();
 
@@ -36,6 +53,14 @@ class NetworkInventory {
   String toString() => 'NetworkInventory()';
 }
 
+/// Represents a physical or logical network element as defined in UML::NetworkElement.
+///
+/// [neId] is a required unique identifier.
+/// [neType] categorizes the element (e.g. "nwi:ne-physical").
+/// [uuid], [name], [alias], [description] are optional metadata fields.
+/// [mfgName], [productName], [productRev] are hardware identity fields.
+@immutable
+@realizes(r'UML::NetworkElement')
 class NetworkElement {
   final String neId;
   final String? neType;
@@ -59,7 +84,7 @@ class NetworkElement {
     this.productRev,
   }) {
     if (neId.trim().isEmpty) {
-      throw const NetworkInventoryValidationException('neId must not be empty');
+      throw const NeIdError('neId must not be empty');
     }
   }
 
@@ -122,6 +147,15 @@ class NetworkElement {
   String toString() => 'NetworkElement(neId: $neId, name: $name)';
 }
 
+/// Represents a hardware component in the network inventory as defined in UML::Component.
+///
+/// [componentId] is a required unique identifier.
+/// [class_] categorizes the component (e.g. "ianahw:chassis", "ianahw:port").
+/// [parent] lists parent component identifiers for composition relationships.
+/// [isFru] indicates whether the component is a field-replaceable unit.
+/// [isMain] indicates whether this is the primary chassis component.
+@immutable
+@realizes(r'UML::Component')
 class Component {
   final String componentId;
   final String? class_;
@@ -149,9 +183,7 @@ class Component {
     this.isMain,
   }) {
     if (componentId.trim().isEmpty) {
-      throw const NetworkInventoryValidationException(
-        'componentId must not be empty',
-      );
+      throw const ComponentIdError('componentId must not be empty');
     }
   }
 

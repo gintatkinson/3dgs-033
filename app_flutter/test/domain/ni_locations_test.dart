@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('NiLocation', () {
-    test('valid location with all fields', () {
+    test('should be valid when all fields are provided', () {
       final loc = NiLocation(
         id: 'Building-A',
         type: 'equipment room',
@@ -22,18 +22,18 @@ void main() {
       expect(loc.isValid(), isTrue);
     });
 
-    test('missing id throws NiLocationValidationException', () {
+    test('should throw LocationIdError when id is empty', () {
       expect(
         () => NiLocation(id: ''),
-        throwsA(isA<NiLocationValidationException>()),
+        throwsA(isA<LocationIdError>()),
       );
       expect(
         () => NiLocation(id: '  '),
-        throwsA(isA<NiLocationValidationException>()),
+        throwsA(isA<LocationIdError>()),
       );
     });
 
-    test('hierarchical parent reference', () {
+    test('should support hierarchical reference when parent is set', () {
       final building = NiLocation(
         id: 'Building-A',
         type: 'building',
@@ -49,7 +49,7 @@ void main() {
       expect(room.isValid(), isTrue);
     });
 
-    test('isExpired returns true when validUntil is past', () {
+    test('should be expired when validUntil is in the past', () {
       final loc = NiLocation(
         id: 'Site-Expired',
         validUntil: '2020-01-01T00:00:00Z',
@@ -58,7 +58,7 @@ void main() {
       expect(loc.isExpired(DateTime(2026, 8, 2)), isTrue);
     });
 
-    test('isExpired returns false when validUntil is in the future', () {
+    test('should not be expired when validUntil is in the future', () {
       final loc = NiLocation(
         id: 'Site-Valid',
         validUntil: '2030-12-31T23:59:59Z',
@@ -67,13 +67,13 @@ void main() {
       expect(loc.isExpired(DateTime(2026, 8, 2)), isFalse);
     });
 
-    test('isExpired returns false when validUntil is null', () {
+    test('should not be expired when validUntil is null', () {
       final loc = NiLocation(id: 'Site-NoExpiry');
 
       expect(loc.isExpired(DateTime(2026, 8, 2)), isFalse);
     });
 
-    test('timestamp validation with ISO 8601 format', () {
+    test('should accept ISO 8601 format when timestamp is valid', () {
       final loc = NiLocation(
         id: 'Site-TS',
         timestamp: '2026-01-15T08:30:00Z',
@@ -82,7 +82,7 @@ void main() {
       expect(loc.timestamp, equals('2026-01-15T08:30:00Z'));
     });
 
-    test('JSON roundtrip preserves all fields', () {
+    test('should preserve all fields when roundtripping to JSON', () {
       final loc = NiLocation(
         id: 'Foo-Enterprise-Campus',
         type: 'site',
@@ -103,7 +103,7 @@ void main() {
       expect(restored.address, equals(loc.address));
     });
 
-    test('equality and hashCode', () {
+    test('should be equal when all fields are identical', () {
       final a = NiLocation(id: 'Site-A', timestamp: '2026-01-15T08:30:00Z');
       final b = NiLocation(id: 'Site-A', timestamp: '2026-01-15T08:30:00Z');
       final c = NiLocation(id: 'Site-B');

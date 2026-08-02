@@ -1,12 +1,29 @@
-class InventoryTopologyValidationException implements Exception {
-  final String message;
+import 'package:app_flutter/domain/annotations.dart';
+import 'package:meta/meta.dart';
 
-  const InventoryTopologyValidationException(this.message);
+/// Thrown when an inventory topology type has an invalid identity.
+@immutable
+class TopologyIdentityError implements Exception {
+  final String message;
+  const TopologyIdentityError(this.message);
 
   @override
-  String toString() => 'InventoryTopologyValidationException: $message';
+  String toString() => 'TopologyIdentityError: $message';
 }
 
+/// Thrown when a port breakout configuration is invalid.
+@immutable
+class BreakoutConfigError implements Exception {
+  final String message;
+  const BreakoutConfigError(this.message);
+
+  @override
+  String toString() => 'BreakoutConfigError: $message';
+}
+
+/// Represents the inventory topology network type as defined in UML::InventoryTopologyNetworkType.
+@immutable
+@realizes(r'UML::InventoryTopologyNetworkType')
 class InventoryTopologyNetworkType {
   static const String identityName = 'inventory-topology';
   final bool isPresent;
@@ -25,6 +42,9 @@ class InventoryTopologyNetworkType {
   String toString() => 'InventoryTopologyNetworkType(isPresent: $isPresent)';
 }
 
+/// Represents a mapping from a topology node to a network element as defined in UML::NodeInventoryMapping.
+@immutable
+@realizes(r'UML::NodeInventoryMapping')
 class NodeInventoryMapping {
   final String? neRef;
 
@@ -44,6 +64,9 @@ class NodeInventoryMapping {
   String toString() => 'NodeInventoryMapping(neRef: $neRef)';
 }
 
+/// Represents the link inventory media classification as defined in UML::LinkInventoryMedia.
+@immutable
+@realizes(r'UML::LinkInventoryMedia')
 class LinkInventoryMedia {
   final String? linkType;
 
@@ -77,6 +100,9 @@ class LinkInventoryMedia {
   String toString() => 'LinkInventoryMedia(linkType: $linkType)';
 }
 
+/// Represents a mapping from a topology termination point to inventory as defined in UML::TpInventoryMapping.
+@immutable
+@realizes(r'UML::TpInventoryMapping')
 class TpInventoryMapping {
   final String? neRef;
   final String? portRef;
@@ -100,6 +126,9 @@ class TpInventoryMapping {
       'TpInventoryMapping(neRef: $neRef, portRef: $portRef)';
 }
 
+/// Represents a port breakout configuration as defined in UML::PortBreakout.
+@immutable
+@realizes(r'UML::PortBreakout')
 class PortBreakout {
   final bool isBreakoutCapable;
   final int? channelCount;

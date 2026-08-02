@@ -1,14 +1,35 @@
+import 'package:app_flutter/domain/annotations.dart';
 import 'package:app_flutter/domain/date_time.dart';
+import 'package:meta/meta.dart';
 
-class GeoLocationValidationException implements Exception {
+/// Thrown when a GeoLocation timestamp fails validation.
+@immutable
+class GeoLocationTimestampError implements Exception {
   final String message;
-
-  const GeoLocationValidationException(this.message);
+  const GeoLocationTimestampError(this.message);
 
   @override
-  String toString() => 'GeoLocationValidationException: $message';
+  String toString() => 'GeoLocationTimestampError: $message';
 }
 
+/// Thrown when a GeoLocation expiry check fails validation.
+@immutable
+class GeoLocationExpiryError implements Exception {
+  final String message;
+  const GeoLocationExpiryError(this.message);
+
+  @override
+  String toString() => 'GeoLocationExpiryError: $message';
+}
+
+/// Represents a geo-location record with temporal bounds as defined in UML::GeoLocation.
+///
+/// [timestamp] is the creation time (ISO 8601).
+/// [validUntil] is the expiry time (ISO 8601).
+/// [astronomicalBody] identifies the celestial body (default: "earth").
+/// [geodeticDatum] is the reference datum (default: "wgs-84").
+@immutable
+@realizes(r'UML::GeoLocation')
 class GeoLocation {
   final String? timestamp;
   final String? validUntil;
@@ -75,15 +96,15 @@ class GeoLocation {
       try {
         map = _jsonDecode(trimmed);
       } on Object {
-        throw const GeoLocationValidationException('Invalid JSON for GeoLocation');
+        throw const GeoLocationTimestampError('Invalid JSON for GeoLocation');
       }
     } else {
-      throw const GeoLocationValidationException('GeoLocation must be a JSON object');
+      throw const GeoLocationTimestampError('GeoLocation must be a JSON object');
     }
 
     final gl = GeoLocation.fromJson(map);
     if (!gl.isValid()) {
-      throw const GeoLocationValidationException('GeoLocation validation failed');
+      throw const GeoLocationTimestampError('GeoLocation validation failed');
     }
     return gl;
   }

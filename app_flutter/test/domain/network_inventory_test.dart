@@ -3,24 +3,24 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('NetworkElement', () {
-    test('valid network element', () {
+    test('should be valid when neId is "NE-001"', () {
       final ne = NetworkElement(neId: 'NE-001');
       expect(ne.neId, equals('NE-001'));
       expect(ne.isValid(), isTrue);
     });
 
-    test('missing neId throws NetworkInventoryValidationException', () {
+    test('should throw NeIdError when neId is empty', () {
       expect(
         () => NetworkElement(neId: ''),
-        throwsA(isA<NetworkInventoryValidationException>()),
+        throwsA(isA<NeIdError>()),
       );
       expect(
         () => NetworkElement(neId: '  '),
-        throwsA(isA<NetworkInventoryValidationException>()),
+        throwsA(isA<NeIdError>()),
       );
     });
 
-    test('network element with optional fields', () {
+    test('should be valid when all optional fields are provided', () {
       final ne = NetworkElement(
         neId: 'NE-001',
         neType: 'nwi:ne-physical',
@@ -45,7 +45,7 @@ void main() {
       expect(ne.isValid(), isTrue);
     });
 
-    test('NE JSON roundtrip', () {
+    test('should preserve all fields when roundtripping to JSON', () {
       final ne = NetworkElement(
         neId: 'NE-001',
         neType: 'nwi:ne-physical',
@@ -72,7 +72,7 @@ void main() {
       expect(restored.productRev, equals(ne.productRev));
     });
 
-    test('NE JSON roundtrip with null optional fields', () {
+    test('should preserve null optional fields when roundtripping minimal element', () {
       final ne = NetworkElement(neId: 'NE-Minimal');
 
       final json = ne.toJson();
@@ -91,24 +91,24 @@ void main() {
   });
 
   group('Component', () {
-    test('valid component', () {
+    test('should be valid when componentId is "Chassis-01"', () {
       final comp = Component(componentId: 'Chassis-01');
       expect(comp.componentId, equals('Chassis-01'));
       expect(comp.isValid(), isTrue);
     });
 
-    test('missing componentId throws NetworkInventoryValidationException', () {
+    test('should throw ComponentIdError when componentId is empty', () {
       expect(
         () => Component(componentId: ''),
-        throwsA(isA<NetworkInventoryValidationException>()),
+        throwsA(isA<ComponentIdError>()),
       );
       expect(
         () => Component(componentId: '  '),
-        throwsA(isA<NetworkInventoryValidationException>()),
+        throwsA(isA<ComponentIdError>()),
       );
     });
 
-    test('component parent references', () {
+    test('should support parent references when parent list is provided', () {
       final comp = Component(
         componentId: 'Port-01',
         parent: ['Slot-01'],
@@ -120,7 +120,7 @@ void main() {
       expect(noParent.parent, isEmpty);
     });
 
-    test('isFru', () {
+    test('should indicate whether component is an FRU', () {
       final fru = Component(componentId: 'Module-01', isFru: true);
       expect(fru.isFru, isTrue);
 
@@ -131,7 +131,7 @@ void main() {
       expect(unspecified.isFru, isNull);
     });
 
-    test('isMain chassis', () {
+    test('should indicate whether component is the main chassis', () {
       final comp = Component(
         componentId: 'Chassis-01',
         class_: 'ianahw:chassis',
@@ -148,7 +148,7 @@ void main() {
       expect(nonChassis.isMain, isFalse);
     });
 
-    test('Component JSON roundtrip', () {
+    test('should preserve all fields when roundtripping to JSON', () {
       final comp = Component(
         componentId: 'Chassis-01',
         class_: 'ianahw:chassis',
@@ -181,12 +181,12 @@ void main() {
   });
 
   group('NetworkInventory', () {
-    test('empty inventory', () {
+    test('should be empty when created with empty factory', () {
       final inventory = NetworkInventory.empty();
       expect(inventory.isEmpty, isTrue);
     });
 
-    test('JSON roundtrip for empty inventory', () {
+    test('should roundtrip empty state through JSON', () {
       final inventory = NetworkInventory.empty();
       final json = inventory.toJson();
       final restored = NetworkInventory.fromJson(json);

@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Rack', () {
-    test('valid rack with all fields', () {
+    test('should be valid when all fields are provided', () {
       final rack = Rack(
         id: 'Rack-101-A',
         rackClass: 'rack-standard',
@@ -28,25 +28,25 @@ void main() {
       expect(rack.isValid(), isTrue);
     });
 
-    test('missing id throws RackValidationException', () {
+    test('should throw RackClassError when id is empty', () {
       expect(
         () => Rack(id: ''),
-        throwsA(isA<RackValidationException>()),
+        throwsA(isA<RackClassError>()),
       );
       expect(
         () => Rack(id: '  '),
-        throwsA(isA<RackValidationException>()),
+        throwsA(isA<RackClassError>()),
       );
     });
 
-    test('invalid rackClass throws RackValidationException', () {
+    test('should throw RackClassError when rackClass is invalid', () {
       expect(
         () => Rack(id: 'Rack-1', rackClass: 'invalid-class'),
-        throwsA(isA<RackValidationException>()),
+        throwsA(isA<RackClassError>()),
       );
     });
 
-    test('valid rackClass values are accepted', () {
+    test('should accept valid rackClass values when rack class is standard', () {
       for (final cls in [
         'rack-standard',
         'rack-secure-baseline',
@@ -59,7 +59,7 @@ void main() {
       }
     });
 
-    test('isExpired returns true when validUntil is past', () {
+    test('should be expired when validUntil is in the past', () {
       final rack = Rack(
         id: 'Rack-Expired',
         validUntil: '2020-01-01T00:00:00Z',
@@ -68,7 +68,7 @@ void main() {
       expect(rack.isExpired(DateTime(2026, 8, 2)), isTrue);
     });
 
-    test('isExpired returns false when validUntil is in the future', () {
+    test('should not be expired when validUntil is in the future', () {
       final rack = Rack(
         id: 'Rack-Valid',
         validUntil: '2030-12-31T23:59:59Z',
@@ -77,13 +77,13 @@ void main() {
       expect(rack.isExpired(DateTime(2026, 8, 2)), isFalse);
     });
 
-    test('isExpired returns false when validUntil is null', () {
+    test('should not be expired when validUntil is null', () {
       final rack = Rack(id: 'Rack-NoExpiry');
 
       expect(rack.isExpired(DateTime(2026, 8, 2)), isFalse);
     });
 
-    test('JSON roundtrip preserves all fields', () {
+    test('should preserve all fields when roundtripping to JSON', () {
       final rack = Rack(
         id: 'Rack-101-A',
         rackClass: 'rack-standard',
@@ -110,7 +110,7 @@ void main() {
       expect(restored.validUntil, equals(rack.validUntil));
     });
 
-    test('JSON roundtrip with null optional fields', () {
+    test('should preserve null optional fields when roundtripping minimal rack', () {
       final rack = Rack(id: 'Rack-Minimal');
 
       final json = rack.toJson();
@@ -127,7 +127,7 @@ void main() {
       expect(restored.validUntil, isNull);
     });
 
-    test('equality and hashCode', () {
+    test('should be equal when all fields are identical', () {
       final a = Rack(
         id: 'Rack-A',
         height: 2200,

@@ -1,12 +1,13 @@
-class RackLocationValidationException implements Exception {
-  final String message;
+import 'package:app_flutter/domain/annotations.dart';
+import 'package:meta/meta.dart';
 
-  const RackLocationValidationException(this.message);
-
-  @override
-  String toString() => 'RackLocationValidationException: $message';
-}
-
+/// Represents a rack location as defined in UML::RackLocation.
+///
+/// [locationRef] is a named location reference.
+/// [rowNumber] and [columnNumber] are grid coordinates.
+/// At least one field must be non-null for a valid location.
+@immutable
+@realizes(r'UML::RackLocation')
 class RackLocation {
   final String? locationRef;
   final int? rowNumber;

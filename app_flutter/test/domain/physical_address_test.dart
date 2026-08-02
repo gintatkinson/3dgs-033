@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('PhysicalAddress', () {
-    test('valid US address', () {
+    test('should be valid when all fields of a US address are provided', () {
       final pa = PhysicalAddress(
         address: '1600 Amphitheatre Parkway',
         postalCode: '94043',
@@ -19,14 +19,14 @@ void main() {
       expect(pa.isValid(), isTrue);
     });
 
-    test('invalid country code "US1"', () {
+    test('should be invalid when country code is "US1"', () {
       final pa = PhysicalAddress(
         countryCode: 'US1',
       );
       expect(pa.isValid(), isFalse);
     });
 
-    test('empty address (all null)', () {
+    test('should be invalid when all fields are null', () {
       final pa = PhysicalAddress();
       expect(pa.address, isNull);
       expect(pa.postalCode, isNull);
@@ -36,7 +36,7 @@ void main() {
       expect(pa.isValid(), isFalse);
     });
 
-    test('formatted output', () {
+    test('should format full address when all fields are set', () {
       final pa = PhysicalAddress(
         address: '123 Foo Street, Floor 2 East Corridor',
         postalCode: '12345',
@@ -53,7 +53,7 @@ void main() {
       );
     });
 
-    test('partial address (city only)', () {
+    test('should be valid when only city is set', () {
       final pa = PhysicalAddress(city: 'Paris');
       expect(pa.address, isNull);
       expect(pa.postalCode, isNull);
@@ -63,7 +63,7 @@ void main() {
       expect(pa.isValid(), isTrue);
     });
 
-    test('JSON roundtrip', () {
+    test('should preserve all fields when roundtripping to JSON', () {
       final original = PhysicalAddress(
         address: '123 Foo Street',
         postalCode: '54321',
@@ -80,13 +80,13 @@ void main() {
       expect(restored.countryCode, equals(original.countryCode));
       expect(restored.isValid(), isTrue);
     });
+  });
 
-    group('PhysicalAddressValidationException', () {
-      test('has message property', () {
-        const ex = PhysicalAddressValidationException('test error');
-        expect(ex.message, equals('test error'));
-        expect(ex.toString(), contains('PhysicalAddressValidationException'));
-      });
+  group('CountryCodeFormatError', () {
+    test('should store descriptive message', () {
+      const ex = CountryCodeFormatError('test error');
+      expect(ex.message, equals('test error'));
+      expect(ex.toString(), contains('CountryCodeFormatError'));
     });
   });
 }

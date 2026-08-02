@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('GeoLocation', () {
-    test('valid GeoLocation with all fields', () {
+    test('should be valid when all fields including timestamp are provided', () {
       final gl = GeoLocation(
         timestamp: '2012-03-31T16:00:00Z',
         validUntil: '2026-12-31T23:59:59Z',
@@ -17,7 +17,7 @@ void main() {
       expect(gl.isValid(), isTrue);
     });
 
-    test('valid GeoLocation with defaults only (earth, wgs-84)', () {
+    test('should be valid with defaults when only body and datum are specified', () {
       final gl = GeoLocation();
       expect(gl.timestamp, isNull);
       expect(gl.validUntil, isNull);
@@ -26,17 +26,17 @@ void main() {
       expect(gl.isValid(), isTrue);
     });
 
-    test('GeoLocation rejects invalid timestamp format', () {
+    test('should be invalid when timestamp format is incorrect', () {
       final gl = GeoLocation(timestamp: 'invalid-date-string');
       expect(gl.isValid(), isFalse);
     });
 
-    test('GeoLocation rejects invalid valid-until', () {
+    test('should be invalid when valid-until format is incorrect', () {
       final gl = GeoLocation(validUntil: 'not-a-date');
       expect(gl.isValid(), isFalse);
     });
 
-    test('validityWindow computes correctly', () {
+    test('should compute 24-hour window when timestamps differ by one day', () {
       final gl = GeoLocation(
         timestamp: '2025-01-01T00:00:00Z',
         validUntil: '2025-01-02T00:00:00Z',
@@ -46,33 +46,33 @@ void main() {
       expect(window!.inHours, equals(24));
     });
 
-    test('validityWindow returns null when timestamp is missing', () {
+    test('should return null validity window when timestamp is missing', () {
       final gl = GeoLocation(validUntil: '2026-12-31T23:59:59Z');
       expect(gl.validityWindow(), isNull);
     });
 
-    test('validityWindow returns null when validUntil is missing', () {
+    test('should return null validity window when validUntil is missing', () {
       final gl = GeoLocation(timestamp: '2012-03-31T16:00:00Z');
       expect(gl.validityWindow(), isNull);
     });
 
-    test('isExpired returns true when valid-until is past', () {
+    test('should be expired when valid-until is in the past', () {
       final gl = GeoLocation(validUntil: '2020-01-01T00:00:00Z');
       expect(gl.isExpired(DateTime(2025, 6, 1)), isTrue);
     });
 
-    test('isExpired returns false when valid-until is future', () {
+    test('should not be expired when valid-until is in the future', () {
       final gl = GeoLocation(validUntil: '2030-01-01T00:00:00Z');
       expect(gl.isExpired(DateTime(2025, 6, 1)), isFalse);
     });
 
-    test('GeoLocation with no valid-until is never expired', () {
+    test('should never be expired when valid-until is null', () {
       final gl = GeoLocation();
       expect(gl.isExpired(DateTime(2025, 6, 1)), isFalse);
       expect(gl.isExpired(DateTime(2099, 12, 31)), isFalse);
     });
 
-    test('toString JSON roundtrip', () {
+    test('should preserve all fields when roundtripping to JSON', () {
       final original = GeoLocation(
         timestamp: '2012-03-31T16:00:00Z',
         validUntil: '2026-12-31T23:59:59Z',
@@ -86,13 +86,21 @@ void main() {
       expect(restored.astronomicalBody, equals(original.astronomicalBody));
       expect(restored.geodeticDatum, equals(original.geodeticDatum));
     });
+  });
 
-    group('GeoLocationValidationException', () {
-      test('has message property', () {
-        const ex = GeoLocationValidationException('test error');
-        expect(ex.message, equals('test error'));
-        expect(ex.toString(), contains('GeoLocationValidationException'));
-      });
+  group('GeoLocationTimestampError', () {
+    test('should store descriptive message', () {
+      const ex = GeoLocationTimestampError('test error');
+      expect(ex.message, equals('test error'));
+      expect(ex.toString(), contains('GeoLocationTimestampError'));
+    });
+  });
+
+  group('GeoLocationExpiryError', () {
+    test('should store descriptive message', () {
+      const ex = GeoLocationExpiryError('test error');
+      expect(ex.message, equals('test error'));
+      expect(ex.toString(), contains('GeoLocationExpiryError'));
     });
   });
 }

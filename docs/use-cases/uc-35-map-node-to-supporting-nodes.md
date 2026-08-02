@@ -1,6 +1,6 @@
 ---
 title: "Map Node to Supporting Nodes Across Network Layers"
-type: "use-case"
+issue_id: 152
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

@@ -1,6 +1,6 @@
 ---
 title: "Manage Network List Entry Lifecycle"
-type: "use-case"
+issue_id: 148
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

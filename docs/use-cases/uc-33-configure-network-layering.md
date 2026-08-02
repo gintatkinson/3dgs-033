@@ -1,6 +1,6 @@
 ---
 title: "Configure Network Layering via Supporting-Network Chain"
-type: "use-case"
+issue_id: 150
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

@@ -1,6 +1,6 @@
 ---
 title: "Map Overlay Link to Supporting Underlay Link Chain"
-type: "use-case"
+issue_id: 156
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

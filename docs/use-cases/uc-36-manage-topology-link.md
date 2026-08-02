@@ -1,6 +1,6 @@
 ---
 title: "Manage Topology Link Lifecycle"
-type: "use-case"
+issue_id: 153
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

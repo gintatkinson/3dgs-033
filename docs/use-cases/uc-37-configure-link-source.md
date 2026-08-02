@@ -1,6 +1,6 @@
 ---
 title: "Configure Link Source Endpoint"
-type: "use-case"
+issue_id: 154
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

@@ -1,6 +1,6 @@
 ---
 title: "Manage Networks Root Container Lifecycle"
-type: "use-case"
+issue_id: 147
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

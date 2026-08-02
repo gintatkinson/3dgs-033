@@ -1,6 +1,6 @@
 ---
 title: "Classify Network Instance by Topology Type"
-type: "use-case"
+issue_id: 149
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

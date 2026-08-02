@@ -1,6 +1,6 @@
 ---
 title: "Configure Link Destination Endpoint"
-type: "use-case"
+issue_id: 155
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

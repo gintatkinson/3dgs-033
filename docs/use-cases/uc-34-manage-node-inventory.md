@@ -1,6 +1,6 @@
 ---
 title: "Manage Node Inventory Within a Network"
-type: "use-case"
+issue_id: 151
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

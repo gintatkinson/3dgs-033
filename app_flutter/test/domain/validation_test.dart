@@ -1,6 +1,7 @@
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/time_duration.dart';
+import 'package:app_flutter/domain/time_tracking.dart';
 import 'package:app_flutter/domain/validation.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -217,6 +218,29 @@ void main() {
         const FieldDescriptor(key: 'startTime', label: 'Start Time', type: 'timeNoZone', required: true),
       ];
       expect(validateFields({'startTime': '14:30:00'}, desc), isTrue);
+    });
+  });
+
+  group('time tracking validation', () {
+    test('validateFields accepts valid timeTicks', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'sysUpTime', label: 'SysUpTime', type: 'timeTicks', required: true),
+      ];
+      expect(validateFields({'sysUpTime': 8640000}, desc), isTrue);
+    });
+
+    test('validateFields rejects negative timeTicks', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'sysUpTime', label: 'SysUpTime', type: 'timeTicks', required: true),
+      ];
+      expect(validateFields({'sysUpTime': -1}, desc), isFalse);
+    });
+
+    test('validateFields accepts valid timeStamp', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'lastChange', label: 'LastChange', type: 'timeStamp', required: true),
+      ];
+      expect(validateFields({'lastChange': 4320000}, desc), isTrue);
     });
   });
 }

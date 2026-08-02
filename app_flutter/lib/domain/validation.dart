@@ -2,6 +2,7 @@ import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/oid.dart';
 import 'package:app_flutter/domain/time_duration.dart';
+import 'package:app_flutter/domain/time_tracking.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 
 /// Generic validation function that evaluates constraints on a map of input values.
@@ -71,6 +72,22 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
     } else if (fd.type == 'gauge64') {
       final parsed = BigInt.tryParse(strVal);
       if (parsed == null || parsed.isNegative || parsed > Gauge64.maxValue) return false;
+    } else if (fd.type == 'timeTicks') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        TimeTicks(parsed);
+      } on TimeTrackingValidationException {
+        return false;
+      }
+    } else if (fd.type == 'timeStamp') {
+      final parsed = int.tryParse(strVal);
+      if (parsed == null) return false;
+      try {
+        TimeStamp(parsed);
+      } on TimeTrackingValidationException {
+        return false;
+      }
     } else if (fd.type == 'hours32') {
       final parsed = int.tryParse(strVal);
       if (parsed == null) return false;

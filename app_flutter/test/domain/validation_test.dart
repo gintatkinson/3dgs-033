@@ -1,4 +1,5 @@
 import 'package:app_flutter/domain/counter_gauge.dart';
+import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/validation.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -146,6 +147,43 @@ void main() {
         const FieldDescriptor(key: 'hcInOctets', label: 'HCInOctets', type: 'counter64', required: true),
       ];
       expect(validateFields({'hcInOctets': '18446744073709551615'}, desc), isTrue);
+    });
+  });
+
+  group('date and time validation', () {
+    test('validateFields accepts valid dateAndTime', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'timestamp', label: 'Timestamp', type: 'dateAndTime', required: true),
+      ];
+      expect(validateFields({'timestamp': '2025-12-22T14:30:00Z'}, desc), isTrue);
+    });
+
+    test('validateFields rejects invalid dateAndTime', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'timestamp', label: 'Timestamp', type: 'dateAndTime', required: true),
+      ];
+      expect(validateFields({'timestamp': '2025-13-01T00:00:00Z'}, desc), isFalse);
+    });
+
+    test('validateFields accepts valid date', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'startDate', label: 'Start Date', type: 'date', required: true),
+      ];
+      expect(validateFields({'startDate': '2025-12-22'}, desc), isTrue);
+    });
+
+    test('validateFields accepts valid dateNoZone', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'birthDate', label: 'Birth Date', type: 'dateNoZone', required: true),
+      ];
+      expect(validateFields({'birthDate': '2025-12-22'}, desc), isTrue);
+    });
+
+    test('validateFields accepts valid timeNoZone', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'startTime', label: 'Start Time', type: 'timeNoZone', required: true),
+      ];
+      expect(validateFields({'startTime': '14:30:00'}, desc), isTrue);
     });
   });
 }

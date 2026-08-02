@@ -1,4 +1,5 @@
 import 'package:app_flutter/domain/counter_gauge.dart';
+import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/oid.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 
@@ -69,6 +70,36 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
     } else if (fd.type == 'gauge64') {
       final parsed = BigInt.tryParse(strVal);
       if (parsed == null || parsed.isNegative || parsed > Gauge64.maxValue) return false;
+    } else if (fd.type == 'dateAndTime') {
+      try {
+        YangDateTime.parse(strVal);
+      } on DateTimeValidationException {
+        return false;
+      }
+    } else if (fd.type == 'date') {
+      try {
+        YangDate.parse(strVal);
+      } on DateTimeValidationException {
+        return false;
+      }
+    } else if (fd.type == 'dateNoZone') {
+      try {
+        YangDateNoZone.parse(strVal);
+      } on DateTimeValidationException {
+        return false;
+      }
+    } else if (fd.type == 'time') {
+      try {
+        YangTime.parse(strVal);
+      } on DateTimeValidationException {
+        return false;
+      }
+    } else if (fd.type == 'timeNoZone') {
+      try {
+        YangTimeNoZone.parse(strVal);
+      } on DateTimeValidationException {
+        return false;
+      }
     }
   }
   return true;

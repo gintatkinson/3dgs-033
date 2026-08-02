@@ -2,6 +2,7 @@ import 'package:app_flutter/domain/address_string.dart';
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/ip_address.dart';
+import 'package:app_flutter/domain/geo_location.dart';
 import 'package:app_flutter/domain/ip_prefix.dart';
 import 'package:app_flutter/domain/protocol_fields.dart';
 import 'package:app_flutter/domain/time_duration.dart';
@@ -406,6 +407,32 @@ void main() {
       ];
       expect(validateFields({'email': 'user@example.com'}, desc), isTrue);
       expect(validateFields({'email': 'not-an-email'}, desc), isFalse);
+    });
+  });
+
+  group('geoLocation validation', () {
+    test('validateFields accepts valid geoLocation JSON', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'geo', label: 'Geo', type: 'geoLocation', required: true),
+      ];
+      expect(
+        validateFields({
+          'geo': '{"timestamp":"2012-03-31T16:00:00Z","validUntil":"2026-12-31T23:59:59Z","astronomicalBody":"earth","geodeticDatum":"wgs-84"}',
+        }, desc),
+        isTrue,
+      );
+    });
+
+    test('validateFields rejects geoLocation with invalid timestamp', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'geo', label: 'Geo', type: 'geoLocation', required: true),
+      ];
+      expect(
+        validateFields({
+          'geo': '{"timestamp":"invalid-date","astronomicalBody":"earth","geodeticDatum":"wgs-84"}',
+        }, desc),
+        isFalse,
+      );
     });
   });
 }

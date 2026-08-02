@@ -2,6 +2,7 @@ import 'package:app_flutter/domain/address_string.dart';
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/domain_host.dart';
+import 'package:app_flutter/domain/geo_location.dart';
 import 'package:app_flutter/domain/ip_address.dart';
 import 'package:app_flutter/domain/ip_prefix.dart';
 import 'package:app_flutter/domain/oid.dart';
@@ -269,6 +270,12 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       try {
         EmailAddress(strVal);
       } on DomainHostValidationException {
+        return false;
+      }
+    } else if (fd.type == 'geoLocation') {
+      try {
+        GeoLocation.parse(strVal);
+      } on GeoLocationValidationException {
         return false;
       }
     }

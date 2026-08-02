@@ -1,3 +1,4 @@
+import 'package:app_flutter/domain/address_string.dart';
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/time_duration.dart';
@@ -241,6 +242,36 @@ void main() {
         const FieldDescriptor(key: 'lastChange', label: 'LastChange', type: 'timeStamp', required: true),
       ];
       expect(validateFields({'lastChange': 4320000}, desc), isTrue);
+    });
+  });
+
+  group('address string validation', () {
+    test('validateFields accepts valid physAddress', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'phys', label: 'Phys', type: 'physAddress', required: true),
+      ];
+      expect(validateFields({'phys': '00:1a:2b:3c:4d:5e'}, desc), isTrue);
+    });
+
+    test('validateFields accepts valid macAddress', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'mac', label: 'MAC', type: 'macAddress', required: true),
+      ];
+      expect(validateFields({'mac': 'aa:bb:cc:dd:ee:ff'}, desc), isTrue);
+    });
+
+    test('validateFields accepts valid uuid', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'id', label: 'ID', type: 'uuid', required: true),
+      ];
+      expect(validateFields({'id': '550e8400-e29b-41d4-a716-446655440000'}, desc), isTrue);
+    });
+
+    test('validateFields accepts valid dottedQuad', () {
+      final desc = <FieldDescriptor>[
+        const FieldDescriptor(key: 'ip', label: 'IP', type: 'dottedQuad', required: true),
+      ];
+      expect(validateFields({'ip': '10.0.0.1'}, desc), isTrue);
     });
   });
 }

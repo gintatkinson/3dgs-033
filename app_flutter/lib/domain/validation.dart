@@ -1,3 +1,4 @@
+import 'package:app_flutter/domain/address_string.dart';
 import 'package:app_flutter/domain/counter_gauge.dart';
 import 'package:app_flutter/domain/date_time.dart';
 import 'package:app_flutter/domain/oid.dart';
@@ -148,6 +149,30 @@ bool validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptor
       try {
         YangTimeNoZone.parse(strVal);
       } on DateTimeValidationException {
+        return false;
+      }
+    } else if (fd.type == 'physAddress') {
+      try {
+        PhysAddress(strVal);
+      } on AddressStringValidationException {
+        return false;
+      }
+    } else if (fd.type == 'macAddress') {
+      try {
+        MacAddress(strVal);
+      } on AddressStringValidationException {
+        return false;
+      }
+    } else if (fd.type == 'uuid') {
+      try {
+        Uuid(strVal);
+      } on AddressStringValidationException {
+        return false;
+      }
+    } else if (fd.type == 'dottedQuad') {
+      try {
+        DottedQuad(strVal);
+      } on AddressStringValidationException {
         return false;
       }
     }

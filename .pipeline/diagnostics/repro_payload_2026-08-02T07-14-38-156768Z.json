@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-08-02T07:14:38.156768Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "40298c315afbefcb7338f6a9d9536a0aafdc3429"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "Epic epic-08-ietf-network.md checklist item '- [ ] #126 - [Define Networks Root Container](https://github.com/gintatkinson/3dgs-033/blob/main/docs/features/#126' must be a valid markdown link pointing to the feature file absolute URL.",
+      "Epic epic-08-ietf-network.md checklist item '- [ ] #127 - [Define Network List Entry](https://github.com/gintatkinson/3dgs-033/blob/main/docs/features/#127' must be a valid markdown link pointing to the feature file absolute URL.",
+      "Epic epic-08-ietf-network.md checklist item '- [ ] #128 - [Define Network Types Container](https://github.com/gintatkinson/3dgs-033/blob/main/docs/features/#128' must be a valid markdown link pointing to the feature file absolute URL.",
+      "Epic epic-08-ietf-network.md checklist item '- [ ] #129 - [Define Supporting Network List](https://github.com/gintatkinson/3dgs-033/blob/main/docs/features/#129' must be a valid markdown link pointing to the feature file absolute URL.",
+      "Epic epic-08-ietf-network.md checklist item '- [ ] #130 - [Define Node List](https://github.com/gintatkinson/3dgs-033/blob/main/docs/features/#130' must be a valid markdown link pointing to the feature file absolute URL.",
+      "Epic epic-08-ietf-network.md checklist item '- [ ] #131 - [Define Supporting Node List](https://github.com/gintatkinson/3dgs-033/blob/main/docs/features/#131' must be a valid markdown link pointing to the feature file absolute URL."
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}

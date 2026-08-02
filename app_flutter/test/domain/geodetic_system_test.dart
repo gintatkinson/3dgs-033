@@ -3,46 +3,46 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('GeodeticSystem', () {
-    test('default wgs-84 datum and null accuracies', () {
+    test('should default to wgs-84 when no datum is provided', () {
       final gs = GeodeticSystem();
       expect(gs.geodeticDatum, equals('wgs-84'));
       expect(gs.coordAccuracy, isNull);
       expect(gs.heightAccuracy, isNull);
     });
 
-    test('custom datum "me" for lunar', () {
+    test('should accept "me" when custom lunar datum is provided', () {
       final gs = GeodeticSystem(geodeticDatum: 'me');
       expect(gs.geodeticDatum, equals('me'));
       expect(gs.coordAccuracy, isNull);
       expect(gs.heightAccuracy, isNull);
     });
 
-    test('valid coord-accuracy with 6 decimal places', () {
+    test('should accept 0.000001 when coord-accuracy has 6 decimal places', () {
       final gs = GeodeticSystem(coordAccuracy: 0.000001);
       expect(gs.coordAccuracy, equals(0.000001));
     });
 
-    test('invalid coord-accuracy with 7 decimal places throws', () {
+    test('should throw AccuracyRangeError when coord-accuracy has 7 decimal places', () {
       expect(
         () => GeodeticSystem(coordAccuracy: 0.0000001),
-        throwsA(isA<GeodeticSystemValidationException>()),
+        throwsA(isA<AccuracyRangeError>()),
       );
     });
 
-    test('invalid datum with control characters throws', () {
+    test('should throw GeodeticDatumError when datum has control characters', () {
       expect(
         () => GeodeticSystem(geodeticDatum: 'bad\ndatum'),
-        throwsA(isA<GeodeticSystemValidationException>()),
+        throwsA(isA<GeodeticDatumError>()),
       );
     });
 
-    test('null accuracy values', () {
+    test('should accept null when accuracy values are not provided', () {
       final gs = GeodeticSystem(coordAccuracy: null, heightAccuracy: null);
       expect(gs.coordAccuracy, isNull);
       expect(gs.heightAccuracy, isNull);
     });
 
-    test('copyWith preserves unchanged fields', () {
+    test('should preserve unchanged fields when copyWith is called', () {
       final gs = GeodeticSystem(
         geodeticDatum: 'wgs-84-96',
         coordAccuracy: 0.01,
@@ -57,7 +57,7 @@ void main() {
       expect(copyDatum.heightAccuracy, equals(0.001));
     });
 
-    test('JSON roundtrip', () {
+    test('should preserve all fields when roundtripping to JSON', () {
       final gs = GeodeticSystem(
         geodeticDatum: 'wgs-84',
         coordAccuracy: 0.000001,

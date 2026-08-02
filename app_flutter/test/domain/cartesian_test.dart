@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('CartesianCoordinate', () {
-    test('constructs with valid x, y, z coordinates', () {
+    test('should construct with valid x, y, z when coordinates are non-zero', () {
       final coord = CartesianCoordinate(
         x: 1335832.5,
         y: -4652426.0,
@@ -15,14 +15,14 @@ void main() {
       expect(coord.z, equals(4138321.5));
     });
 
-    test('accepts zero values for x, y, z', () {
+    test('should accept zero when all components are at origin', () {
       final coord = CartesianCoordinate(x: 0.0, y: 0.0, z: 0.0);
       expect(coord.x, equals(0.0));
       expect(coord.y, equals(0.0));
       expect(coord.z, equals(0.0));
     });
 
-    test('accepts negative values', () {
+    test('should accept negative values when coordinates are in negative octant', () {
       final coord = CartesianCoordinate(
         x: -1335832.5,
         y: -4652426.0,
@@ -33,12 +33,12 @@ void main() {
       expect(coord.z, equals(-4138321.5));
     });
 
-    test('type returns LocationCoordinateType.cartesian', () {
+    test('should return cartesian when checking coordinate type', () {
       final coord = CartesianCoordinate(x: 0.0, y: 0.0, z: 0.0);
       expect(coord.type, equals(LocationCoordinateType.cartesian));
     });
 
-    test('JSON roundtrip preserves all fields', () {
+    test('should preserve all fields when roundtripping to JSON', () {
       final coord = CartesianCoordinate(
         x: 1335832.5,
         y: -4652426.0,

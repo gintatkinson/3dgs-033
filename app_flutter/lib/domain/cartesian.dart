@@ -1,5 +1,12 @@
+import 'package:app_flutter/domain/annotations.dart';
 import 'package:app_flutter/domain/location_coordinate.dart';
+import 'package:meta/meta.dart';
 
+/// Represents a 3D Cartesian coordinate as defined in UML::Cartesian.
+///
+/// [x], [y], and [z] are the three spatial axes.
+@immutable
+@realizes(r'UML::Cartesian')
 class CartesianCoordinate extends LocationCoordinate {
   final double x;
   final double y;

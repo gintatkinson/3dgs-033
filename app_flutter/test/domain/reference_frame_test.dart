@@ -3,37 +3,37 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ReferenceFrame', () {
-    test('Default earth reference frame', () {
+    test('should default to earth when no astronomical body is specified', () {
       final frame = ReferenceFrame();
       expect(frame.astronomicalBody, equals('earth'));
       expect(frame.hasAlternateSystem, isFalse);
     });
 
-    test('Valid non-earth body "mars"', () {
+    test('should accept "mars" when a valid non-earth body is provided', () {
       final frame = ReferenceFrame(astronomicalBody: 'mars');
       expect(frame.astronomicalBody, equals('mars'));
     });
 
-    test('Invalid body name with control characters', () {
+    test('should throw AstronomicalBodyError when body name has control characters', () {
       expect(
         () => ReferenceFrame(astronomicalBody: 'earth\n'),
-        throwsA(isA<ReferenceFrameValidationException>()),
+        throwsA(isA<AstronomicalBodyError>()),
       );
     });
 
-    test('Has alternate system when set', () {
+    test('should report alternate system when alternateSystem is set', () {
       final frame = ReferenceFrame(alternateSystem: 'simulation-xyz');
       expect(frame.alternateSystem, equals('simulation-xyz'));
       expect(frame.hasAlternateSystem, isTrue);
     });
 
-    test('No alternate system by default', () {
+    test('should not have alternate system when none is provided', () {
       final frame = ReferenceFrame();
       expect(frame.alternateSystem, isNull);
       expect(frame.hasAlternateSystem, isFalse);
     });
 
-    test('copyWith preserves unchanged fields', () {
+    test('should preserve unchanged fields when copyWith is called', () {
       final frame = ReferenceFrame(astronomicalBody: 'mars');
       final copy = frame.copyWith(alternateSystem: 'sim');
       expect(copy.astronomicalBody, equals('mars'));
@@ -43,7 +43,7 @@ void main() {
       expect(copyBody.alternateSystem, equals('sim'));
     });
 
-    test('JSON roundtrip', () {
+    test('should preserve all fields when roundtripping to JSON', () {
       final frame = ReferenceFrame(
         astronomicalBody: 'moon',
         alternateSystem: 'sim',
@@ -56,7 +56,7 @@ void main() {
       expect(restored.alternateSystem, equals('sim'));
     });
 
-    test('Earth factory produces correct defaults', () {
+    test('should produce earth defaults when factory defaultEarth is used', () {
       final frame = ReferenceFrame.defaultEarth();
       expect(frame.astronomicalBody, equals('earth'));
       expect(frame.alternateSystem, isNull);

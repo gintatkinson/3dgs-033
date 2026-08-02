@@ -1,12 +1,32 @@
-class GeodeticSystemValidationException implements Exception {
-  final String message;
+import 'package:app_flutter/domain/annotations.dart';
+import 'package:meta/meta.dart';
 
-  const GeodeticSystemValidationException(this.message);
+/// Thrown when a geodetic datum name contains invalid characters.
+@immutable
+class GeodeticDatumError implements Exception {
+  final String value;
+  const GeodeticDatumError(this.value);
 
   @override
-  String toString() => 'GeodeticSystemValidationException: $message';
+  String toString() => 'GeodeticDatumError: invalid geodetic-datum: "$value"';
 }
 
+/// Thrown when an accuracy value exceeds the allowed 6 fraction-digit precision.
+@immutable
+class AccuracyRangeError implements Exception {
+  final String fieldName;
+  const AccuracyRangeError(this.fieldName);
+
+  @override
+  String toString() => 'AccuracyRangeError: $fieldName exceeds 6 fraction-digit precision';
+}
+
+/// Represents a geodetic system (datum and accuracy) as defined in UML::GeodeticSystem.
+///
+/// [geodeticDatum] is the reference datum (default: "wgs-84").
+/// [coordAccuracy] and [heightAccuracy] are optional values limited to 6 decimal places.
+@immutable
+@realizes(r'UML::GeodeticSystem')
 class GeodeticSystem {
   static const String defaultGeodeticDatum = 'wgs-84';
 
@@ -28,9 +48,7 @@ class GeodeticSystem {
   static String _normalize(String value) {
     final normalized = value.toLowerCase().replaceAll(' ', '-');
     if (!_pattern.hasMatch(normalized)) {
-      throw GeodeticSystemValidationException(
-        'Invalid geodetic-datum: "$value" contains invalid characters',
-      );
+      throw GeodeticDatumError(value);
     }
     return normalized;
   }
@@ -38,16 +56,12 @@ class GeodeticSystem {
   static void _validateAccuracy(double? value, String fieldName) {
     if (value == null) return;
     if (value.isNaN || value.isInfinite) {
-      throw GeodeticSystemValidationException(
-        '$fieldName must be a finite number',
-      );
+      throw AccuracyRangeError(fieldName);
     }
     final scaled = value * 1000000;
     final diff = (scaled - scaled.round()).abs();
     if (diff > 1e-9) {
-      throw GeodeticSystemValidationException(
-        '$fieldName exceeds 6 fraction-digit precision',
-      );
+      throw AccuracyRangeError(fieldName);
     }
   }
 

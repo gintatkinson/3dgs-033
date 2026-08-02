@@ -1,14 +1,27 @@
 import 'dart:math' as math;
 
-class VelocityValidationException implements Exception {
-  final String message;
+import 'package:app_flutter/domain/annotations.dart';
+import 'package:meta/meta.dart';
 
-  const VelocityValidationException(this.message);
+/// Thrown when a velocity component fails validation.
+@immutable
+class VelocityComponentError implements Exception {
+  final String message;
+  const VelocityComponentError(this.message);
 
   @override
-  String toString() => 'VelocityValidationException: $message';
+  String toString() => 'VelocityComponentError: $message';
 }
 
+/// Represents a velocity vector with north, east, and up components as defined in UML::Velocity.
+///
+/// [vNorth] is the velocity component in meters per second toward true north.
+/// [vEast] is the velocity component in meters per second toward true east.
+/// [vUp] is the velocity component in meters per second upward.
+@immutable
+@realizes(r'UML::Velocity.vNorth')
+@realizes(r'UML::Velocity.vEast')
+@realizes(r'UML::Velocity.vUp')
 class Velocity {
   final double vNorth;
   final double vEast;

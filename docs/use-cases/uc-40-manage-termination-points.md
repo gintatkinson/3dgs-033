@@ -1,6 +1,6 @@
 ---
 title: "Manage Termination Point Lifecycle on a Node"
-type: "use-case"
+issue_id: 157
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

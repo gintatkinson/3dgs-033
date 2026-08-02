@@ -1,6 +1,6 @@
 ---
 title: "Resolve Supporting Termination Point Underlay Mappings"
-type: "use-case"
+issue_id: 158
 generation_mode: "subagent"
 spec_source: "Project Constitution"
 schema_containers:

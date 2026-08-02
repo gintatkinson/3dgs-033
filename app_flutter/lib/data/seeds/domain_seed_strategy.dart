@@ -190,7 +190,7 @@ class DomainSeedStrategy implements SeedStrategy {
       'type_name': node,
       'display_name': node.replaceAll('_', ' '),
       'icon_name': 'insert_drive_file',
-    });
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     for (final d in details) {
       batch.insert('type_relations', {

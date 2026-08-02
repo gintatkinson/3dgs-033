@@ -1,10 +1,44 @@
-class IpAddressValidationException implements Exception {
-  final String message;
+import 'package:app_flutter/domain/annotations.dart';
+import 'package:meta/meta.dart';
 
-  const IpAddressValidationException(this.message);
+/// Thrown when an IPv4 address string fails format validation.
+@immutable
+class Ipv4FormatError implements Exception {
+  final String value;
+  const Ipv4FormatError(this.value);
 
   @override
-  String toString() => 'IpAddressValidationException: $message';
+  String toString() => 'Ipv4FormatError: invalid ipv4-address: "$value"';
+}
+
+/// Thrown when an IPv6 address string fails format validation.
+@immutable
+class Ipv6FormatError implements Exception {
+  final String value;
+  const Ipv6FormatError(this.value);
+
+  @override
+  String toString() => 'Ipv6FormatError: invalid ipv6-address: "$value"';
+}
+
+/// Thrown when an address is not within the link-local range.
+@immutable
+class LinkLocalRangeError implements Exception {
+  final String value;
+  const LinkLocalRangeError(this.value);
+
+  @override
+  String toString() => 'LinkLocalRangeError: not a link-local address: "$value"';
+}
+
+/// Thrown when a zone index is present where none is allowed.
+@immutable
+class ZoneIndexError implements Exception {
+  final String value;
+  const ZoneIndexError(this.value);
+
+  @override
+  String toString() => 'ZoneIndexError: zone index not allowed: "$value"';
 }
 
 class _IpAddressBase {
@@ -65,7 +99,6 @@ class _IpAddressBase {
     final addr = _stripZone(address).toLowerCase();
     final parts = _expandIpv6(addr);
 
-    // Longest zero run compression
     int bestStart = -1;
     int bestLen = 0;
     int currentStart = -1;
@@ -141,12 +174,15 @@ class _IpAddressBase {
   }
 }
 
+/// Represents an IPv4 address in dotted-quad notation as defined in UML::Ipv4Address.value.
+@immutable
+@realizes(r'UML::Ipv4Address.value')
 class Ipv4Address {
   final String value;
 
   Ipv4Address(this.value) {
     if (!_IpAddressBase._ipv4Pattern.hasMatch(value)) {
-      throw IpAddressValidationException('Invalid ipv4-address: "$value"');
+      throw Ipv4FormatError(value);
     }
   }
 
@@ -162,12 +198,15 @@ class Ipv4Address {
   int get hashCode => value.hashCode;
 }
 
+/// Represents an IPv6 address as defined in UML::Ipv6Address.value.
+@immutable
+@realizes(r'UML::Ipv6Address.value')
 class Ipv6Address {
   final String value;
 
   Ipv6Address(this.value) {
     if (!_IpAddressBase._ipv6Pattern.hasMatch(value)) {
-      throw IpAddressValidationException('Invalid ipv6-address: "$value"');
+      throw Ipv6FormatError(value);
     }
   }
 
@@ -188,6 +227,9 @@ class Ipv6Address {
   int get hashCode => value.hashCode;
 }
 
+/// Represents a union of IPv4 or IPv6 address as defined in UML::IpAddress.value.
+@immutable
+@realizes(r'UML::IpAddress.value')
 class IpAddress {
   final String value;
   final bool _isV6;
@@ -196,11 +238,11 @@ class IpAddress {
       : _isV6 = value.contains(':') {
     if (_isV6) {
       if (!_IpAddressBase._ipv6Pattern.hasMatch(value)) {
-        throw IpAddressValidationException('Invalid ip-address: "$value"');
+        throw Ipv6FormatError(value);
       }
     } else {
       if (!_IpAddressBase._ipv4Pattern.hasMatch(value)) {
-        throw IpAddressValidationException('Invalid ip-address: "$value"');
+        throw Ipv4FormatError(value);
       }
     }
   }
@@ -225,6 +267,9 @@ class IpAddress {
   int get hashCode => value.hashCode;
 }
 
+/// Represents an IP address without zone index as defined in UML::IpAddressNoZone.value.
+@immutable
+@realizes(r'UML::IpAddressNoZone.value')
 class IpAddressNoZone {
   final String value;
   final bool _isV6;
@@ -232,18 +277,15 @@ class IpAddressNoZone {
   IpAddressNoZone(this.value)
       : _isV6 = value.contains(':') {
     if (value.contains('%')) {
-      throw IpAddressValidationException(
-          'zone index not allowed in ip-address-no-zone: "$value"');
+      throw ZoneIndexError(value);
     }
     if (_isV6) {
       if (!_IpAddressBase._ipv6NoZonePattern.hasMatch(value)) {
-        throw IpAddressValidationException(
-            'Invalid ip-address-no-zone: "$value"');
+        throw Ipv6FormatError(value);
       }
     } else {
       if (!_IpAddressBase._ipv4NoZonePattern.hasMatch(value)) {
-        throw IpAddressValidationException(
-            'Invalid ip-address-no-zone: "$value"');
+        throw Ipv4FormatError(value);
       }
     }
   }
@@ -264,17 +306,18 @@ class IpAddressNoZone {
   int get hashCode => value.hashCode;
 }
 
+/// Represents an IPv4 address without zone index as defined in UML::Ipv4AddressNoZone.value.
+@immutable
+@realizes(r'UML::Ipv4AddressNoZone.value')
 class Ipv4AddressNoZone {
   final String value;
 
   Ipv4AddressNoZone(this.value) {
     if (value.contains('%')) {
-      throw IpAddressValidationException(
-          'zone index not allowed in ipv4-address-no-zone: "$value"');
+      throw ZoneIndexError(value);
     }
     if (!_IpAddressBase._ipv4NoZonePattern.hasMatch(value)) {
-      throw IpAddressValidationException(
-          'Invalid ipv4-address-no-zone: "$value"');
+      throw Ipv4FormatError(value);
     }
   }
 
@@ -291,17 +334,18 @@ class Ipv4AddressNoZone {
   int get hashCode => value.hashCode;
 }
 
+/// Represents an IPv6 address without zone index as defined in UML::Ipv6AddressNoZone.value.
+@immutable
+@realizes(r'UML::Ipv6AddressNoZone.value')
 class Ipv6AddressNoZone {
   final String value;
 
   Ipv6AddressNoZone(this.value) {
     if (value.contains('%')) {
-      throw IpAddressValidationException(
-          'zone index not allowed in ipv6-address-no-zone: "$value"');
+      throw ZoneIndexError(value);
     }
     if (!_IpAddressBase._ipv6NoZonePattern.hasMatch(value)) {
-      throw IpAddressValidationException(
-          'Invalid ipv6-address-no-zone: "$value"');
+      throw Ipv6FormatError(value);
     }
   }
 
@@ -318,6 +362,9 @@ class Ipv6AddressNoZone {
   int get hashCode => value.hashCode;
 }
 
+/// Represents an IPv4 or IPv6 link-local address as defined in UML::IpAddressLinkLocal.value.
+@immutable
+@realizes(r'UML::IpAddressLinkLocal.value')
 class IpAddressLinkLocal {
   final String value;
   final bool _isV6;
@@ -326,22 +373,18 @@ class IpAddressLinkLocal {
       : _isV6 = value.contains(':') {
     if (_isV6) {
       if (!_IpAddressBase._ipv6Pattern.hasMatch(value)) {
-        throw IpAddressValidationException(
-            'Invalid ip-address-link-local: "$value"');
+        throw Ipv6FormatError(value);
       }
       final addr = _IpAddressBase._stripZone(value).toLowerCase();
       if (!addr.startsWith('fe80:')) {
-        throw IpAddressValidationException(
-            'Not a link-local IPv6 address: "$value"');
+        throw LinkLocalRangeError(value);
       }
     } else {
       if (!_IpAddressBase._ipv4Pattern.hasMatch(value)) {
-        throw IpAddressValidationException(
-            'Invalid ip-address-link-local: "$value"');
+        throw Ipv4FormatError(value);
       }
       if (!_IpAddressBase._isIpv4LinkLocal(value)) {
-        throw IpAddressValidationException(
-            'Not a link-local IPv4 address: "$value"');
+        throw LinkLocalRangeError(value);
       }
     }
   }
@@ -362,17 +405,18 @@ class IpAddressLinkLocal {
   int get hashCode => value.hashCode;
 }
 
+/// Represents an IPv4 link-local address as defined in UML::Ipv4AddressLinkLocal.value.
+@immutable
+@realizes(r'UML::Ipv4AddressLinkLocal.value')
 class Ipv4AddressLinkLocal {
   final String value;
 
   Ipv4AddressLinkLocal(this.value) {
     if (!_IpAddressBase._ipv4Pattern.hasMatch(value)) {
-      throw IpAddressValidationException(
-          'Invalid ipv4-address-link-local: "$value"');
+      throw Ipv4FormatError(value);
     }
     if (!_IpAddressBase._isIpv4LinkLocal(value)) {
-      throw IpAddressValidationException(
-          'Not a link-local IPv4 address: "$value"');
+      throw LinkLocalRangeError(value);
     }
   }
 
@@ -389,18 +433,19 @@ class Ipv4AddressLinkLocal {
   int get hashCode => value.hashCode;
 }
 
+/// Represents an IPv6 link-local address as defined in UML::Ipv6AddressLinkLocal.value.
+@immutable
+@realizes(r'UML::Ipv6AddressLinkLocal.value')
 class Ipv6AddressLinkLocal {
   final String value;
 
   Ipv6AddressLinkLocal(this.value) {
     if (!_IpAddressBase._ipv6Pattern.hasMatch(value)) {
-      throw IpAddressValidationException(
-          'Invalid ipv6-address-link-local: "$value"');
+      throw Ipv6FormatError(value);
     }
     final addr = _IpAddressBase._stripZone(value).toLowerCase();
     if (!addr.startsWith('fe80:')) {
-      throw IpAddressValidationException(
-          'Not a link-local IPv6 address: "$value"');
+      throw LinkLocalRangeError(value);
     }
   }
 

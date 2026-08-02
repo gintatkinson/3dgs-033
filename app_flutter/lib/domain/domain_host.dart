@@ -1,14 +1,50 @@
+import 'package:app_flutter/domain/annotations.dart';
 import 'package:app_flutter/domain/ip_address.dart';
+import 'package:meta/meta.dart';
 
-class DomainHostValidationException implements Exception {
+/// Thrown when a domain name or host name fails format validation.
+@immutable
+class DomainFormatError implements Exception {
   final String message;
-
-  const DomainHostValidationException(this.message);
+  const DomainFormatError(this.message);
 
   @override
-  String toString() => 'DomainHostValidationException: $message';
+  String toString() => 'DomainFormatError: $message';
 }
 
+/// Thrown when a URI fails format validation.
+@immutable
+class UriFormatError implements Exception {
+  final String message;
+  const UriFormatError(this.message);
+
+  @override
+  String toString() => 'UriFormatError: $message';
+}
+
+/// Thrown when an email address fails format validation.
+@immutable
+class EmailFormatError implements Exception {
+  final String message;
+  const EmailFormatError(this.message);
+
+  @override
+  String toString() => 'EmailFormatError: $message';
+}
+
+/// Thrown when a [Host] input cannot be parsed as either an IP address or a host name.
+@immutable
+class HostParseError implements Exception {
+  final String value;
+  const HostParseError(this.value);
+
+  @override
+  String toString() => 'HostParseError: invalid host: "$value"';
+}
+
+/// Represents a fully-qualified domain name as defined in UML::DomainName.value.
+@immutable
+@realizes(r'UML::DomainName.value')
 class DomainName {
   static const int _totalLengthMax = 253;
   static const int _labelLengthMax = 63;
@@ -28,35 +64,32 @@ class DomainName {
 
   static void _validate(String v) {
     if (v.isEmpty) {
-      throw const DomainHostValidationException(
-          'Domain name must not be empty');
+      throw const DomainFormatError('Domain name must not be empty');
     }
     if (v.length > _totalLengthMax) {
-      throw DomainHostValidationException(
+      throw DomainFormatError(
           'Domain name exceeds 253 characters, got ${v.length}');
     }
     if (v.endsWith('.')) {
-      throw DomainHostValidationException(
+      throw DomainFormatError(
           'Domain name must not include trailing dot: "$v"');
     }
     final labels = v.split('.');
     for (final label in labels) {
       if (label.isEmpty) {
-        throw DomainHostValidationException(
-            'Empty label in domain name: "$v"');
+        throw DomainFormatError('Empty label in domain name: "$v"');
       }
       if (label.length > _labelLengthMax) {
-        throw DomainHostValidationException(
+        throw DomainFormatError(
             'Label exceeds 63 characters: "$label" in "$v"');
       }
       if (label.length > 1) {
         if (!_multiCharLabel.hasMatch(label)) {
-          throw DomainHostValidationException(
-              'Invalid label: "$label" in "$v"');
+          throw DomainFormatError('Invalid label: "$label" in "$v"');
         }
       } else {
         if (!_singleCharLabel.hasMatch(label)) {
-          throw DomainHostValidationException(
+          throw DomainFormatError(
               'Invalid single-character label: "$label" in "$v"');
         }
       }
@@ -76,6 +109,9 @@ class DomainName {
   String toString() => value;
 }
 
+/// Represents a host name (without trailing dot) as defined in UML::HostName.value.
+@immutable
+@realizes(r'UML::HostName.value')
 class HostName {
   static const int _totalLengthMin = 2;
 
@@ -94,27 +130,25 @@ class HostName {
 
   static void _validate(String v) {
     if (v.length < _totalLengthMin) {
-      throw DomainHostValidationException(
+      throw DomainFormatError(
           'Host name must be at least $_totalLengthMin characters, got "${v.length}": "$v"');
     }
     final labels = v.split('.');
     for (final label in labels) {
       if (label.isEmpty) {
-        throw DomainHostValidationException(
-            'Empty label in host name: "$v"');
+        throw DomainFormatError('Empty label in host name: "$v"');
       }
       if (label.length > DomainName._labelLengthMax) {
-        throw DomainHostValidationException(
+        throw DomainFormatError(
             'Label exceeds 63 characters: "$label" in "$v"');
       }
       if (label.length > 1) {
         if (!_multiCharLabel.hasMatch(label)) {
-          throw DomainHostValidationException(
-              'Invalid label: "$label" in "$v"');
+          throw DomainFormatError('Invalid label: "$label" in "$v"');
         }
       } else {
         if (!_singleCharLabel.hasMatch(label)) {
-          throw DomainHostValidationException(
+          throw DomainFormatError(
               'Invalid single-character label: "$label" in "$v"');
         }
       }
@@ -132,6 +166,9 @@ class HostName {
   String toString() => value;
 }
 
+/// Represents a host that is either an IP address or a host name as defined in UML::Host.value.
+@immutable
+@realizes(r'UML::Host.value')
 class Host {
   final String value;
   final bool _isIp;
@@ -139,17 +176,22 @@ class Host {
 
   Host._(this.value, this._isIp, this._isHostName);
 
+  /// Parses a host string, detecting whether it is an IP address or host name.
+  ///
+  /// Throws [HostParseError] if the value is neither a valid IP address nor a valid host name.
   factory Host.parse(String value) {
     if (value.isEmpty) {
-      throw const DomainHostValidationException('Host must not be empty');
+      throw const HostParseError('');
     }
 
     bool isIp = false;
     try {
       IpAddress.parse(value);
       isIp = true;
-    } on IpAddressValidationException {
-      // Not an IP, try hostname below
+    } on Ipv4FormatError {
+      isIp = false;
+    } on Ipv6FormatError {
+      isIp = false;
     }
 
     if (isIp) {
@@ -159,9 +201,8 @@ class Host {
     try {
       HostName(value);
       return Host._(value, false, true);
-    } on DomainHostValidationException {
-      throw DomainHostValidationException(
-          'Invalid host: "$value" - neither a valid IP address nor host name');
+    } on DomainFormatError {
+      throw HostParseError(value);
     }
   }
 
@@ -179,6 +220,9 @@ class Host {
   String toString() => value;
 }
 
+/// Represents a URI as defined in UML::Uri.value.
+@immutable
+@realizes(r'UML::Uri.value')
 class Uri {
   static final _schemePattern = RegExp(r'^[a-zA-Z][a-zA-Z0-9+.-]*$');
 
@@ -193,22 +237,20 @@ class Uri {
 
   static void _validate(String v) {
     if (v.isEmpty) {
-      throw const DomainHostValidationException('URI must not be empty');
+      throw const UriFormatError('URI must not be empty');
     }
 
     final colonIdx = v.indexOf(':');
     if (colonIdx == -1) {
-      throw DomainHostValidationException(
-          'URI must contain a scheme (e.g. "https:"): "$v"');
+      throw UriFormatError('URI must contain a scheme (e.g. "https:"): "$v"');
     }
 
     final scheme = v.substring(0, colonIdx);
     if (scheme.isEmpty) {
-      throw DomainHostValidationException(
-          'URI scheme must not be empty: "$v"');
+      throw UriFormatError('URI scheme must not be empty: "$v"');
     }
     if (!_schemePattern.hasMatch(scheme)) {
-      throw DomainHostValidationException(
+      throw UriFormatError(
           'URI scheme must start with a letter and contain only [a-zA-Z0-9+.-]: "$scheme" in "$v"');
     }
   }
@@ -305,6 +347,9 @@ class Uri {
   String toString() => value;
 }
 
+/// Represents an email address as defined in UML::EmailAddress.value.
+@immutable
+@realizes(r'UML::EmailAddress.value')
 class EmailAddress {
   final String value;
 
@@ -315,40 +360,36 @@ class EmailAddress {
   static void _validate(String v) {
     final atIndex = v.lastIndexOf('@');
     if (atIndex == -1) {
-      throw DomainHostValidationException(
-          'Email address must contain @ separator: "$v"');
+      throw EmailFormatError('Email address must contain @ separator: "$v"');
     }
 
     final localPart = v.substring(0, atIndex);
     final domainPart = v.substring(atIndex + 1);
 
     if (localPart.isEmpty) {
-      throw DomainHostValidationException(
-          'Email local part must not be empty: "$v"');
+      throw EmailFormatError('Email local part must not be empty: "$v"');
     }
     if (domainPart.isEmpty) {
-      throw DomainHostValidationException(
-          'Email domain part must not be empty: "$v"');
+      throw EmailFormatError('Email domain part must not be empty: "$v"');
     }
 
     if (domainPart.startsWith('[') && domainPart.endsWith(']')) {
       final ipLit = domainPart.substring(1, domainPart.length - 1);
       if (ipLit.isEmpty) {
-        throw DomainHostValidationException(
-            'Empty IP literal in email: "$v"');
+        throw EmailFormatError('Empty IP literal in email: "$v"');
       }
       try {
         IpAddress.parse(ipLit);
-      } on IpAddressValidationException {
-        throw DomainHostValidationException(
-            'Invalid IP literal in email: "$ipLit"');
+      } on Ipv4FormatError {
+        throw EmailFormatError('Invalid IP literal in email: "$ipLit"');
+      } on Ipv6FormatError {
+        throw EmailFormatError('Invalid IP literal in email: "$ipLit"');
       }
     } else {
       try {
         DomainName(domainPart);
-      } on DomainHostValidationException {
-        throw DomainHostValidationException(
-            'Invalid domain in email: "$domainPart"');
+      } on DomainFormatError {
+        throw EmailFormatError('Invalid domain in email: "$domainPart"');
       }
     }
   }

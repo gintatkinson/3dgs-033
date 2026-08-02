@@ -50,6 +50,50 @@ class DomainSeedStrategy implements SeedStrategy {
       }
     }
 
+    // Register Counter32 as a visible domain type in the PropertyGrid
+    batch.insert('type_definitions', {
+      'type_name': 'Counter32',
+      'display_name': 'Counter 32',
+      'icon_name': 'plus_one',
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Counter32',
+      'attr_key': 'value',
+      'label': 'Value',
+      'attr_type': 'int',
+      'section_label': 'Counter',
+      'section_order': 0,
+      'is_required': 1,
+      'min_value': 0,
+      'max_value': 4294967295,
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_attributes', {
+      'type_name': 'Counter32',
+      'attr_key': 'hasWrapped',
+      'label': 'Has Wrapped',
+      'attr_type': 'enum',
+      'section_label': 'Counter',
+      'section_order': 1,
+      'is_required': 0,
+      'enum_options': jsonEncode(['true', 'false']),
+      'enum_display_names': jsonEncode(['Yes', 'No']),
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('type_relations', {
+      'parent_type_name': 'Counter32',
+      'relation_name': 'has_component',
+      'child_type_name': 'Components',
+      'child_label': 'Components',
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    batch.insert('properties', {
+      'node_id': 'Counter32',
+      'parent_node_id': null,
+      'data_json': jsonEncode({'value': 0, 'hasWrapped': 'false'}),
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+
     // 2. Generate 100 space orbit telemetry nodes
     final spaceNodes = <String>[];
     for (int i = 0; i < 100; i++) {

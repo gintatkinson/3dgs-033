@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_flutter/domain/data_source.dart';
+import 'package:app_flutter/domain/event_guard.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:app_flutter/features/tree/tree_node.dart';
 import 'package:app_flutter/features/tree/tree_defaults.dart';
@@ -37,6 +38,9 @@ class TreeViewModel extends ChangeNotifier {
   final Map<String, GlobalKey> _nodeKeys = {};
   bool _disposed = false;
   String? _flightTarget;
+  EventEchoGuard _echoGuard = const EventEchoGuard();
+
+  static const _guardMaxAge = Duration(milliseconds: 500);
 
   List<TreeNode> get treeData => _treeData;
   String get currentView => _currentView;
@@ -86,6 +90,9 @@ class TreeViewModel extends ChangeNotifier {
   /// callback after state is updated.
   void selectView(String viewId) {
     if (_currentView == viewId) return;
+    _echoGuard = _echoGuard.expireStale(_guardMaxAge);
+    if (_echoGuard.isGuarded(viewId)) return;
+    _echoGuard = _echoGuard.markProcessed(viewId);
     _currentView = viewId;
     _expandParents(viewId);
     final node = _findNodeById(_treeData, viewId);

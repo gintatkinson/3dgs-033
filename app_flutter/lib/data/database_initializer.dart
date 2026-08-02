@@ -157,6 +157,12 @@ class DatabaseInitializer {
         )
       ''');
 
+      final columns = await db.rawQuery("PRAGMA table_info('type_attributes')");
+      final hasUnits = columns.any((col) => col['name'] == 'units');
+      if (!hasUnits) {
+        await db.execute('ALTER TABLE type_attributes ADD COLUMN units TEXT');
+      }
+
       await db.execute('''
         CREATE TABLE IF NOT EXISTS type_relations (
           id INTEGER PRIMARY KEY AUTOINCREMENT,

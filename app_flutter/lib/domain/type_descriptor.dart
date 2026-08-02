@@ -125,6 +125,12 @@ class FieldDescriptor {
   /// caller's responsibility — this field is a hint, not a constraint.
   final bool required;
 
+  /// Unit of measurement for display, e.g. "ms", "mm", "V", "m/s".
+  ///
+  /// When non-null, the unit is displayed alongside the field label in the
+  /// property grid to give the user context for the expected value range.
+  final String? units;
+
   /// Minimum numeric value for int/double types.
   ///
   /// Applied as an inclusive lower bound during validation.
@@ -176,6 +182,7 @@ class FieldDescriptor {
     this.sectionLabel,
     this.sectionOrder = 0,
     this.required = false,
+    this.units,
     this.minValue,
     this.maxValue,
     this.pattern,

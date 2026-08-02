@@ -350,13 +350,19 @@ class SqliteDataSource implements DataSource {
       return (jsonDecode(raw) as List).cast<String>();
     }
 
+    var typeName = row['attr_type'] as String;
+    if (typeName == 'real') {
+      typeName = 'double';
+    }
+
     return FieldDescriptor(
       key: row['attr_key'] as String,
       label: row['label'] as String,
-      type: row['attr_type'] as String,
+      type: typeName,
       sectionLabel: row['section_label'] as String?,
       sectionOrder: row['section_order'] as int? ?? 0,
       required: (row['is_required'] as int? ?? 0) == 1,
+      units: row['units'] as String?,
       minValue: row['min_value'] as num?,
       maxValue: row['max_value'] as num?,
       pattern: row['pattern'] as String?,

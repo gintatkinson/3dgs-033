@@ -133,6 +133,19 @@ class _PropertyGridState extends State<PropertyGrid> {
   Map<String, String> _errors = const {};
   final Map<String, bool> _hadFocus = {};
   bool _isDisposingFields = false;
+  final Set<String> _collapsedSections = {};
+
+  bool _isSectionCollapsed(String title) => _collapsedSections.contains(title);
+
+  void _toggleSection(String title) {
+    setState(() {
+      if (_collapsedSections.contains(title)) {
+        _collapsedSections.remove(title);
+      } else {
+        _collapsedSections.add(title);
+      }
+    });
+  }
 
   late Map<String, dynamic> committedData;
 
@@ -272,10 +285,10 @@ class _PropertyGridState extends State<PropertyGrid> {
       return (false, null, '${field.label} is required');
     }
 
-    if (field.type == 'double') {
+    if (field.type == 'double' || field.type == 'real') {
       final val = double.tryParse(valueString);
       if (val == null && valueString.isNotEmpty) {
-        return (false, null, 'Must be a valid double');
+        return (false, null, 'Must be a valid number');
       }
       parsedValue = val;
     } else if (field.type == 'int') {
@@ -284,6 +297,16 @@ class _PropertyGridState extends State<PropertyGrid> {
         return (false, null, 'Must be a valid integer');
       }
       parsedValue = val;
+    } else if (field.type == 'dateTime') {
+      if (valueString.isNotEmpty) {
+        final dt = DateTime.tryParse(valueString);
+        if (dt == null) {
+          return (false, null, 'Must be a valid ISO 8601 date/time');
+        }
+        parsedValue = valueString;
+      } else {
+        parsedValue = valueString;
+      }
     } else {
       parsedValue = valueString;
     }
@@ -485,6 +508,7 @@ class _PropertyGridState extends State<PropertyGrid> {
     final Color borderColor = Theme.of(context).dividerColor;
     final Color surfaceFill = cs.surfaceContainerHighest.withOpacity(panelOpacity);
     final Color borderActive = brandPrimary;
+    final bool collapsed = _isSectionCollapsed(title);
 
     return Opacity(
       opacity: isActive ? 1.0 : _inactiveSectionOpacity,
@@ -516,15 +540,23 @@ class _PropertyGridState extends State<PropertyGrid> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleSmall,
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => _toggleSection(title),
+              child: Row(
+                children: [
+                  AnimatedRotation(
+                    turns: collapsed ? -0.25 : 0.0,
+                    duration: const Duration(milliseconds: 200),
+                    child: const Icon(Icons.expand_more, size: 18),
                   ),
-                ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
                   if (isActive)
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -540,10 +572,18 @@ class _PropertyGridState extends State<PropertyGrid> {
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ),
-              ],
+                ],
+              ),
             ),
-            SizedBox(height: widget.gapSize),
-            child,
+            AnimatedCrossFade(
+              firstChild: const SizedBox.shrink(),
+              secondChild: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: child,
+              ),
+              crossFadeState: collapsed ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 200),
+            ),
           ],
         ),
       ),
@@ -595,12 +635,16 @@ class _PropertyGridState extends State<PropertyGrid> {
     final cs = Theme.of(context).colorScheme;
     final Color brandPrimary = cs.primary;
 
+    final String displayLabel = field.units != null && field.units!.isNotEmpty
+        ? '${field.label} (${field.units})'
+        : field.label;
+
     if (field.type == 'enum') {
       final options = field.enumOptions ?? const [];
       final currentValue = committedData[field.key] ?? (options.isNotEmpty ? options.first : '');
 
       return _buildDropdownField(
-        label: field.label,
+        label: displayLabel,
         focusNode: _focusNodes[field.key]!,
         value: currentValue as String,
         errorText: _errors[field.key],
@@ -628,6 +672,63 @@ class _PropertyGridState extends State<PropertyGrid> {
           }
         },
       );
+    } else if (field.type == 'bool') {
+      final currentValue = committedData[field.key];
+      final bool isTrue = currentValue == true || currentValue == 'true';
+      final String? errorText = _errors[field.key];
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            displayLabel,
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
+          SizedBox(height: widget.gapSize),
+          Container(
+            decoration: BoxDecoration(
+              border: errorText != null
+                  ? Border.all(color: Theme.of(context).colorScheme.error)
+                  : null,
+              borderRadius: widget.inputBorderRadius,
+            ),
+            child: SwitchListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+              title: Text(isTrue ? 'True' : 'False'),
+              value: isTrue,
+              onChanged: (val) {
+                setState(() {
+                  committedData[field.key] = val;
+                  final Map<String, String> newErrors = Map<String, String>.from(_errors);
+                  newErrors.remove(field.key);
+                  _errors = newErrors;
+                });
+                widget.onSave?.call(Map<String, dynamic>.from(committedData));
+              },
+            ),
+          ),
+          if (errorText != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Text(
+                errorText,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+            ),
+        ],
+      );
+    } else if (field.type == 'dateTime') {
+      return _buildTextField(
+        label: displayLabel,
+        controller: _controllers[field.key]!,
+        focusNode: _focusNodes[field.key]!,
+        keyboardType: TextInputType.text,
+        errorText: _errors[field.key],
+        brandPrimary: brandPrimary,
+        panelOpacity: panelOpacity,
+      );
     } else {
       TextInputType keyboardType = TextInputType.text;
       List<TextInputFormatter>? inputFormatters;
@@ -641,7 +742,7 @@ class _PropertyGridState extends State<PropertyGrid> {
       inputFormatters = _resolveInputFormatters(field);
 
       return _buildTextField(
-        label: field.label,
+        label: displayLabel,
         controller: _controllers[field.key]!,
         focusNode: _focusNodes[field.key]!,
         keyboardType: keyboardType,
@@ -716,14 +817,15 @@ class _PropertyGridState extends State<PropertyGrid> {
             padding: const EdgeInsets.only(top: 4.0),
             child: Text(
               errorText,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ),
       ],
     );
   }
 
-  /// Builds a labelled [DropdownButtonFormField] bound to [focusNode].
   ///
   /// The dropdown uses [widget.inputBorderRadius] for its [OutlineInputBorder]
   /// and displays [errorText] below the field when validation fails. Its
@@ -790,7 +892,9 @@ class _PropertyGridState extends State<PropertyGrid> {
             padding: const EdgeInsets.only(top: 4.0),
             child: Text(
               errorText,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ),
       ],

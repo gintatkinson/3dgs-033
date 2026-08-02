@@ -67,6 +67,7 @@ class DomainSeedStrategy implements SeedStrategy {
       'is_required': 1,
       'min_value': 0,
       'max_value': 4294967295,
+      'units': 'count',
     }, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     batch.insert('type_attributes', {

@@ -7,6 +7,7 @@ import 'package:app_flutter/features/layout/split_workspace.dart';
 import 'package:app_flutter/features/tree/tree_node.dart';
 import 'package:app_flutter/features/topology/scene_3d_viewport.dart';
 import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart';
+import 'package:app_flutter/features/topology/velocity_hud_card.dart';
 
 /// The top-level topology view: breadcrumb header + split workspace
 /// (topology map + detail child) or standalone topology map.
@@ -198,18 +199,44 @@ class _TopographicalViewState extends State<TopographicalView> {
           )
         : leadingWidget;
 
+    TopologyNode? activeNode;
+    for (final node in widget.topologyData.nodes) {
+      if (node.id == widget.currentView) {
+        activeNode = node;
+        break;
+      }
+    }
+
+    final double? vNorth = (activeNode?.rawProperties['v-north'] as num?)?.toDouble();
+    final double? vEast = (activeNode?.rawProperties['v-east'] as num?)?.toDouble();
+    final double? vUp = (activeNode?.rawProperties['v-up'] as num?)?.toDouble();
+    final bool hasVelocity = vNorth != null || vEast != null || vUp != null;
+    final String? timestamp = activeNode?.rawProperties['timestamp']?.toString();
+    final String? validUntil = activeNode?.rawProperties['validUntil']?.toString();
+
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor.withOpacity(panelOpacity),
       child: Stack(
         children: [
-          // 1. Background layer: body containing Map + Properties panel
           Positioned.fill(
             child: Padding(
               padding: const EdgeInsets.only(top: 64.0),
               child: body,
             ),
           ),
-          // 2. Foreground layer: Header Bar (Title, Buttons, Breadcrumbs, Divider)
+          if (hasVelocity)
+            Positioned(
+              bottom: 16,
+              left: 16,
+              right: 16.0 * 14,
+              child: VelocityHudCard(
+                vNorth: vNorth ?? 0.0,
+                vEast: vEast ?? 0.0,
+                vUp: vUp ?? 0.0,
+                timestamp: timestamp,
+                validUntil: validUntil,
+              ),
+            ),
           Positioned(
             top: 0,
             left: 0,

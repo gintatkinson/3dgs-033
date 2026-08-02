@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_flutter/core/theme/theme_controller.dart';
 import 'package:app_flutter/domain/data_source.dart';
+import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:app_flutter/features/tree/view_models/tree_view_model.dart';
 import 'package:app_flutter/features/tree/sidebar_tree.dart';
 import 'package:app_flutter/features/tables/view_models/tables_view_model.dart';
@@ -70,6 +71,22 @@ class ComponentFactory {
   /// The preferred split axis orientation for resizable workspaces.
   /// Overrides the configured axis when non-null.
   final Axis? preferredSplitAxis;
+
+  static List<FieldDescriptor> get velocityFieldDescriptors => const [
+    FieldDescriptor(key: 'v-north', label: 'V-North', type: 'double', sectionLabel: 'Velocity', sectionOrder: 0, units: 'm/s'),
+    FieldDescriptor(key: 'v-east', label: 'V-East', type: 'double', sectionLabel: 'Velocity', sectionOrder: 1, units: 'm/s'),
+    FieldDescriptor(key: 'v-up', label: 'V-Up', type: 'double', sectionLabel: 'Velocity', sectionOrder: 2, units: 'm/s'),
+    FieldDescriptor(key: 'horizontal_speed', label: 'Horizontal Speed', type: 'double', sectionLabel: 'Velocity', sectionOrder: 3, units: 'km/h'),
+    FieldDescriptor(key: 'heading', label: 'Heading', type: 'double', sectionLabel: 'Velocity', sectionOrder: 4, units: 'degrees'),
+    FieldDescriptor(key: 'vertical_speed', label: 'Vertical Speed', type: 'double', sectionLabel: 'Velocity', sectionOrder: 5, units: 'm/s'),
+    FieldDescriptor(key: 'motion_status', label: 'Motion Status', type: 'string', sectionLabel: 'Velocity', sectionOrder: 6),
+  ];
+
+  bool hasVelocityData(Map<String, dynamic> rawProperties) {
+    return rawProperties.containsKey('v-north') ||
+        rawProperties.containsKey('v-east') ||
+        rawProperties.containsKey('v-up');
+  }
 
   /// Creates a [ComponentFactory] with the required dependency resolvers.
   ///

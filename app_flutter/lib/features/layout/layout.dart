@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import 'package:app_flutter/domain/data_source.dart';
+import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:app_flutter/features/properties/property_grid.dart';
 import 'package:app_flutter/features/tree/view_models/tree_view_model.dart';
 import 'package:app_flutter/features/layout/layout_config_service.dart';
@@ -420,10 +422,52 @@ class _LayoutState extends State<Layout> {
   Widget _buildChildWidget(BuildContext context) {
     final fields = _propertiesViewModel?.fields ?? [];
 
+    final topoData = _resolveTopologyData();
+    TopologyNode? activeNode;
+    for (final node in topoData.nodes) {
+      if (node.id == _currentView) {
+        activeNode = node;
+        break;
+      }
+    }
+
+    final bool hasVelocity = activeNode != null &&
+        (activeNode.rawProperties.containsKey('v-north') ||
+         activeNode.rawProperties.containsKey('v-east') ||
+         activeNode.rawProperties.containsKey('v-up'));
+
+    List<FieldDescriptor> allFields = fields;
+    Map<String, dynamic> allValues = Map<String, dynamic>.from(_nodeData);
+
+    if (hasVelocity) {
+      allFields = [...fields, ...ComponentFactory.velocityFieldDescriptors];
+
+      final vNorth = (activeNode.rawProperties['v-north'] as num?)?.toDouble() ?? 0.0;
+      final vEast = (activeNode.rawProperties['v-east'] as num?)?.toDouble() ?? 0.0;
+      final vUp = (activeNode.rawProperties['v-up'] as num?)?.toDouble() ?? 0.0;
+      final speed = math.sqrt(vNorth * vNorth + vEast * vEast);
+
+      double heading = 0.0;
+      if (vNorth != 0.0 || vEast != 0.0) {
+        heading = math.atan2(vEast, vNorth) * 180.0 / math.pi;
+        if (heading < 0) heading += 360.0;
+      }
+
+      allValues['v-north'] = vNorth;
+      allValues['v-east'] = vEast;
+      allValues['v-up'] = vUp;
+      allValues['horizontal_speed'] = speed * 3.6;
+      allValues['heading'] = heading;
+      allValues['vertical_speed'] = vUp;
+      allValues['motion_status'] = (vNorth == 0.0 && vEast == 0.0 && vUp == 0.0)
+          ? 'Stationary'
+          : 'Moving';
+    }
+
     return PropertyGrid(
       activeView: _currentView,
-      fields: fields,
-      initialValues: _nodeData,
+      fields: allFields,
+      initialValues: allValues,
       onSave: (Map<String, dynamic> data) async {
         await _dataSource!.saveProperties(_currentView, data);
       },

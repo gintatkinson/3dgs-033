@@ -30,10 +30,28 @@ This is the **base network module** upon which `ietf-network-topology` augments 
 ### Associated Use Cases & User Stories
 
 #### Associated Use Cases
-- N/A — Use Cases are not generated for this phase
+- [ ] #147 - [Manage Networks Root Container Lifecycle](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-30-manage-networks-root-container.md) (Use Case for the networks root container, Feature feat-38)
+- [ ] #148 - [Manage Network List Entry Lifecycle](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-31-manage-network-list-lifecycle.md) (Use Case for network list entry management, Feature feat-39)
+- [ ] #149 - [Classify Network Instance by Topology Type](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-32-classify-network-by-type.md) (Use Case for network-types classification, Feature feat-40)
+- [ ] #150 - [Configure Network Layering via Supporting-Network Chain](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-33-configure-network-layering.md) (Use Case for supporting-network layering, Feature feat-41)
+- [ ] #151 - [Manage Node Inventory Within a Network](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-34-manage-node-inventory.md) (Use Case for node list management, Feature feat-42)
+- [ ] #152 - [Map Node to Supporting Nodes Across Network Layers](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-35-map-node-to-supporting-nodes.md) (Use Case for supporting-node mappings, Feature feat-43)
+- [ ] #153 - [Manage Topology Link Lifecycle](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-36-manage-topology-link.md) (Use Case for topology link management, Feature feat-44)
+- [ ] #154 - [Configure Link Source Endpoint](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-37-configure-link-source.md) (Use Case for link source configuration, Feature feat-45)
+- [ ] #155 - [Configure Link Destination Endpoint](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-38-configure-link-destination.md) (Use Case for link destination configuration, Feature feat-46)
+- [ ] #156 - [Map Overlay Link to Supporting Underlay Link Chain](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-39-map-overlay-link-to-underlay-chain.md) (Use Case for supporting-link chain mapping, Feature feat-47)
+- [ ] #157 - [Manage Termination Point Lifecycle on a Node](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-40-manage-termination-points.md) (Use Case for termination-point management, Feature feat-48)
+- [ ] #158 - [Resolve Supporting Termination Point Underlay Mappings](https://github.com/gintatkinson/3dgs-033/blob/main/docs/use-cases/uc-41-resolve-supporting-tp-mappings.md) (Use Case for supporting-tp resolution, Feature feat-49)
 
 #### Associated User Stories
-- N/A — User Stories are not generated for this phase
+- [ ] #138 - [Configure Underlay-Overlay Network Stacking via Supporting-Network Chain](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-51-configure-underlay-overlay-network-layering.md) (validates supporting-network chain for underlay-overlay layering, Features feat-39 and feat-41)
+- [ ] #139 - [Map Overlay Nodes to Supporting Nodes Across Layered Networks](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-52-map-overlay-nodes-to-supporting-underlay-nodes.md) (validates node-to-supporting-node mapping across layers, Features feat-42 and feat-43)
+- [ ] #140 - [Map Overlay Links to Supporting Links Across Layered Topologies](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-53-map-overlay-links-to-supporting-underlay-links.md) (validates link-to-supporting-link mapping across topologies, Features feat-44 and feat-47)
+- [ ] #141 - [Resolve Supporting Termination Point Mappings via Transitive Closure](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-54-resolve-supporting-termination-point-via-transitive-closure.md) (validates transitive closure of supporting-TP chain, Features feat-48 and feat-49)
+- [ ] #142 - [Reconcile Overlay Topology When Underlay Network Is Deleted](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-55-reconcile-overlay-topology-on-underlay-network-deletion.md) (validates overlay reconciliation on underlay network deletion, Features feat-39 and feat-41)
+- [ ] #143 - [Reconcile Overlay Topology When Underlay Nodes or Links Change](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-56-reconcile-overlay-topology-on-underlay-entity-churn.md) (validates overlay reconciliation on underlay entity churn, Features feat-42 and feat-44)
+- [ ] #145 - [Classify Network by Type for Conditional Augmentation Dispatch](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-58-classify-network-by-type-for-conditional-augmentation.md) (validates network-type-based conditional augmentation, Feature feat-40)
+- [ ] #146 - [Compose Multi-Domain Topology with Shared Devices Across Networks](https://github.com/gintatkinson/3dgs-033/blob/main/docs/user-stories/us-59-compose-multi-domain-topology-with-shared-devices.md) (validates multi-domain topology composition, Features feat-39)
 
 ## 3. Architecture
 
@@ -136,5 +154,5 @@ From the IETF Network Topologies YANG Data Model specification, Section 4.1 (Bas
 "Network data of a network at a particular layer can come into being in one of two ways: (1) the network data is configured by client applications -- for example, in the case of overlay networks that are configured by an SDN Controller application, or (2) the network data is automatically controlled by the system, in the case of networks that can be discovered. It is possible for a configured (overlay) network to refer to a (discovered) underlay network."
 
 ## 6. Source References
-Structural Schema: [ietf-network@2018-02-26.yang](https://github.com/YangModels/yang/blob/main/standard/ietf/RFC/ietf-network%402018-02-26.yang) (Clause: 6.1)
+Structural Schema: [ietf-network@2018-02-26.yang](https://github.com/gintatkinson/3dgs-033/blob/main/standard/ietf/RFC/ietf-network%402018-02-26.yang) (Clause: 6.1)
 Normative Specification: [the IETF Network Topologies YANG Data Model specification](https://datatracker.ietf.org/doc/rfc8345/) (Clause: 4.1)

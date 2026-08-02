@@ -1,0 +1,62 @@
+{
+  "timestamp": "2026-08-02T06:06:55.199324Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "a79d073fe53c45e2d35734da726275c68a79cc0a"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "User Story us-47-conditionally-activate-optical-cable-attributes.md sequence diagram lifeline 'attributeCalc' specifies classifier 'AttributeCalculator' which is not defined in any feature class diagram.",
+      "User Story us-47-conditionally-activate-optical-cable-attributes.md sequence diagram message 'validator->>cable: validateDataTree()' calls operation 'validateDataTree' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-47-conditionally-activate-optical-cable-attributes.md sequence diagram message 'cable->>opticalCable: enableContainer()' calls operation 'enableContainer' which is not defined on class 'OpticalCable' in any class diagram.",
+      "User Story us-47-conditionally-activate-optical-cable-attributes.md sequence diagram message 'validator->>opticalCable: validateFiberCoreNum(value: Integer)' calls operation 'validateFiberCoreNum' which is not defined on class 'OpticalCable' in any class diagram.",
+      "User Story us-47-conditionally-activate-optical-cable-attributes.md sequence diagram message 'validator->>opticalCable: validateFiberType(value: identityref)' calls operation 'validateFiberType' which is not defined on class 'OpticalCable' in any class diagram.",
+      "User Story us-47-conditionally-activate-optical-cable-attributes.md sequence diagram message 'validator->>opticalCable: validateAttenuation(value: Decimal)' calls operation 'validateAttenuation' which is not defined on class 'OpticalCable' in any class diagram.",
+      "User Story us-50-inventory-passive-device-location-tags.md sequence diagram lifeline 'locationSystem' specifies classifier 'LocationRegistry' which is not defined in any feature class diagram.",
+      "User Story us-50-inventory-passive-device-location-tags.md sequence diagram message 'technician->>passiveDevice: registerDevice(id: String, deviceType: String, customTags: String[], locationRef: String)' calls operation 'registerDevice' which is not defined on class 'PassiveDevice' in any class diagram.",
+      "User Story us-50-inventory-passive-device-location-tags.md sequence diagram message 'technician->>passivePorts: addPort(portId: String, portType: String, fiberCoreNum: Integer)' calls operation 'addPort' which is not defined on class 'PassivePort' in any class diagram.",
+      "User Story us-50-inventory-passive-device-location-tags.md sequence diagram message 'technician->>passiveDevice: addCustomTag(tag: String)' calls operation 'addCustomTag' which is not defined on class 'PassiveDevice' in any class diagram.",
+      "User Story us-50-inventory-passive-device-location-tags.md sequence diagram message 'technician->>passiveDevice: removeCustomTag(tag: String)' calls operation 'removeCustomTag' which is not defined on class 'PassiveDevice' in any class diagram.",
+      "User Story us-50-inventory-passive-device-location-tags.md sequence diagram message 'technician->>passiveDevice: queryByLocation(locationRef: String)' calls operation 'queryByLocation' which is not defined on class 'PassiveDevice' in any class diagram.",
+      "User Story us-45-resolve-active-device-component-leafref.md sequence diagram message 'validator->>aEnd: validateLeafrefChain()' calls operation 'validateLeafrefChain' which is not defined on class 'AEnd' in any class diagram.",
+      "User Story us-45-resolve-active-device-component-leafref.md sequence diagram message 'aEnd->>activeCase: resolveComponentRef(neRefValue: String)' calls operation 'resolveComponentRef' which is not defined on class 'ActiveCase' in any class diagram.",
+      "User Story us-45-resolve-active-device-component-leafref.md sequence diagram message 'activeCase->>networkInventory: findNetworkElement(neRefValue: String)' calls operation 'findNetworkElement' which is not defined on class 'NetworkInventory' in any class diagram.",
+      "User Story us-45-resolve-active-device-component-leafref.md sequence diagram message 'activeCase->>networkInventory: findComponentInNE(componentRef: String, neFound: NetworkElement)' calls operation 'findComponentInNE' which is not defined on class 'NetworkInventory' in any class diagram.",
+      "User Story us-46-connect-cable-end-to-passive-device.md sequence diagram message 'operator->>cableEnd: setDeviceType(type: String)' calls operation 'setDeviceType' which is not defined on class 'AEnd' in any class diagram.",
+      "User Story us-46-connect-cable-end-to-passive-device.md sequence diagram message 'cableEnd->>passiveCase: setDeviceId(deviceId: String)' calls operation 'setDeviceId' which is not defined on class 'PassiveCase' in any class diagram.",
+      "User Story us-46-connect-cable-end-to-passive-device.md sequence diagram message 'passiveCase->>passiveDevice: findById(deviceId: String)' calls operation 'findById' which is not defined on class 'PassiveDevice' in any class diagram.",
+      "User Story us-49-model-pon-odn-feeder-distribution-drop-topology.md sequence diagram message 'planner->>cables: modelODNSegment(cableRole: String, cableType: String)' calls operation 'modelODNSegment' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-49-model-pon-odn-feeder-distribution-drop-topology.md sequence diagram message 'cables->>feederCable: create(role: String, type: String)' calls operation 'create' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-49-model-pon-odn-feeder-distribution-drop-topology.md sequence diagram message 'planner->>cables: modelODNSegment(cableRole: String, cableType: String)' calls operation 'modelODNSegment' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-49-model-pon-odn-feeder-distribution-drop-topology.md sequence diagram message 'cables->>distributionCable: create(role: String, type: String)' calls operation 'create' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-49-model-pon-odn-feeder-distribution-drop-topology.md sequence diagram message 'planner->>cables: modelODNSegment(cableRole: String, cableType: String)' calls operation 'modelODNSegment' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-49-model-pon-odn-feeder-distribution-drop-topology.md sequence diagram message 'cables->>dropCable: create(role: String, type: String)' calls operation 'create' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-49-model-pon-odn-feeder-distribution-drop-topology.md sequence diagram message 'planner->>cables: connectFeederToDistribution(feederId: String, distributionId: String, splitterId: String)' calls operation 'connectFeederToDistribution' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-49-model-pon-odn-feeder-distribution-drop-topology.md sequence diagram message 'cables->>feederCable: setZEndDeviceType(passiveDevice)' calls operation 'setZEndDeviceType' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-49-model-pon-odn-feeder-distribution-drop-topology.md sequence diagram message 'cables->>distributionCable: setAEndDeviceType(passiveDevice)' calls operation 'setAEndDeviceType' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-49-model-pon-odn-feeder-distribution-drop-topology.md sequence diagram message 'cables->>splitter: identifyAsConnectionPoint(deviceId: String)' calls operation 'identifyAsConnectionPoint' which is not defined on class 'PassiveDevice' in any class diagram.",
+      "User Story us-44-concatenate-child-cables.md sequence diagram lifeline 'validator' specifies classifier 'DataValidator' which is not defined in any feature class diagram.",
+      "User Story us-44-concatenate-child-cables.md sequence diagram message 'operator->>cable: addChildCable(index: Integer, id: String, length: Integer)' calls operation 'addChildCable' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-44-concatenate-child-cables.md sequence diagram message 'cable->>childCables: createSegment(index: Integer, id: String, length: Integer)' calls operation 'createSegment' which is not defined on class 'ChildCable' in any class diagram.",
+      "User Story us-44-concatenate-child-cables.md sequence diagram message 'operator->>cable: removeChildCable(index: Integer)' calls operation 'removeChildCable' which is not defined on class 'Cable' in any class diagram.",
+      "User Story us-44-concatenate-child-cables.md sequence diagram message 'cable->>childCables: deleteSegment(index: Integer)' calls operation 'deleteSegment' which is not defined on class 'ChildCable' in any class diagram.",
+      "User Story us-48-cross-validate-device-type-choice-consistency.md sequence diagram lifeline 'mustEvaluator' specifies classifier 'MustConstraintEvaluator' which is not defined in any feature class diagram.",
+      "User Story us-48-cross-validate-device-type-choice-consistency.md sequence diagram message 'validator->>cableEnd: validateConsistency()' calls operation 'validateConsistency' which is not defined on class 'AEnd' in any class diagram.",
+      "User Story us-48-cross-validate-device-type-choice-consistency.md sequence diagram message 'cableEnd->>connectedDeviceType: getDeviceType()' calls operation 'getDeviceType' which is not defined on class 'ConnectedDeviceType' in any class diagram.",
+      "User Story us-48-cross-validate-device-type-choice-consistency.md sequence diagram message 'cableEnd->>passiveCase: validateMust(deviceType: String)' calls operation 'validateMust' which is not defined on class 'PassiveCase' in any class diagram.",
+      "User Story us-48-cross-validate-device-type-choice-consistency.md sequence diagram message 'cableEnd->>activeCase: validateMust(deviceType: String)' calls operation 'validateMust' which is not defined on class 'ActiveCase' in any class diagram."
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}

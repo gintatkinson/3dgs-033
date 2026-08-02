@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-08-02T06:17:56.194040Z",
+  "tooling": {
+    "name": "parity_auditor",
+    "version": "1.0.0"
+  },
+  "context": {
+    "command": "./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs",
+    "exit_code": 1,
+    "downstream_repo": "https://github.com/gintatkinson/3dgs-033.git",
+    "commit_hash": "fd59b5cbfcd38ff40302411c2b526e093e186932"
+  },
+  "failure": {
+    "traceback": "",
+    "error_summary": [
+      "Use Case uc-29-manage-passive-port-configuration.md must contain at least 10 detailed Alternate/Exception flows. Found only 9 flows. (Referenced features define 10 schema validation constraints, requiring at least that many alternate flows, with a minimum floor of 2.)",
+      "Use Case uc-28-manage-passive-device-inventory.md must contain at least 10 detailed Alternate/Exception flows. Found only 8 flows. (Referenced features define 10 schema validation constraints, requiring at least that many alternate flows, with a minimum floor of 2.)",
+      "Use Case uc-25-select-connected-device-type.md must contain at least 12 detailed Alternate/Exception flows. Found only 8 flows. (Referenced features define 12 schema validation constraints, requiring at least that many alternate flows, with a minimum floor of 2.)"
+    ]
+  },
+  "reproduction_case": {
+    "target_file": "",
+    "snippet_type": "text",
+    "snippet_content": ""
+  }
+}
